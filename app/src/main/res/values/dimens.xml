@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="top_bar_margin">4dp</dimen>
+
+    <dimen name="top_bar_height">61dp</dimen>
+
+    <dimen name="field_width">296dp</dimen>
+    <dimen name="field_width_box">312dp</dimen>
+    <dimen name="field_height">56dp</dimen>
+
+    <dimen name="lowest_margin">4dp</dimen>
+    <dimen name="low_margin">8dp</dimen>
+    <dimen name="neutral_margin">16dp</dimen>
+
+    <dimen name="lowest_corner">4dp</dimen>
+</resources>

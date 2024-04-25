@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.project.nyacawa.presentation.ui.MainActivity">
+
+    <item
+        android:title="@string/account"
+        android:id="@+id/account_button"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/no_account_ico"
+        />
+
+
+</menu>

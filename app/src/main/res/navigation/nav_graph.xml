@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainMenu">
+
+
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.project.nyacawa.presentation.ui.fragments.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Registration"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+
+
+</navigation>
