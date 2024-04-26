@@ -54,4 +54,8 @@
     <string name="already_have_account">Already have account?</string>
     <string name="null_string" />
     <string name="account">Account</string>
+    <string name="home">home</string>
+    <string name="search">search</string>
+    <string name="player">player</string>
+    <string name="more">more</string>
 </resources>

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        navController.addOnDestinationChangedListener { _, _, _ ->
+        navController.addOnDestinationChangedListener{ _, _, _ ->
             val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)?.childFragmentManager?.fragments?.firstOrNull()
             if(fragment is ToolBarState){
                 state = fragment.getToolBarState()
@@ -45,9 +45,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //toolBarStateSet(ToolBarTypes.SEARCH, toolbar, getString(R.string.none))
-        toolBarStateSet(ToolBarTypes.BACK_WITH_ACCOUNT, toolbar, getString(R.string.none))
-
+        toolBarStateSet(ToolBarTypes.MAIN_MENU, toolbar, getString(R.string.none))
     }
 
 
