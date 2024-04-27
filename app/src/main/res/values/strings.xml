@@ -58,4 +58,8 @@
     <string name="search">search</string>
     <string name="player">player</string>
     <string name="more">more</string>
+    <string name="more_button">More button</string>
+    <string name="player_description">A player to watch the latest anime</string>
+    <string name="search_description">Search button</string>
+    <string name="home_description">Main menu button</string>
 </resources>

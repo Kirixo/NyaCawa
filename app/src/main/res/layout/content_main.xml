@@ -26,7 +26,6 @@
             app:titleMarginStart="@dimen/neutral_margin"
             app:titleTextColor="@color/active_text"
 
-
             app:contentInsetStart="10dp"
             app:contentInsetEnd="10dp"
             app:contentInsetLeft="0dp"
@@ -37,13 +36,13 @@
     </androidx.cardview.widget.CardView>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/_bottom_bar"
+    android:id="@+id/_bottom_bar_back"
     android:layout_width="match_parent"
     android:layout_height="@dimen/top_bar_height"
     app:layout_constraintBottom_toBottomOf="parent"
     android:background="@color/toolbar_color"
     >
-    <com.google.android.material.bottomappbar.BottomAppBar
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
@@ -53,17 +52,17 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
-
+        app:contentInsetStart="36dp"
+        app:contentInsetEnd="36dp"
         app:menu="@menu/bottom_menu"
-        android:scrollIndicators="left"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="36dp"
+
+        app:itemIconTint="@drawable/bottom_bar_cio"
+        app:itemActiveIndicatorStyle="@style/Widget.BottomNavigationView.ActiveIndicator"
         >
-    </com.google.android.material.bottomappbar.BottomAppBar>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
-
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_content_main"
@@ -73,7 +72,7 @@
         app:defaultNavHost="true"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toTopOf="@id/_bottom_bar"
+        app:layout_constraintBottom_toTopOf="@id/_bottom_bar_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/_tool_bar"

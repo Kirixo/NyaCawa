@@ -4,12 +4,21 @@
         <item name="android:windowBackground"> @color/window_background</item>
     </style>
 
+
     <style name="Theme.NyaCawa" parent="Base.Theme.NyaCawa" >
         <item name="android:fontFamily">@font/montserrat_semi_bold</item>
         <item name="android:textSize">20sp</item>
+
     </style>
-    
-    
+
+
+    <style name="Widget.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="shapeAppearance">
+            @style/ShapeAppearance.Material3.Corner.Medium
+        </item>
+        <item name="android:color">#343146</item>
+    </style>
+
     <style name="TextAnime">
         <item name="android:textColor">@color/nonActive_text</item>
         <item name="fontFamily">@font/montaguslab_medium</item>

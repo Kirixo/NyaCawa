@@ -5,9 +5,8 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.FrameLayout
-import androidx.appcompat.app.ActionBar
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.project.nyacawa.R
@@ -45,6 +44,28 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.includedLayout.bottomBar.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+            R.id.home_button -> {
+                //Toast.makeText(this, "Home clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.search_button -> {
+                //Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.player_button -> {
+                //Toast.makeText(this, "Player clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.more_button -> {
+                //Toast.makeText(this, "More clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+                else -> false
+            }
+        }
+
         toolBarStateSet(ToolBarTypes.MAIN_MENU, toolbar, getString(R.string.none))
     }
 
@@ -68,7 +89,7 @@ class MainActivity : AppCompatActivity() {
     private fun setSearch(toolbar: Toolbar?){
         if(toolbar != null){
             resetToolbar(toolbar)
-            toolbar.setLogo(R.drawable.search_ico)
+            toolbar.setLogo(R.drawable.search_no_active_ico)
 
             val myView : View  = layoutInflater.inflate(R.layout.view_search, null)
             val container = FrameLayout(this)
