@@ -2,8 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.NyaCawa" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground"> @color/window_background</item>
-    </style>
 
+        <item name="colorPrimary">@color/toolbar_color</item>
+        <item name="colorPrimaryDark">@color/window_background</item>
+        <item name="android:statusBarColor">@color/window_background</item>
+
+    </style>
 
     <style name="Theme.NyaCawa" parent="Base.Theme.NyaCawa" >
         <item name="android:fontFamily">@font/montserrat_semi_bold</item>
