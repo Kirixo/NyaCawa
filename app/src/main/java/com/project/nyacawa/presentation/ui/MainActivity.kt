@@ -1,11 +1,12 @@
 package com.project.nyacawa.presentation.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,6 +14,7 @@ import com.project.nyacawa.R
 import com.project.nyacawa.databinding.ActivityMainBinding
 import com.project.nyacawa.domain.logic.ToolBarState
 import com.project.nyacawa.domain.logic.ToolBarTypes
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,41 +36,56 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        navController.addOnDestinationChangedListener{ _, _, _ ->
-            val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)?.childFragmentManager?.fragments?.firstOrNull()
-            if(fragment is ToolBarState){
-                state = fragment.getToolBarState()
-                toolBarStateSet(state, toolbar, fragment.getFragmentName())
-            }else{
-                toolBarStateSet(ToolBarTypes.BACK, toolbar, getString(R.string.none))
-            }
+        navController.addOnDestinationChangedListener{_,_,_ ->
+            updateToolBar(toolbar)
         }
+
 
         binding.includedLayout.bottomBar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
             R.id.home_button -> {
-                //Toast.makeText(this, "Home clicked", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.goToMainMenu)
                 true
             }
             R.id.search_button -> {
-                //Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show()
+
                 true
             }
             R.id.player_button -> {
-                //Toast.makeText(this, "Player clicked", Toast.LENGTH_SHORT).show()
+
                 true
             }
             R.id.more_button -> {
-                //Toast.makeText(this, "More clicked", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.goToProfile)
                 true
             }
                 else -> false
             }
         }
 
+        binding.includedLayout.toolBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId){
+                R.id.account_button -> {
+                    navController.navigate(R.id.goToProfile)
+                    true
+                }
+                else  -> false
+            }
+        }
+
         toolBarStateSet(ToolBarTypes.MAIN_MENU, toolbar, getString(R.string.none))
     }
 
+
+    private fun updateToolBar(toolbar: Toolbar?){
+        val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)?.childFragmentManager?.fragments?.firstOrNull()
+        if(fragment is ToolBarState){
+            state = fragment.getToolBarState()
+            toolBarStateSet(state, toolbar, fragment.getFragmentName())
+        }else{
+            toolBarStateSet(ToolBarTypes.BACK, toolbar, getString(R.string.none))
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if(state == ToolBarTypes.SEARCH || state ==ToolBarTypes.BACK){
@@ -86,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun setSearch(toolbar: Toolbar?){
         if(toolbar != null){
             resetToolbar(toolbar)
@@ -116,11 +134,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBack(toolbar: Toolbar?, titleText: String?){
-        if(toolbar != null){
+        if(toolbar != null) {
             resetToolbar(toolbar)
             toolbar.title = titleText
             supportActionBar?.setDisplayShowTitleEnabled(true)
             toolbar.setLogo(R.drawable.back_ico)
+
+            getToolbarLogoIcon(toolbar)?.setOnClickListener {
+                navController.navigateUp()
+            }
         }
 
     }
@@ -137,6 +159,26 @@ class MainActivity : AppCompatActivity() {
 
         toolbar.navigationIcon = null
         toolbar.removeAllViews()
+    }
+
+
+    private fun getToolbarLogoIcon(toolbar: Toolbar): View? {
+        val hadContentDescription = TextUtils.isEmpty(toolbar.logoDescription)
+        val contentDescription =
+            (if (!hadContentDescription) toolbar.logoDescription else "logoContentDescription").toString()
+        toolbar.setLogoDescription(contentDescription)
+        val potentialViews = ArrayList<View>()
+        toolbar.findViewsWithText(
+            potentialViews,
+            contentDescription,
+            View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION
+        )
+        var logoIcon: View? = null
+        if (potentialViews.size > 0) {
+            logoIcon = potentialViews[0]
+        }
+        if (hadContentDescription) toolbar.setLogoDescription(null)
+        return logoIcon
     }
 
 }

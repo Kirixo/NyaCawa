@@ -12,6 +12,22 @@
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu">
 
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mainMenu"
+            >
+        </action>
+
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mainMenu"
+            >
+        </action>
+
     </fragment>
 
 
@@ -19,7 +35,69 @@
         android:id="@+id/registration"
         android:name="com.project.nyacawa.presentation.ui.fragments.Registration"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration"
+        >
+
+        <action
+            android:id="@+id/goToAuthorization"
+            app:destination="@id/authorization"
+            >
+        </action>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/authorization"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Authorization"
+        android:label="fragment_authorization"
+        tools:layout="@layout/fragment_authorization">
+
+        <action
+            android:id="@+id/goToRegistration"
+            app:destination="@id/registration"
+            >
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mainMenu"
+            >
+        </action>
+
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mainMenu"
+            >
+        </action>
+
+        <action
+            android:id="@+id/goToAuthorization"
+            app:destination="@id/authorization"
+            >
+        </action>
+
+    </fragment>
+
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.project.nyacawa.presentation.ui.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main">
+    </activity>
 
 
 </navigation>

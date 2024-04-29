@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageButton
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.FragmentMainMenuBinding
@@ -18,17 +17,17 @@ import com.project.nyacawa.domain.logic.ToolBarTypes
 
 class Registration : Fragment(), ToolBarState {
 
-    private lateinit var binding: FragmentMainMenuBinding;
+    private lateinit var binding: FragmentMainMenuBinding
 
-    private lateinit var label : TextView;
-    private lateinit var list : ScrollView;
-    private lateinit var button : AppCompatImageButton;
+    private lateinit var label : TextView
+    private lateinit var list : ScrollView
+    private lateinit var button : AppCompatImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainMenuBinding.inflate(inflater, container, false);
+        binding = FragmentMainMenuBinding.inflate(inflater, container, false)
         return inflater.inflate(R.layout.fragment_registration, container, false)
     }
 
@@ -42,11 +41,11 @@ class Registration : Fragment(), ToolBarState {
     }
 
     override fun getToolBarState(): ToolBarTypes {
-        return ToolBarTypes.BACK
+        return ToolBarTypes.BACK_WITH_ACCOUNT
     }
 
     override fun getFragmentName(): String {
-        return "Registration"
+        return getString(R.string.registration)
     }
 
 

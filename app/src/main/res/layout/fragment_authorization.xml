@@ -1,14 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.fragments.Authorization">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/logo_color"
+        android:text="@string/app_name"
+        >
+    </TextView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/google_enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        app:layout_constraintTop_toBottomOf="@id/_text_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="@dimen/lowest_corner"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/google_enter_button"
+            android:layout_width="@dimen/field_width"
+            android:layout_height="@dimen/top_bar_height"
+            android:background="#3D3D45"
+
+            >
+        </androidx.appcompat.widget.AppCompatButton>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/_registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@id/_list_of_fields"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="@dimen/lowest_corner"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/registration_button"
+            android:layout_width="@dimen/field_width"
+            android:layout_height="@dimen/top_bar_height"
+            android:background="#3D3D45"
+            android:text="@string/authorisation"
+            android:textAllCaps="false"
+            style="@style/Text.T1"
+            >
+        </androidx.appcompat.widget.AppCompatButton>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Text.T3"
+        android:layout_marginTop="@dimen/lowest_margin"
+        android:text="@string/no_have_account"
+        android:textColor="@color/neutral_color"
+        app:layout_constraintTop_toBottomOf="@id/_registration"
+        app:layout_constraintStart_toStartOf="@id/_registration"
+        app:layout_constraintEnd_toEndOf="@id/_registration"
+        >
+    </TextView>
+
+
+    <LinearLayout
+        android:id="@+id/_list_of_fields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/google_enter"
+        app:layout_constraintStart_toStartOf="@id/google_enter"
+        app:layout_constraintEnd_toEndOf="@id/google_enter"
+        android:layout_marginTop="35dp"
+        >
+
+        <com.project.nyacawa.presentation.ui.views.EditTextField
+            android:id="@+id/login_input"
+            android:layout_width="@dimen/field_width_box"
+            android:layout_height="wrap_content"
+            app:label="@string/login"
+            app:text="@string/write_input"
+            android:layout_marginTop="@dimen/neutral_margin"
+
+            >
+        </com.project.nyacawa.presentation.ui.views.EditTextField>
+
+        <com.project.nyacawa.presentation.ui.views.EditTextField
+            android:id="@+id/password"
+            android:layout_width="@dimen/field_width_box"
+            android:layout_height="wrap_content"
+            app:label="@string/password"
+            app:text="@string/write_input"
+            android:layout_marginTop="@dimen/neutral_margin"
+
+            >
+        </com.project.nyacawa.presentation.ui.views.EditTextField>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

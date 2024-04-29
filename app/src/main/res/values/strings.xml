@@ -62,4 +62,14 @@
     <string name="player_description">A player to watch the latest anime</string>
     <string name="search_description">Search button</string>
     <string name="home_description">Main menu button</string>
+    <string name="authorisation">Authorisation</string>
+    <string name="no_have_account">Dont have an account?</string>
+    <string name="bonuses">Bonuses</string>
+    <string name="wish_list">Wish list</string>
+    <string name="notification">Notification</string>
+    <string name="chat">Chat</string>
+    <string name="shop">Shop</string>
+    <string name="donate">Donate</string>
+    <string name="profile">Profile</string>
+    <string name="registration">Registration</string>
 </resources>

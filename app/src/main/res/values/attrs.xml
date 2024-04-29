@@ -6,4 +6,7 @@
         <attr name="text" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="AccountField">
+    </declare-styleable>
+
 </resources>

@@ -13,4 +13,5 @@
     <dimen name="neutral_margin">16dp</dimen>
 
     <dimen name="lowest_corner">4dp</dimen>
+    <dimen name="icon_size">31dp</dimen>
 </resources>
