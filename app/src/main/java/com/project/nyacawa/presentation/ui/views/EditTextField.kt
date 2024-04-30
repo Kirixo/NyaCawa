@@ -31,17 +31,10 @@ class EditTextField(
         if (attrs == null) return
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextField, defStyleAttr, defStyleRes)
 
-        val text = typedArray.getText(R.styleable.EditTextField_text)
-        setText(text);
-
         val label = typedArray.getText(R.styleable.EditTextField_label)
         setLabel(label);
 
         typedArray.recycle();
-    }
-
-    private fun setText(text: CharSequence?) {
-        binding.inputText.setText(text)
     }
 
     fun setLabel(text: CharSequence?){
