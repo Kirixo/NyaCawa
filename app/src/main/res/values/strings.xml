@@ -54,10 +54,10 @@
     <string name="already_have_account">Already have account?</string>
     <string name="null_string" />
     <string name="account">Account</string>
-    <string name="home">home</string>
-    <string name="search">search</string>
-    <string name="player">player</string>
-    <string name="more">more</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="player">Player</string>
+    <string name="more">More</string>
     <string name="more_button">More button</string>
     <string name="player_description">A player to watch the latest anime</string>
     <string name="search_description">Search button</string>
@@ -70,6 +70,7 @@
     <string name="chat">Chat</string>
     <string name="shop">Shop</string>
     <string name="donate">Donate</string>
-    <string name="profile">Profile</string>
     <string name="registration">Registration</string>
+    <string name="toolbar_arguments">ToolBarArguments</string>
+    <string name="main_menu">Main Menu</string>
 </resources>

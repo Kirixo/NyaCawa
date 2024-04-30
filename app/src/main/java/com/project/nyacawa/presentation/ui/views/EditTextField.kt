@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.project.nyacawa.R
-import com.project.nyacawa.databinding.InputFieldBinding
+import com.project.nyacawa.databinding.ViewInputFieldBinding
 
 class EditTextField(
     context: Context,
@@ -18,12 +18,12 @@ class EditTextField(
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context) : this(context, null)
 
-    private val binding : InputFieldBinding;
+    private val binding : ViewInputFieldBinding;
 
     init {
         val inflater = LayoutInflater.from(context)
-        inflater.inflate(R.layout.input_field, this, true)
-        binding = InputFieldBinding.bind(this);
+        inflater.inflate(R.layout.view_input_field, this, true)
+        binding = ViewInputFieldBinding.bind(this);
         attributeInit(attrs, defStyleAttr, defStyleRes)
     }
 

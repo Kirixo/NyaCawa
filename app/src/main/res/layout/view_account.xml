@@ -60,6 +60,8 @@
         app:layout_constraintTop_toTopOf="@id/user_photo"
         app:layout_constraintBottom_toBottomOf="@id/user_photo"
 
+        android:background="@color/trans"
+
         android:contentDescription="TODO">
 
     </ImageButton>

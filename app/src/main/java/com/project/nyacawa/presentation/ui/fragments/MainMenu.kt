@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.FragmentMainMenuBinding
-import com.project.nyacawa.domain.logic.ToolBarState
-import com.project.nyacawa.domain.logic.ToolBarTypes
 
 
-class MainMenu : Fragment(), ToolBarState {
+class MainMenu : Fragment(){
 
     private lateinit var binding: FragmentMainMenuBinding
 
@@ -23,18 +21,6 @@ class MainMenu : Fragment(), ToolBarState {
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-
-    }
-
-    override fun getToolBarState(): ToolBarTypes {
-        return ToolBarTypes.MAIN_MENU
-    }
-
-    override fun getFragmentName(): String {
-        return "Main Menu"
-    }
 
 }

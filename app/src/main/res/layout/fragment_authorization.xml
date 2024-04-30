@@ -67,6 +67,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/dont_have_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Text.T3"

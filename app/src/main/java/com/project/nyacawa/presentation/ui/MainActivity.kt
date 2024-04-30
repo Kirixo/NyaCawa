@@ -3,6 +3,7 @@ package com.project.nyacawa.presentation.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.FrameLayout
@@ -10,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.ActivityMainBinding
-import com.project.nyacawa.domain.logic.ToolBarState
 import com.project.nyacawa.domain.logic.ToolBarTypes
 
 
@@ -20,27 +21,48 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var state: ToolBarTypes
+    private var toolBarTypes: ToolBarTypes = ToolBarTypes.MAIN_MENU
+    private var tempBottomBarId : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Tool Bar init
+        val toolbar = binding.includedLayout.toolBar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        //
+
+        // Navigator and navigation init
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
-        val toolbar = binding.includedLayout.toolBar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        navController.addOnDestinationChangedListener{_,destination,_ ->
+            Log.d("Navigation", "Destination changed: ${destination.label}")
 
-        navController.addOnDestinationChangedListener{_,_,_ ->
-            updateToolBar(toolbar)
+            toolBarTypes = when(destination.id){
+                R.id.registration  -> ToolBarTypes.BACK
+                R.id.authorization -> ToolBarTypes.BACK
+                R.id.mainMenu -> ToolBarTypes.MAIN_MENU
+                R.id.profile -> ToolBarTypes.BACK
+
+                else -> ToolBarTypes.BACK
+            }
+
+            when(destination.id){
+                R.id.registration  -> binding.includedLayout.bottomBar.visibility = View.GONE
+                R.id.authorization -> binding.includedLayout.bottomBar.visibility = View.GONE
+                else -> binding.includedLayout.bottomBar.visibility = View.VISIBLE
+            }
+
+            updateToolBar(toolbar, destination.label.toString())
         }
+        //
 
-
+        // Bottom bar init
         binding.includedLayout.bottomBar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
             R.id.home_button -> {
@@ -62,33 +84,27 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+        //
 
+        // Tool bar account button realisation
         binding.includedLayout.toolBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId){
                 R.id.account_button -> {
                     navController.navigate(R.id.goToProfile)
                     true
                 }
-                else  -> false
+                else -> false
             }
         }
-
-        toolBarStateSet(ToolBarTypes.MAIN_MENU, toolbar, getString(R.string.none))
+        //
     }
 
-
-    private fun updateToolBar(toolbar: Toolbar?){
-        val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)?.childFragmentManager?.fragments?.firstOrNull()
-        if(fragment is ToolBarState){
-            state = fragment.getToolBarState()
-            toolBarStateSet(state, toolbar, fragment.getFragmentName())
-        }else{
-            toolBarStateSet(ToolBarTypes.BACK, toolbar, getString(R.string.none))
-        }
+    private fun updateToolBar(toolbar: Toolbar?, name: String){
+        toolBarStateSet(toolBarTypes, toolbar,name)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(state == ToolBarTypes.SEARCH || state ==ToolBarTypes.BACK){
+        if(toolBarTypes == ToolBarTypes.SEARCH || toolBarTypes ==ToolBarTypes.BACK){
             menuInflater.inflate(R.menu.menu_main, menu)
         }
         return true
@@ -140,9 +156,12 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.setDisplayShowTitleEnabled(true)
             toolbar.setLogo(R.drawable.back_ico)
 
+            val temp = binding.includedLayout.bottomBar.selectedItemId;
             getToolbarLogoIcon(toolbar)?.setOnClickListener {
                 navController.navigateUp()
+                binding.includedLayout.bottomBar.selectedItemId = tempBottomBarId
             }
+            tempBottomBarId = temp
         }
 
     }
