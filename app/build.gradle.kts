@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
 }
 
 android {
@@ -44,7 +45,8 @@ android {
 dependencies {
 
 
-
+    implementation ("androidx.room:room-runtime:2.5.0")
+    kapt ("androidx.room:room-compiler:2.5.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -54,6 +56,8 @@ dependencies {
     implementation("androidx.credentials:credentials:1.3.0-alpha03")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha03")
     implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.recyclerview)
 
 
     testImplementation(libs.junit)

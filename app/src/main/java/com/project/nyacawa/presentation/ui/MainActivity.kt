@@ -2,11 +2,15 @@ package com.project.nyacawa.presentation.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.EditText
 import android.widget.FrameLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -14,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.ActivityMainBinding
+import com.project.nyacawa.domain.logic.SearchViewModel
 import com.project.nyacawa.domain.logic.ToolBarTypes
 
 
@@ -23,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private var toolBarTypes: ToolBarTypes = ToolBarTypes.MAIN_MENU
     private var tempBottomBarId : Int = 0
+
+    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.authorization -> ToolBarTypes.BACK
                 R.id.mainMenu -> ToolBarTypes.MAIN_MENU
                 R.id.profile -> ToolBarTypes.BACK
+                R.id.animeSearchList -> ToolBarTypes.SEARCH
 
                 else -> ToolBarTypes.BACK
             }
@@ -70,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.search_button -> {
-
+                navController.navigate(R.id.goToAnimeSearchList)
                 true
             }
             R.id.player_button -> {
@@ -119,7 +127,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("InflateParams")
     private fun setSearch(toolbar: Toolbar?){
         if(toolbar != null){
             resetToolbar(toolbar)
@@ -131,6 +138,27 @@ class MainActivity : AppCompatActivity() {
                 Toolbar.LayoutParams.MATCH_PARENT,
                 Toolbar.LayoutParams.WRAP_CONTENT
             )
+
+            val editText = myView.findViewById<EditText>(R.id.search_edit_text)
+            editText.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) = Unit
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val text = s?.toString()?: String()
+                    if(text.isNotEmpty()){
+                        searchViewModel.searchText.value = text;
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) = Unit
+
+            })
+
 
             container.layoutParams = containerParams
             val padding = resources.getDimensionPixelSize(R.dimen.neutral_margin)
@@ -164,7 +192,7 @@ class MainActivity : AppCompatActivity() {
             tempBottomBarId = temp
         }
 
-    }
+    }   
 
     private fun setBackAccount(toolbar: Toolbar?, titleText: String?){
         if(toolbar!=null){

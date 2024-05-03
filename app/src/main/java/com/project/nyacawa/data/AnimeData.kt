@@ -6,7 +6,7 @@ class AnimeData(
     val name : String,
     val poster : Drawable,
     val description : String,
-    private val id : Int
+    val id : Long
 ) {
 
 }

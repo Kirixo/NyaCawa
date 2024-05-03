@@ -37,6 +37,9 @@ class EditTextField(
         typedArray.recycle();
     }
 
+    fun setHandler( action: onTextChangedAction){
+        binding.inputText
+    }
     fun setLabel(text: CharSequence?){
         binding.label.text = text
     }

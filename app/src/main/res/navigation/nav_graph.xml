@@ -23,6 +23,9 @@
             app:destination="@id/mainMenu"
             >
         </action>
+        <action
+            android:id="@+id/goToAnimeSearchList"
+            app:destination="@id/animeSearchList" />
 
     </fragment>
 
@@ -90,6 +93,9 @@
             app:destination="@id/registration"
             >
         </action>
+        <action
+            android:id="@+id/goToAnimeSearchList"
+            app:destination="@id/animeSearchList" />
 
     </fragment>
 
@@ -100,6 +106,23 @@
         android:label="activity_main"
         tools:layout="@layout/activity_main">
     </activity>
+    <fragment
+        android:id="@+id/animeSearchList"
+        android:name="com.project.nyacawa.presentation.ui.fragments.AnimeSearchList"
+        android:label="fragment_anime_list_list"
+        tools:layout="@layout/fragment_anime_list_list" >
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+
+        <action
+            android:id="@+id/goToAnimeSearchList"
+            app:destination="@id/animeSearchList" />
+    </fragment>
 
 
 </navigation>

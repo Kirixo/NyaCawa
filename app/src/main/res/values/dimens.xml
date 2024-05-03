@@ -15,4 +15,5 @@
     <dimen name="lowest_corner">4dp</dimen>
     <dimen name="icon_size">31dp</dimen>
     <dimen name="between_profile_items">18dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>
