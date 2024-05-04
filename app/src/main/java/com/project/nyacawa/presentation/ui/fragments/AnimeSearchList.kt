@@ -27,8 +27,12 @@ class AnimeSearchList : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Subscribe on flow for updates tracking
+        //worked async with fragment on de-attach fragment coroutine stops
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                //Updates UI on changes in LiveData
                 viewModel.uiState.collect {
                     //adapter.notifyDataSetChanged()
                     Toast.makeText(context, "Search text changed", LENGTH_SHORT).show()
@@ -42,10 +46,8 @@ class AnimeSearchList : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimeListListBinding.inflate(inflater, container, false)
-
         binding.animeSearchList.adapter = adapter
         //adapter = AnimeVerticalListAdapter()
-
 
         return binding.root
     }

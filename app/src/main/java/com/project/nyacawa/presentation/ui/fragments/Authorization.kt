@@ -21,6 +21,7 @@ class Authorization : Fragment() {
         binding = FragmentAuthorizationBinding.inflate(inflater, container, false)
         val navController = findNavController()
 
+
         binding.dontHaveAccount.setOnClickListener{
             navController.navigate(R.id.authorization_goToRegistration)
         }

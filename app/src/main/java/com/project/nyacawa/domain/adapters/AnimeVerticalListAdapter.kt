@@ -11,9 +11,10 @@ import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.AnimeBlankLongBinding
 import com.project.nyacawa.databinding.FragmentAnimeListBinding
 
+//Data adapter for vertical lists using long anime blank
 class AnimeVerticalListAdapter(
     val list: List<AnimeData>,
-    //val animeClick: onAnimeClick
+    //val animeClick: onAnimeClick TODO( not implemented )
     ): BaseAdapter(){
     override fun getCount(): Int {
         return list.size
@@ -43,7 +44,6 @@ class AnimeVerticalListAdapter(
     }
 
     private fun createBinding(context: Context): AnimeBlankLongBinding {
-
         return AnimeBlankLongBinding.inflate(LayoutInflater.from(context))
     }
 

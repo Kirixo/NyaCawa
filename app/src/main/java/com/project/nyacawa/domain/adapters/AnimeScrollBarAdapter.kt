@@ -28,6 +28,10 @@ class AnimeScrollBarAdapter (
         return list.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return list[position].id
+    }
+
     class AnimeViewHolder(val binding: AnimeBlankSmallBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(animeData: AnimeData, itemClick: (AnimeData) -> Unit) {
             binding.animePoster.setImageDrawable(animeData.poster)

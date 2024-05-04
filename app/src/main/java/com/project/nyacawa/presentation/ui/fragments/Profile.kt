@@ -18,7 +18,6 @@ class Profile : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         val navController = findNavController()
@@ -27,9 +26,8 @@ class Profile : Fragment(){
         binding.accountField.setHandlers(
             goToAuthorization = {navController.navigate(R.id.profile_goToRegistration)},
             goToRegistration = {navController.navigate(R.id.profile_goToAuthorization)},
-            accountExit = { TODO() }
+            accountExit = { TODO("Account exit method") }
         )
-
 
         return binding.root
     }
