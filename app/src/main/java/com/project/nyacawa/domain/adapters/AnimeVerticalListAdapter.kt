@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.nyacawa.data.AnimeData
+import com.project.nyacawa.databinding.AnimeBlankLongBinding
 import com.project.nyacawa.databinding.FragmentAnimeListBinding
 
 class AnimeVerticalListAdapter(
@@ -30,12 +31,20 @@ class AnimeVerticalListAdapter(
         return true
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        TODO()
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val binding: AnimeBlankLongBinding =  convertView?.tag as? AnimeBlankLongBinding ?:
+        createBinding(parent.context).apply {
+            root.tag = this
+        }
+
+        val item = list[position]
+
+        return binding.root
     }
 
-    private fun createBinding(context: Context){
-        TODO()
+    private fun createBinding(context: Context): AnimeBlankLongBinding {
+
+        return AnimeBlankLongBinding.inflate(LayoutInflater.from(context))
     }
 
 }

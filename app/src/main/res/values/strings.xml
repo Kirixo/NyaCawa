@@ -73,4 +73,7 @@
     <string name="registration">Registration</string>
     <string name="toolbar_arguments">ToolBarArguments</string>
     <string name="main_menu">Main Menu</string>
+    <string name="this_season">This season</string>
+    <string name="today">Today</string>
+    <string name="top">Top</string>
 </resources>

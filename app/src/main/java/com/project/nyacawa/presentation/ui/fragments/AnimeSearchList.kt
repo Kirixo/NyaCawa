@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.project.nyacawa.R
+import com.project.nyacawa.databinding.FragmentAnimeListListBinding
 import com.project.nyacawa.domain.adapters.AnimeVerticalListAdapter
 import com.project.nyacawa.domain.logic.SearchViewModel
 import kotlinx.coroutines.launch
@@ -20,6 +21,8 @@ import kotlinx.coroutines.launch
 class AnimeSearchList : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private var adapter: AnimeVerticalListAdapter = AnimeVerticalListAdapter(emptyList())
+
+    private lateinit var binding: FragmentAnimeListListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +40,14 @@ class AnimeSearchList : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentAnimeListListBinding.inflate(inflater, container, false)
 
-        val view = inflater.inflate(R.layout.fragment_anime_list_list, container, false)
-
+        binding.animeSearchList.adapter = adapter
         //adapter = AnimeVerticalListAdapter()
 
 
-        return view
+        return binding.root
     }
 
 }
