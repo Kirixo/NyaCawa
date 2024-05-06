@@ -76,4 +76,10 @@
     <string name="this_season">This season</string>
     <string name="today">Today</string>
     <string name="top">Top</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="winter">Winter</string>
+    <string name="spring">Spring</string>
+    <string name="summer">Summer</string>
+    <string name="autumn">Autumn</string>
 </resources>

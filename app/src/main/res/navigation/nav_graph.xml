@@ -26,6 +26,9 @@
         <action
             android:id="@+id/goToAnimeSearchList"
             app:destination="@id/animeSearchList" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
 
     </fragment>
 
@@ -96,6 +99,9 @@
         <action
             android:id="@+id/goToAnimeSearchList"
             app:destination="@id/animeSearchList" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
 
     </fragment>
 
@@ -120,8 +126,26 @@
             app:destination="@id/mainMenu" />
 
         <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+    </fragment>
+    <fragment
+        android:id="@+id/catalog"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Catalog"
+        android:label="fragment_catalog"
+        tools:layout="@layout/fragment_catalog" >
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+        <action
             android:id="@+id/goToAnimeSearchList"
             app:destination="@id/animeSearchList" />
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
     </fragment>
 
 

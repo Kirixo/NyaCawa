@@ -23,8 +23,8 @@
         android:visibility="visible"
         android:background="@color/trans"
         android:autofillHints=""
-        android:imeOptions="actionSearch"
-        android:maxLines="1"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:ellipsize="end"
         >
     </EditText>

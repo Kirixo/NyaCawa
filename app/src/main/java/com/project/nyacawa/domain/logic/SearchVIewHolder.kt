@@ -34,7 +34,7 @@ class SearchViewModel: ViewModel() {
 
     // Method to get anime data by search
     private fun getSearchedAnimeList() : List<AnimeData> {
-        TODO(" НУЖНО СДЕЛАТЬ КАК АНИМЕ ДОСТАВАТЬ С БД")
+        //TODO: НУЖНО СДЕЛАТЬ КАК АНИМЕ ДОСТАВАТЬ С БД
         return emptyList()
     }
 

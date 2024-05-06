@@ -8,6 +8,8 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.activity.viewModels
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainMenu -> ToolBarTypes.MAIN_MENU
                 R.id.profile -> ToolBarTypes.BACK
                 R.id.animeSearchList -> ToolBarTypes.SEARCH
+                R.id.catalog -> ToolBarTypes.SEARCH
 
                 else -> ToolBarTypes.BACK
             }
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.search_button -> {
-                navController.navigate(R.id.goToAnimeSearchList)
+                navController.navigate(R.id.goToCatalog)
                 true
             }
             R.id.player_button -> {
@@ -140,6 +143,25 @@ class MainActivity : AppCompatActivity() {
             )
 
             val editText = myView.findViewById<EditText>(R.id.search_edit_text)
+            editText.setImeOptions(EditorInfo.IME_ACTION_DONE)
+
+            editText.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    val view: View? = this.currentFocus
+                    if (view != null) {
+                        // creating a variable
+                        // for input manager and initializing it.
+                        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                        //hiding keyboard.
+                        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                    }
+
+                    editText.clearFocus()
+                    return@setOnEditorActionListener true
+                }
+                false
+            }
+            // Handlers for a text actions
             editText.addTextChangedListener(object : TextWatcher{
                 override fun beforeTextChanged(
                     s: CharSequence?,
@@ -147,16 +169,13 @@ class MainActivity : AppCompatActivity() {
                     count: Int,
                     after: Int
                 ) = Unit
-
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val text = s?.toString()?: String()
                     if(text.isNotEmpty()){
                         searchViewModel.searchText.value = text;
                     }
                 }
-
                 override fun afterTextChanged(s: Editable?) = Unit
-
             })
 
 
