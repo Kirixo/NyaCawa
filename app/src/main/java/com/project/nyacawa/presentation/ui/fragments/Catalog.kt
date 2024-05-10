@@ -1,18 +1,19 @@
 package com.project.nyacawa.presentation.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.FragmentCatalogBinding
-import com.project.nyacawa.domain.placeholder.AnimeDataPlaceholder
 import com.project.nyacawa.domain.adapters.CatalogAdapter
+import com.project.nyacawa.domain.adapters.onAnimeClick
+import com.project.nyacawa.domain.placeholder.AnimeDataPlaceholder
 import com.project.nyacawa.presentation.ui.alert_dialog.FilterDialog
 
 /**
@@ -22,6 +23,7 @@ class Catalog : Fragment() {
 
     private lateinit var binding: FragmentCatalogBinding
     private var columnCount = 3
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,14 @@ class Catalog : Fragment() {
                 else -> GridLayoutManager(context, columnCount)
             }
             AnimeDataPlaceholder.setExample(ContextCompat.getDrawable(context, R.drawable.example))
-            adapter = CatalogAdapter(AnimeDataPlaceholder.ITEMS)
+
+            val click: onAnimeClick = {
+                val bundle = Bundle()
+                bundle.putParcelable(AnimePlayerFragment.ARG_ITEM_1, it)
+                findNavController().navigate(R.id.goToAnimePlayer, bundle)
+            }
+
+            adapter = CatalogAdapter(AnimeDataPlaceholder.ITEMS, click)
         }
 
         binding.fabFilter.setOnClickListener{

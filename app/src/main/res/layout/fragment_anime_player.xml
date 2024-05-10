@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.ui.fragments.AnimePlayerFragment">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/_anime_poster"
+        android:layout_width="124dp"
+        android:layout_height="176dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="4dp"
+        >
+    <ImageView
+        android:id="@+id/anime_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/poster_of_anime">
+    </ImageView>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/anime_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/Text.T2"
+        app:layout_constraintStart_toEndOf="@id/_anime_poster"
+        app:layout_constraintTop_toTopOf="@id/_anime_poster"
+        app:layout_constraintBottom_toTopOf="@id/_rating_image"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="4dp"
+
+        android:layout_marginStart="18dp"
+        android:ellipsize="marquee"
+
+        android:text="@string/none"
+        >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/_rating_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/anime_name"
+        app:layout_constraintTop_toBottomOf="@id/anime_name"
+        android:src="@drawable/star_ico"
+
+        android:layout_marginTop="14dp"
+        >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/_rating_image"
+        app:layout_constraintTop_toTopOf="@id/_rating_image"
+        app:layout_constraintBottom_toBottomOf="@id/_rating_image"
+
+        android:layout_marginStart="8dp"
+
+        style="@style/Text.T2"
+        android:text="@string/none"
+
+        >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/_anime_type_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/_rating_image"
+        app:layout_constraintTop_toBottomOf="@id/_rating_image"
+
+        android:layout_marginTop="14dp"
+        android:src="@drawable/tv_ico"
+        >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/serial_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/rating"
+        app:layout_constraintTop_toTopOf="@id/_anime_type_image"
+        app:layout_constraintBottom_toBottomOf="@id/_anime_type_image"
+
+
+        style="@style/Text.T2"
+        android:text="@string/none"
+
+        >
+    </TextView>
+
+
+    <ImageView
+        android:id="@+id/_number_episodes_image"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        app:layout_constraintStart_toStartOf="@id/_rating_image"
+        app:layout_constraintTop_toBottomOf="@id/_anime_type_image"
+        app:layout_constraintBottom_toBottomOf="@id/_anime_poster"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/timer_ico"
+        >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/episode_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/rating"
+        app:layout_constraintTop_toTopOf="@id/_number_episodes_image"
+        app:layout_constraintBottom_toBottomOf="@id/_number_episodes_image"
+
+
+        style="@style/Text.T2"
+        android:text="@string/none"
+
+        >
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/_anime_poster"
+        style="@style/Text.T2"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:text="@string/none"
+        >
+    </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/anime_genres_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
+    
+    <TextView
+        android:id="@+id/_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/anime_genres_list"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        style="@style/Text.T2"
+        android:text="@string/view"
+        android:layout_marginStart="4dp"
+        >
+    </TextView>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="@color/active_text"
+        app:layout_constraintTop_toTopOf="@id/_view"
+        app:layout_constraintStart_toEndOf="@id/_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/_view"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        >
+    </View>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,8 @@ import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.AnimeBlankSmallBinding
 
 class CatalogAdapter(
-    private val values: List<AnimeData>
+    private val values: List<AnimeData>,
+    private val onAnimeClick: onAnimeClick
 ) : RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +29,8 @@ class CatalogAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.name.text = item.name
-        holder.poster.setImageDrawable(item.poster)
+        holder.poster.setImageBitmap(item.poster)
+        holder.poster.setOnClickListener { onAnimeClick.invoke(item) }
     }
 
     override fun getItemCount(): Int = values.size

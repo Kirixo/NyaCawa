@@ -1,9 +1,7 @@
 package com.project.nyacawa.domain.placeholder
 
 import android.graphics.drawable.Drawable
-import android.annotation.SuppressLint
-import android.content.res.Resources
-import com.project.nyacawa.R
+import androidx.core.graphics.drawable.toBitmap
 import com.project.nyacawa.data.AnimeData
 import java.util.ArrayList
 import java.util.HashMap
@@ -25,7 +23,7 @@ object AnimeDataPlaceholder {
 
     fun setExample(drawable: Drawable?){
         for(i in 1..COUNT){
-            addItem(createPlaceholderItem(name = "EVANGELION IDI TYDA", poster = drawable, descriptor = "WAY", id = 100))
+            addItem(createPlaceholderItem(name = "EVANGELION IDI TYDA", poster = drawable, descriptor = "WAY", id = 100, rating = 10.0f, episodeCount = 24))
         }
     }
 
@@ -34,8 +32,8 @@ object AnimeDataPlaceholder {
         ITEM_MAP[item.id] = item
     }
 
-    private fun createPlaceholderItem(id: Long, name: String, descriptor: String, poster: Drawable? = null): AnimeData {
-        return AnimeData(id = id, name = name, description = descriptor, poster = poster )
+    private fun createPlaceholderItem(id: Long, name: String, descriptor: String, poster: Drawable? = null, rating: Float, episodeCount: Int ): AnimeData {
+        return AnimeData(id = id, name = name, description = descriptor, poster = poster?.toBitmap(), rating = rating, episodeCount =  episodeCount)
     }
 
     private fun makeDetails(position: Int): String {

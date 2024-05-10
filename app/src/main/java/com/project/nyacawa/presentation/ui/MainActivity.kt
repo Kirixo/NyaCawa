@@ -1,17 +1,20 @@
 package com.project.nyacawa.presentation.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,9 +22,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.nyacawa.R
+import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.ActivityMainBinding
 import com.project.nyacawa.domain.logic.SearchViewModel
 import com.project.nyacawa.domain.logic.ToolBarTypes
+import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private var toolBarTypes: ToolBarTypes = ToolBarTypes.MAIN_MENU
+    private lateinit var toolBarTemp: ToolBarTypes
     private var tempBottomBarId : Int = 0
+    private var lastAnimeView: AnimeData? = null
 
     private val searchViewModel: SearchViewModel by viewModels()
 
@@ -49,9 +56,10 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
-        navController.addOnDestinationChangedListener{_,destination,_ ->
+        navController.addOnDestinationChangedListener{_,destination, args ->
             Log.d("Navigation", "Destination changed: ${destination.label}")
 
+            toolBarTemp = toolBarTypes
             toolBarTypes = when(destination.id){
                 R.id.registration  -> ToolBarTypes.BACK
                 R.id.authorization -> ToolBarTypes.BACK
@@ -66,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             when(destination.id){
                 R.id.registration  -> binding.includedLayout.bottomBar.visibility = View.GONE
                 R.id.authorization -> binding.includedLayout.bottomBar.visibility = View.GONE
+                R.id.animePlayerFragment -> lastAnimeView = args?.getParcelable(AnimePlayerFragment.ARG_ITEM_1)
                 else -> binding.includedLayout.bottomBar.visibility = View.VISIBLE
             }
 
@@ -85,7 +94,15 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.player_button -> {
-
+                if(lastAnimeView == null){
+                    navController.navigate(R.id.goToCatalog)
+                    Toast.makeText(this,
+                        getString(R.string.you_haven_t_seen_anything), Toast.LENGTH_SHORT).show()
+                }else{
+                    val bundle = Bundle()
+                    bundle.putParcelable(AnimePlayerFragment.ARG_ITEM_1, lastAnimeView)
+                    navController.navigate(R.id.goToAnimePlayer, bundle)
+                }
                 true
             }
             R.id.more_button -> {
@@ -111,7 +128,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateToolBar(toolbar: Toolbar?, name: String){
-        toolBarStateSet(toolBarTypes, toolbar,name)
+        if (toolBarTemp != toolBarTypes){
+            toolBarStateSet(toolBarTypes, toolbar,name)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -145,6 +164,15 @@ class MainActivity : AppCompatActivity() {
             val editText = myView.findViewById<EditText>(R.id.search_edit_text)
             editText.setImeOptions(EditorInfo.IME_ACTION_DONE)
 
+            var hasNavigated = false
+
+            editText.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus && !hasNavigated) {
+                    hasNavigated = true
+                    navController.navigate(R.id.goToAnimeSearchList)
+                }
+            }
+
             editText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     val view: View? = this.currentFocus
@@ -155,12 +183,13 @@ class MainActivity : AppCompatActivity() {
                         //hiding keyboard.
                         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
                     }
-
+                    searchViewModel.searchText.value = editText.text.toString()
                     editText.clearFocus()
                     return@setOnEditorActionListener true
                 }
                 false
             }
+
             // Handlers for a text actions
             editText.addTextChangedListener(object : TextWatcher{
                 override fun beforeTextChanged(
@@ -169,12 +198,12 @@ class MainActivity : AppCompatActivity() {
                     count: Int,
                     after: Int
                 ) = Unit
+
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val text = s?.toString()?: String()
-                    if(text.isNotEmpty()){
-                        searchViewModel.searchText.value = text;
-                    }
+                    searchViewModel.searchText.value = text
                 }
+
                 override fun afterTextChanged(s: Editable?) = Unit
             })
 
@@ -185,6 +214,11 @@ class MainActivity : AppCompatActivity() {
             container.addView(myView)
             toolbar.addView(container)
         }
+    }
+
+    override fun navigateUpTo(upIntent: Intent?): Boolean {
+        currentFocus?.clearFocus()
+        return super.navigateUpTo(upIntent)
     }
 
     private fun setMainMenu(toolbar: Toolbar?){
@@ -246,5 +280,7 @@ class MainActivity : AppCompatActivity() {
         if (hadContentDescription) toolbar.setLogoDescription(null)
         return logoIcon
     }
+
+
 
 }

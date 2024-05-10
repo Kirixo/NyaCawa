@@ -82,4 +82,8 @@
     <string name="spring">Spring</string>
     <string name="summer">Summer</string>
     <string name="autumn">Autumn</string>
+    <string name="poster_of_anime">Poster of anime</string>
+    <string name="view">View</string>
+    <string name="you_haven_t_seen_anything">You haven\'t seen anything</string>
+    <string name="anime_player">Anime</string>
 </resources>

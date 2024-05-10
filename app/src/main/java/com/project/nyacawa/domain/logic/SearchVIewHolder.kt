@@ -1,5 +1,6 @@
 package com.project.nyacawa.domain.logic
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.nyacawa.data.AnimeData
@@ -29,6 +30,7 @@ class SearchViewModel: ViewModel() {
         //Realization of LiveData change tracking
         searchText.observeForever{ newText ->
             _uiState.value = SearchData(searchText = newText, getSearchedAnimeList())
+            Log.d("[SEARCH VIEW MODEL]", "text $newText")
         }
     }
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.AnimeBlankLongBinding
@@ -34,7 +35,7 @@ class AnimeScrollBarAdapter (
 
     class AnimeViewHolder(val binding: AnimeBlankSmallBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(animeData: AnimeData, itemClick: (AnimeData) -> Unit) {
-            binding.animePoster.setImageDrawable(animeData.poster)
+            binding.animePoster.setImageBitmap(animeData.poster)
             binding.animeName.text = animeData.name
             binding.root.setOnClickListener {
                 itemClick(animeData)
