@@ -7,6 +7,7 @@
     </declare-styleable>
 
     <declare-styleable name="AccountField">
+        <attr name="buttonIcon"/>
     </declare-styleable>
 
 </resources>

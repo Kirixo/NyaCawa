@@ -5,10 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
+import com.project.nyacawa.data.Comment
+import com.project.nyacawa.data.Profile
 import com.project.nyacawa.databinding.FragmentAnimePlayerBinding
-
+import com.project.nyacawa.domain.adapters.CommentsAdapter
+import com.project.nyacawa.domain.adapters.onDislikeCommentClick
+import com.project.nyacawa.domain.adapters.onLikeCommentClick
+import com.project.nyacawa.domain.adapters.onShareCommentClick
+import com.project.nyacawa.domain.placeholder.CommentsDataPlaceholder
 
 
 class AnimePlayerFragment : Fragment() {
@@ -34,7 +41,33 @@ class AnimePlayerFragment : Fragment() {
         binding.description.text = param1?.description
         binding.rating.text = param1?.rating.toString()
 
+        val onShareClick: onShareCommentClick = {onShareClick(it)}
+        val onDislikeClick: onDislikeCommentClick = {onDislikeClick(it)}
+        val onLikeClick: onLikeCommentClick = {onLikeClick(it)}
+
+        with(binding.commentList){
+            layoutManager = LinearLayoutManager(context)
+            adapter = CommentsAdapter(
+                commentList = CommentsDataPlaceholder.ITEMS,
+                dislikeAction = onDislikeClick,
+                likeCommentClick = onLikeClick,
+                onShareCommentClick = onShareClick
+            )
+        }
+
+
+
         return binding.root
+    }
+
+    private fun onDislikeClick(comment: Comment){
+
+    }
+    private fun onLikeClick(comment: Comment){
+
+    }
+    private fun onShareClick(comment: Comment){
+
     }
 
     companion object {

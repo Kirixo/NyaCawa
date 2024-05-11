@@ -8,8 +8,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.project.nyacawa.R
+import com.project.nyacawa.data.Comment
 import com.project.nyacawa.data.Profile
 import com.project.nyacawa.databinding.ViewAccountBinding
+import com.project.nyacawa.domain.adapters.onShareCommentClick
 import com.project.nyacawa.domain.logic.ProfileButtonStates
 
 
@@ -37,9 +39,21 @@ class AccountField(
         val inflater = LayoutInflater.from(context)
         inflater.inflate(R.layout.view_account, this, true)
         binding = ViewAccountBinding.bind(this)
+        attributeInit(attrs, defStyleAttr, defStyleRes)
     }
 
-    fun setHandlers(goToAuthorization: GoToAuthorization, goToRegistration: GoToRegistration, accountExit: AccountExit ){
+    private fun attributeInit(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int){
+        if (attrs == null) return
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AccountField, defStyleAttr, defStyleRes)
+
+        val drawable = typedArray.getDrawable(R.styleable.AccountField_buttonIcon)
+        binding.actionButton.setImageDrawable(drawable);
+
+        typedArray.recycle();
+    }
+
+
+    fun setHandlers(goToAuthorization: GoToAuthorization, goToRegistration: GoToRegistration, accountExit: AccountExit){
         this.goToAuthorization = goToAuthorization
         this.goToRegistration = goToRegistration
         this.accountExit = accountExit
@@ -51,6 +65,7 @@ class AccountField(
                 ProfileButtonStates.EXIT -> accountExit.invoke()
                 ProfileButtonStates.AUTHORIZATION -> goToAuthorization.invoke()
                 ProfileButtonStates.REGISTER -> goToRegistration.invoke()
+                else -> Unit
             }
         }
     }
@@ -61,6 +76,7 @@ class AccountField(
             ProfileButtonStates.EXIT -> setExitButton()
             ProfileButtonStates.AUTHORIZATION -> setLogInButton()
             ProfileButtonStates.REGISTER -> setLogInButton()
+            else -> Unit
         }
         updateProfileButtonClickListener()
     }
@@ -71,10 +87,15 @@ class AccountField(
     private fun setLogInButton(){
         binding.actionButton.setImageDrawable(getDrawable(context, R.drawable.log_in_ico))
     }
-
-    fun setProfile(profile: Profile){
+    fun setShareButton(onShareCommentClick: onShareCommentClick, comment: Comment){
+        binding.actionButton.setOnClickListener {
+            onShareCommentClick.invoke(comment)
+        }
+        setState(ProfileButtonStates.SHARE)
+    }
+    fun setProfile(profile: Profile, state: ProfileButtonStates){
         this.profile = profile
-        setState(ProfileButtonStates.EXIT)
+        setState(state)
     }
 
 

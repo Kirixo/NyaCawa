@@ -14,5 +14,8 @@
 
     <color name="icon_color">#FF9097A6</color>
     <color name="account_profile">#9096A5</color>
+
+    <color name="positive_color">#87AE7E</color>
+    <color name="non_positive_color">#B17070</color>
 </resources>
 
