@@ -1,0 +1,143 @@
+/* Block styles */
+.site {
+background-color: #f2f2f2;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200, auto));
+grid-template-rows: auto 1fr auto;
+grid-template-areas:
+"header header header"
+"main . menu"
+"footer footer footer";
+gap: 20px;
+}
+
+.header {
+background-color: #333;
+color: white;
+padding: 10px;
+text-align: center;
+grid-area: header;
+}
+
+.nav {
+
+justify-content: space-between;
+align-items: center;
+}
+
+.nav__link {
+color: white;
+text-decoration: none;
+font-weight: bold;
+padding: 10px;
+}
+
+.main {
+margin: 20px;
+grid-area: main;
+}
+
+.menu {
+background-color: white;
+padding: 10px;
+grid-area: menu;
+}
+
+.article {
+margin-bottom: 20px;
+}
+
+.section-title {
+font-size: 24px;
+margin-bottom: 10px;
+}
+/* h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+} */
+.list {
+list-style-type: disc;
+margin-bottom: 10px;
+margin-left: -20px;
+}
+
+.image {
+max-width: 100%;
+height: auto;
+margin-bottom: 10px;
+}
+
+.video {
+max-width: 100%;
+height: auto;
+margin-bottom: 10px;
+}
+
+.footer {
+background-color: #333;
+color: white;
+padding: 10px;
+text-align: center;
+grid-area: footer;
+}
+
+/* Define grid areas for different screen sizes */
+@media screen and (max-width: 768px) {
+.site {
+grid-template-columns: 1fr;
+grid-template-rows: auto auto auto auto;
+grid-template-areas:
+"header"
+"main"
+"menu"
+"sidebar"
+"footer";
+}
+
+.menu {
+margin-top: 20px;
+}
+}
+
+/* aside {
+  width: 40%;
+  padding-left: .5rem;
+  margin-left: .5rem;
+  float: right;
+  box-shadow: inset 5px 0 5px -5px #29627e;
+  font-style: italic;
+  color: #29627e;
+}
+
+aside > p {
+  margin: .5rem;
+}
+
+p {
+  font-family: 'Fira Sans', sans-serif;
+} */
+ul {
+  list-style-type: disc;
+  margin-bottom: 10px;
+  margin-left: -20px;
+}
+span{
+  font-size:larger
+  
+}
+
+#variableText{
+  font-size: 16px;
+}
+
+#Move_image {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-image: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQH72bGY6j748YjkYjQmoZ1Gs8gDZOiCU96owFwNYFfabTxGTe0);
+  background-size: cover;
+}
+
+#Clock{
+  font-size: 26px; 
+}
