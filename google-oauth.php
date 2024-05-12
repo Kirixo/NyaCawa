@@ -4,7 +4,10 @@
 // Initialize the session
 session_start();
 // Include the Facebook SDK
-require 'google-api-client\google-api-php-client--PHP8.2\vendor\autoload.php';
+
+require __DIR__ . '/../google-api-client/google-api-php-client--PHP8.2/vendor/autoload.php';
+
+
 // Update the following variables
 $google_oauth_client_id = '48675728508-rn8n65r95gnjd4ni0gqcq5etiao5228f.apps.googleusercontent.com';
 $google_oauth_client_secret = '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';
