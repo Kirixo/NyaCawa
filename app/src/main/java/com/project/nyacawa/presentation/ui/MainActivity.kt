@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.ActivityMainBinding
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.profile -> ToolBarTypes.BACK
                 R.id.animeSearchList -> ToolBarTypes.SEARCH
                 R.id.catalog -> ToolBarTypes.SEARCH
+                R.id.animePlayerFragment -> ToolBarTypes.BACK
 
                 else -> ToolBarTypes.BACK
             }
@@ -129,8 +128,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateToolBar(toolbar: Toolbar?, name: String){
         if (toolBarTemp != toolBarTypes){
-            toolBarStateSet(toolBarTypes, toolbar,name)
         }
+        toolBarStateSet(toolBarTypes, toolbar,name)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -237,7 +236,7 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.setDisplayShowTitleEnabled(true)
             toolbar.setLogo(R.drawable.back_ico)
 
-            val temp = binding.includedLayout.bottomBar.selectedItemId;
+            val temp = binding.includedLayout.bottomBar.selectedItemId
             getToolbarLogoIcon(toolbar)?.setOnClickListener {
                 navController.navigateUp()
                 binding.includedLayout.bottomBar.selectedItemId = tempBottomBarId

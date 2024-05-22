@@ -46,8 +46,6 @@ class MainMenu : Fragment(){
 
 
     companion object{
-
-
         private fun animeListHorizontal(context: Context?, scrollView: RecyclerView, onAnimeClick: onAnimeClick){
             //TODO("The filling should not be here")
 
@@ -58,8 +56,6 @@ class MainMenu : Fragment(){
 
             scrollView.adapter = AnimeScrollBarAdapter(dataList, onAnimeClick)
         }
-
-
     }
 
 

@@ -1,8 +1,5 @@
 package com.project.nyacawa.domain.placeholder
 
-import android.graphics.drawable.Drawable
-import androidx.core.graphics.drawable.toBitmap
-import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.data.Comment
 import com.project.nyacawa.data.Profile
 import java.util.ArrayList
@@ -21,7 +18,7 @@ object CommentsDataPlaceholder {
     private val ITEM_MAP: MutableMap<Int, Comment> = HashMap()
 
 
-    private const val COUNT = 1000
+    private const val COUNT = 100
 
     init{
         for (i in 0..COUNT){
@@ -41,10 +38,5 @@ object CommentsDataPlaceholder {
             likes = ITEMS.size,
             dislikes = COUNT/2
         )
-    }
-
-    private fun makeDetails(position: Int): String {
-        val builder = StringBuilder()
-        return builder.toString()
     }
 }

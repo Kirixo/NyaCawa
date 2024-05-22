@@ -23,6 +23,8 @@ class Catalog : Fragment() {
 
     private lateinit var binding: FragmentCatalogBinding
     private var columnCount = 3
+    private val yearIndex = -1;
+    private val seasonIndex = -1;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,7 @@ class Catalog : Fragment() {
 
             adapter = CatalogAdapter(AnimeDataPlaceholder.ITEMS, click)
         }
+
 
         binding.fabFilter.setOnClickListener{
             val dialog = FilterDialog()

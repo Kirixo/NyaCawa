@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.data.Comment
-import com.project.nyacawa.data.Profile
 import com.project.nyacawa.databinding.FragmentAnimePlayerBinding
 import com.project.nyacawa.domain.adapters.CommentsAdapter
 import com.project.nyacawa.domain.adapters.onDislikeCommentClick
@@ -55,11 +58,31 @@ class AnimePlayerFragment : Fragment() {
             )
         }
 
+        val sendButton = binding.writeComment.getViewById(R.id.send_button) as AppCompatImageButton
+        val commentText= binding.writeComment.getViewById(R.id.comment_text) as EditText
+
+        binding.fabAddComment.setOnClickListener{
+            binding.writeComment.visibility = VISIBLE
+            binding.fabAddComment.visibility = GONE
+        }
+
+        commentText.setOnClickListener {
+        }
+
+        sendButton.setOnClickListener {
+            //TODO(SENDING COMMENT TO SEVER)
+            binding.writeComment.visibility = GONE
+            commentText.clearFocus()
+            binding.fabAddComment.visibility = VISIBLE
+        }
 
 
         return binding.root
     }
 
+    private fun onSendButtonClick(){
+
+    }
     private fun onDislikeClick(comment: Comment){
 
     }
