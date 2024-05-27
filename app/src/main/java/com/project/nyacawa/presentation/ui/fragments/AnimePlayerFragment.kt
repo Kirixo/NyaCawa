@@ -1,5 +1,9 @@
 package com.project.nyacawa.presentation.ui.fragments
 
+import android.app.Activity
+import android.content.Context
+import androidx.media3.common.MediaItem
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,8 +11,20 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.annotation.OptIn
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.MediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
@@ -24,6 +40,7 @@ import com.project.nyacawa.domain.placeholder.CommentsDataPlaceholder
 class AnimePlayerFragment : Fragment() {
     private var param1: AnimeData? = null
     private lateinit var binding: FragmentAnimePlayerBinding
+    private lateinit var player: ExoPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,12 +89,44 @@ class AnimePlayerFragment : Fragment() {
         sendButton.setOnClickListener {
             //TODO(SENDING COMMENT TO SEVER)
             binding.writeComment.visibility = GONE
-            commentText.clearFocus()
+
             binding.fabAddComment.visibility = VISIBLE
         }
 
 
+        // Init player
+        player = ExoPlayer.Builder(this.requireContext()).build()
+        binding.player.player = player
+
+        val uri: Uri = Uri.parse("https://www.secvideo1.online/get_file/10/6507e18d290f71f1ee72b5c63d73490f8b45a5bcd5/783000/783677/783677.mp4")
+
+        val mediaItem = MediaItem.fromUri(uri)
+
+        player.prepare()
+        player.play()
+        player.playWhenReady = true
+
+        player.addListener(object : Player.Listener {
+            override fun onPlayerError(error: PlaybackException) {
+                android.util.Log.d("ExoPlayer", "Error: ${error.message}")
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isPlaying) {
+                    android.util.Log.d("ExoPlayer", "Playback started")
+                } else {
+                    android.util.Log.d("ExoPlayer", "Playback paused")
+                }
+            }
+        })
+
+        player.setMediaItem(mediaItem)
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
     }
 
     private fun onSendButtonClick(){
@@ -95,13 +144,14 @@ class AnimePlayerFragment : Fragment() {
 
     companion object {
         const val ARG_ITEM_1 = "anime_data"
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @return A new instance of fragment AnimePlayer.
-         */
+
+        fun hideKeyboard(activity: Activity) {
+            val view: View? = activity.currentFocus
+            view?.let {
+                val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
 
         @JvmStatic
         fun newInstance(param1: AnimeData) =

@@ -1,6 +1,8 @@
 package com.project.nyacawa.presentation.ui
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -25,6 +27,15 @@ import com.project.nyacawa.databinding.ActivityMainBinding
 import com.project.nyacawa.domain.logic.SearchViewModel
 import com.project.nyacawa.domain.logic.ToolBarTypes
 import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
+
+
+fun AppCompatActivity.hideKeyboard() {
+    val view: View? = this.currentFocus
+    view?.let {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+}
 
 
 class MainActivity : AppCompatActivity() {
@@ -94,9 +105,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.player_button -> {
                 if(lastAnimeView == null){
-                    navController.navigate(R.id.goToCatalog)
                     Toast.makeText(this,
                         getString(R.string.you_haven_t_seen_anything), Toast.LENGTH_SHORT).show()
+                    return@setOnItemSelectedListener false
                 }else{
                     val bundle = Bundle()
                     bundle.putParcelable(AnimePlayerFragment.ARG_ITEM_1, lastAnimeView)

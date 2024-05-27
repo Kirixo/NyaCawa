@@ -108,6 +108,9 @@
         <action
             android:id="@+id/goToAnimePlayer"
             app:destination="@id/animePlayerFragment" />
+        <action
+            android:id="@+id/goToFavorite"
+            app:destination="@id/favoriteFragment" />
 
     </fragment>
 
@@ -164,6 +167,25 @@
         android:name="com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment"
         android:label="@string/anime_player"
         tools:layout="@layout/fragment_anime_player" >
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.project.nyacawa.presentation.ui.fragments.FavoriteFragment"
+        android:label="fragment_favorite_list"
+        tools:layout="@layout/fragment_favorite_list">
+
         <action
             android:id="@+id/goToAnimePlayer"
             app:destination="@id/animePlayerFragment" />

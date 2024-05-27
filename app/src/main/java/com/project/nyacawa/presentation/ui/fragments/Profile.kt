@@ -29,6 +29,10 @@ class Profile : Fragment(){
             accountExit = { TODO("Account exit method") }
         )
 
+        binding.wishList.setOnClickListener {
+            findNavController().navigate(R.id.goToFavorite)
+        }
+
         return binding.root
     }
 }
