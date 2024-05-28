@@ -97,7 +97,4 @@ class AccountField(
         this.profile = profile
         setState(state)
     }
-
-
-
 }

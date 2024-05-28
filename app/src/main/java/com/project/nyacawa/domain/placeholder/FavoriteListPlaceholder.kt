@@ -1,5 +1,6 @@
 package com.project.nyacawa.domain.placeholder
 
+import com.project.nyacawa.data.FavoriteItem
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -14,12 +15,12 @@ object FavoriteListPlaceholder {
     /**
      * An array of sample (placeholder) items.
      */
-    val ITEMS: MutableList<PlaceholderItem> = ArrayList()
+    val ITEMS: MutableList<FavoriteItem> = ArrayList()
 
     /**
      * A map of sample (placeholder) items, by ID.
      */
-    val ITEM_MAP: MutableMap<String, PlaceholderItem> = HashMap()
+    val ITEM_MAP: MutableMap<Int, FavoriteItem> = HashMap()
 
     private val COUNT = 25
 
@@ -30,13 +31,19 @@ object FavoriteListPlaceholder {
         }
     }
 
-    private fun addItem(item: PlaceholderItem) {
+    private fun addItem(item: FavoriteItem) {
         ITEMS.add(item)
         ITEM_MAP.put(item.id, item)
     }
+    public fun deleteItem(item: FavoriteItem) {
+        ITEM_MAP.remove(item.id)
+        ITEMS.remove(item)
+    }
 
-    private fun createPlaceholderItem(position: Int): PlaceholderItem {
-        return PlaceholderItem(position.toString(), "Item " + position, makeDetails(position))
+
+
+    private fun createPlaceholderItem(position: Int): FavoriteItem {
+        return FavoriteItem(position)
     }
 
     private fun makeDetails(position: Int): String {

@@ -14,11 +14,17 @@ class EditTextField(
     defStyleRes: Int
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
+
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context) : this(context, null)
 
-    private val binding : ViewInputFieldBinding;
+    private val binding: ViewInputFieldBinding;
 
     init {
         val inflater = LayoutInflater.from(context)
@@ -27,9 +33,14 @@ class EditTextField(
         attributeInit(attrs, defStyleAttr, defStyleRes)
     }
 
-    private fun attributeInit(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int){
+    private fun attributeInit(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         if (attrs == null) return
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.EditTextField, defStyleAttr, defStyleRes)
+        val typedArray = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.EditTextField,
+            defStyleAttr,
+            defStyleRes
+        )
 
         val label = typedArray.getText(R.styleable.EditTextField_label)
         setLabel(label);
@@ -37,16 +48,8 @@ class EditTextField(
         typedArray.recycle();
     }
 
-    fun setHandler( action: onTextChangedAction){
-        binding.inputText
-    }
-    fun setLabel(text: CharSequence?){
+    private fun setLabel(text: CharSequence?) {
         binding.label.text = text
     }
-
-    fun getData(): String {
-        return binding.inputText.text.toString();
-    }
-
 }
 

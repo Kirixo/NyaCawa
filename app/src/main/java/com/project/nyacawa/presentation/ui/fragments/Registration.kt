@@ -27,6 +27,4 @@ class Registration : Fragment(){
 
         return binding.root
     }
-
-
 }

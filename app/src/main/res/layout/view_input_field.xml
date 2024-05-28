@@ -39,6 +39,7 @@
         android:layout_width="@dimen/field_width"
         android:background="@null"
         android:ellipsize="end"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/_background"
         app:layout_constraintStart_toStartOf="@id/_background"

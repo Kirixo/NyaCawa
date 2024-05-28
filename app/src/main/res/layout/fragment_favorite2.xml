@@ -74,16 +74,21 @@
                 >
             </TextView>
 
-            <ImageButton
+
+            <ImageView
                 android:id="@+id/fav_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/trans"
-                android:src="@drawable/fav_ico"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                >
-            </ImageButton>
+                android:src="@drawable/fav_active"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

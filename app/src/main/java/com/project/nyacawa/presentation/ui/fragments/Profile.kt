@@ -1,14 +1,17 @@
 package com.project.nyacawa.presentation.ui.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.FragmentProfileBinding
 import com.project.nyacawa.domain.logic.ProfileButtonStates
+
 
 class Profile : Fragment(){
 
@@ -31,6 +34,13 @@ class Profile : Fragment(){
 
         binding.wishList.setOnClickListener {
             findNavController().navigate(R.id.goToFavorite)
+        }
+
+        binding.donatButton.setOnClickListener {
+            val url = "https://send.monobank.ua/jar/7XUKjCTh1y"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+
         }
 
         return binding.root

@@ -1,5 +1,6 @@
 package com.project.nyacawa.presentation.ui.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.project.nyacawa.R
 import com.project.nyacawa.domain.adapters.FavoriteItemAdapter
+import com.project.nyacawa.domain.adapters.onHeartClick
 import com.project.nyacawa.domain.placeholder.FavoriteListPlaceholder
 
 /**
@@ -18,6 +20,7 @@ import com.project.nyacawa.domain.placeholder.FavoriteListPlaceholder
 class FavoriteFragment : Fragment() {
 
     private var columnCount = 2
+    private lateinit var fadapter: FavoriteItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +35,35 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favorite_list, container, false)
+        val favoriteItemList = FavoriteListPlaceholder.ITEMS
 
-        // Set the adapter
+        val onFavClick: onHeartClick = {
+            val builder = AlertDialog.Builder(requireContext())
+
+            builder.setMessage(getString(R.string.deletion_request))
+
+            builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                FavoriteListPlaceholder.deleteItem(it)
+                fadapter.notifyItemRemoved(FavoriteListPlaceholder.ITEMS.indexOf(it))
+            }
+            builder.setNegativeButton(R.string.cancel) { dialog, which ->
+
+            }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+
+
+        fadapter = FavoriteItemAdapter(favoriteItemList, onFavClick)
+
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = FavoriteItemAdapter(FavoriteListPlaceholder.ITEMS)
+                adapter = fadapter
             }
         }
         return view

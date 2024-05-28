@@ -87,4 +87,6 @@
     <string name="you_haven_t_seen_anything">You haven\'t seen anything</string>
     <string name="anime_player">Anime</string>
     <string name="comment">Comment</string>
+    <string name="deletion_request">Are you sure you want to remove the product?</string>
+    <string name="yes">Yes</string>
 </resources>

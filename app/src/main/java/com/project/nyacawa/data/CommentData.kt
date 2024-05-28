@@ -1,16 +1,8 @@
 package com.project.nyacawa.data
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
-import android.provider.CalendarContract.Colors
-import com.project.nyacawa.R
-
-enum class CommentRatingStates{
-    LIKE,
-    DISLIKE
-}
 
 data class Comment(
     val id: Int,
