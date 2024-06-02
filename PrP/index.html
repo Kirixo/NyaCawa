@@ -6,9 +6,7 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="css/style.css">
-	<script src="js/jquery.js"></script>	
-	<script src="js/bootstrap.js"></script>
-	<script src="js/script.js"></script>
+	<script src="js/jquery.js"></script>
 </head>
 <body>
 	<header>
@@ -16,144 +14,128 @@
 	</header>
 	<div id="fon"></div>
 	
-	<nav class="navbar navbar-expand-lg">
-		  <a class="navbar-brand" href="#">NyaCawa</a>
-		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			  <li class="nav-item">
-				<a class="nav-link" aria-current="page" href="pages/catalog.html">Каталог</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="pages/ourapp.html">Про нас</a>
-			  </li>
-			  <form class="d-flex search_f" role="search" style="margin-top: 7px;">
-				<img src="img/search.svg" alt="" style="width: 27px; height: 27px;">
-				<div class="stick"></div>
-				<input class="input_s" type="search" placeholder="Пошук за назвою" aria-label="Search">
-			  </form>
+	<nav class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container" id="bs-menu">
+			<div class="logo">
+				<h1>NyaCawa</h1>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active">
+					<a href="index.html">Каталог</a>
+				</li>
+				<li>
+					<a href="#">Обране</a>
+				</li>
+				<li>
+					<a href="pages/ourapp.html">Наш застосунок</a>
+				</li>
 			</ul>
-			
-			<a href="pages/cart.html" class="d-flex" style="margin-right: 5px;">
-				<img src="img/ShoppingCart.svg" alt="" class="d-flex">
-			</a>
-			<a href="pages/wishlist.html" class="d-flex" style="margin-right: 5px;">
-				<img src="img/love.svg" alt="" class="d-flex">
-			</a>
-			<a href="#" class="d-flex">
-				<img src="img/profile.svg" alt="" class="d-flex img_profile">
-			</a>
-		  </div>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="#" class=""><img class="shopcart" src="img/cart.png" alt=""></a>
+				</li>
+				<li>
+					<a class="profile_btn" id="profile_btn"><img class="profile" src="img/profile.png" alt=""></a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
+				<li>
+					<div class="name status_st" style="padding-bottom: 10px;">Имя</div>
+					<div class="status status_st">Статус</div>
+				</li>
+			</ul>
+		</div>
 	</nav>
-	<div class="container-fluid">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1">
+				<div id="profile" style="display: none;">
+					<p class="prof_text">Профіль</p>
+					<p class="prof_text">Бонуси</p>
+					<p class="prof_text">Обране</p>
+					<p class="prof_text">Кошти</p>
+					<p class="prof_text">Тікати</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="container-fluid main">
 		<main>
-			<div class="container">
-				<a href="pages/ourapp.html" id="ad"><img src="img/item 1.svg" alt="" class="ad"></a>
-			</div>
-			<span class="montserrat rec">Рекомендації</span>
-			<div class="row" style="padding: 50px;">
-				<div class="col">
-					<div class="good" id="good_p" onclick="j">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+			<div class="column" style="padding-top: 15px; padding-left: 15px;">
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-				<div class="col">
-					<div class="good" id="good_p" onclick="Product()">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-			</div>
-			<div class="row" style="padding: 50px;">
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
-					</div>
-				</div>
-				<div class="col">
-					<div class="good" id="good_p">
-						<a href="pages/product.html">
-							<img class="img_good" src="img/statue.jpg" alt="">
-							<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
-							<p class="in_stock">В наявності</p>
-							<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
-						</a>
+				<div class="col-xs-3">
+					<div class="good">
+						<img class="img_good" src="img/statue.jpg" alt="">
+						<p class="about">Фрірен з аніме “Sousou no Frieren”</p>
+						<p class="in_stock">В наявності</p>
+						<p class="price">6 000 000 ₴<img class="love" src="img/iloveparis.png" alt=""></p>
 					</div>
 				</div>
 			</div>

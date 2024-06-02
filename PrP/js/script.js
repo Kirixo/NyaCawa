@@ -14,8 +14,4 @@ $(document).ready(function(){
                 $('#fon').fadeOut(500)
             }
     })
-
-    function Product(){
-        window.open("file:///E:/Games/Sublime%20Text/Сайтик/PrP/pages/product.html");
-    }
 })
