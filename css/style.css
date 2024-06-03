@@ -1,0 +1,431 @@
+@font-face{
+    font-family: Montserrat;
+    src: url(../fonts/Montserrat-SemiBold.ttf) format(truetype);
+    font-weight: 600;
+    font-style: normal;
+}
+
+
+
+
+header{
+    width: 100%;
+    height: auto;
+}
+
+.profile{
+    width: 63px;
+    height: 63px;
+    clip-path: circle(50% at 50% 50%);
+background: #D9D9D9;
+border: 3px solid #787FBA;
+
+}
+nav{
+  font-size: 16px;
+    padding-left: auto;
+    padding-right: auto;
+    background-color: #1B1A1F;
+}
+a.nav-link{
+    color: #BEBEBE;
+    font-size: 20px;
+    font-weight: 600;
+}
+a.nav-link:hover, a.nav-link:focus, a.navbar-brand:hover, a.navbar-brand:focus{
+    color: #BEBEBE;
+    text-decoration: none;
+    background-color: #1B1A1F;
+}
+.d-flex:hover, .d-flex:focus{
+    background-color: #1B1A1F;
+}
+.img_profile{
+    height: 63px;
+    width: 63px;
+}
+.search_f{
+    border: #BEBEBE 2px solid;
+    border-radius: 8px;
+    height: 30px;
+}
+.search_f img, div, input{
+    padding: 5px;
+}
+.search_f input{
+    background: transparent;
+    border: 0;
+    height: 27px;
+}
+.stick{
+    clip-path: polygon(0 0, 30% 0, 30% 100%, 0 100%);
+    background-color: #BEBEBE;
+    height: 18px;
+    margin-top: 5px;
+}
+.navbar-brand{
+    color: #535C91 !important;
+    font-size: 36px !important;
+    font-weight: 600;
+}
+a:hover{
+    text-decoration: none;
+}
+.navbar{
+    margin: 0;
+    padding: 0 !important;
+}
+.head_img{
+    width: 100%;
+    height: auto;
+}
+a{
+    color: #000000;
+    text-decoration: none;
+}
+a:hover, a:focus{
+    background-color: gray;
+    text-decoration: underline;
+}
+ul{
+    padding-top: 10px;
+}
+main{
+    height: 100%;
+    background-color: #D1D1D1;
+} 
+footer{
+    text-align: right;
+    background-color: #1B181D;
+    color: #fff;
+    padding: 1em;
+    width: 100%;
+    height: auto;
+}
+
+.img-container {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Можна змінити відповідно до вашого дизайну */
+    max-width: 300px; /* Фіксована ширина для всіх зображень */
+    height: 400px; /* Фіксована висота для всіх зображень */
+
+}
+
+.img_good {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Масштабування зображення, щоб покрити весь контейнер */
+    object-position: center; /* Центрування зображення */
+}
+
+.good {
+    max-width: 400px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+.cart-icon {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.figure_name {
+    color: #131313;
+    font-size: 24px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.about {
+    color: #131313;
+    font-size: 16px;
+    font-family: Montserrat;
+}
+
+.in_stock{
+    color: #608964;
+    font-size: 14px;
+    font-family: Montserrat;
+}
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.love {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+#ad{
+    padding-top: 50px;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+#ad:hover, #ad:focus{
+    background-color: #D1D1D1;
+}
+.ad{
+    
+}
+.montserrat{
+    font-family: Montserrat;
+}
+.rec{
+    font-size: 36px;
+    color: #0A1828;
+    padding-left: 50px;
+}
+
+html, body, .main{
+    height: 100%;
+}
+.profile_btn{
+    cursor: pointer;
+}
+#fon{
+	opacity: 0.8;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	padding: 16px;
+	background-color: rgba(1, 1, 1, 0.725);
+	z-index: 100;
+	overflow: auto;
+    display: none;
+}
+#profile{
+    float: right;
+    opacity: 0.8;
+    width: auto;
+    height: auto;
+    z-index: 2000;
+    background-color: #CACACA;
+    padding: 0 15px 0 15px;
+    position: fixed;
+}
+.main{
+    margin-left: 32px;
+    margin-right: 32px;
+}
+.without_link{
+  text-decoration: none;
+  color: inherit;
+}
+
+.without_link .nav_color{
+  background-color: inherit;
+}
+
+.without_link:hover {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  outline: none;
+}
+
+.img_app{
+    width: 75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.app{
+    background-color: #F4F0F6;
+}
+.main-app{
+    margin: 0 32px 0 32px;
+}
+
+
+.h1_text{
+    color: #0A1828;
+    font-size: 40px;
+    font-family: Montserrat;
+}
+
+#summary, #payment{
+    background-color: #D1D3D8;
+    border-radius: 21px;
+    padding: 10px;
+}
+.cash_style{
+    color: #0A1828;
+    font-size: 24px;
+    font-family: Montserrat;
+}
+.summ{
+    color: #535C91;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+    font-family: Montserrat;
+}
+.cash_style, .summ {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cash_style input, label{
+    cursor: pointer;
+}
+input[type="checkbox"]{
+    padding: 2px;
+    display: flex;
+    align-content: center;
+    appearance: none;
+    margin: 5px 0 0 5px;
+    width: 22px;
+    height: 22px;
+    background-color: rgba(86,89,120 0.06);
+    border: #7C8C9C 2px solid;
+}
+input[type="checkbox"]::before{
+    clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%); 
+    content: "";
+    width: 28px;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    background-color: #535C91;
+}
+input[type="checkbox"]:checked::before{
+    transform: scale(1);
+}
+
+.summ_btn1{
+    background-color: #535C91;
+    border-radius: 16px;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px;
+    font-family: Montserrat;
+}
+.summ_btn2{
+    background-color: #444C59;
+    border-radius: 16px;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    padding: 8px;
+    font-family: Montserrat;
+}
+.summ_btn1:hover, .summ_btn2:hover{
+    color: white;
+}
+.credit img{
+    margin-right: 10px;
+}
+
+.good_cart{
+    background-color: #D1D3D8;
+    border-radius: 21px;
+    padding: 10px;
+    box-shadow: 0 5px 7px rgba(1, 1, 1, 0.25);
+    height: 202px;
+    position: relative;
+    margin-bottom: 10px;
+}
+.good_cart img{
+    height: 172px;
+    width: 146px;
+    margin: 5px;
+    float: left;
+}
+.info{
+    display: inline;
+}
+.success-message {
+    background-color: rgba(144, 238, 144, 0.8); /* Напівпрозорий салатовий колір */
+    border-color: #98FB98; /* Колір рамки */
+    color: #006400; /* Колір тексту */
+    max-width: 400px; /* Максимальна ширина вікна */
+    margin: 0 auto; /* Вирівнювання по центру */
+    text-align: center; /* Вирівнювання тексту по центру */
+    padding: 10px; /* Поля */
+    border-radius: 5px; /* Закруглені кути */
+    position: fixed; /* Фіксована позиція */
+    top: 20px; /* Відступ зверху */
+    left: 50%; /* Позиція по горизонталі відносно центру */
+    transform: translateX(-50%); /* Зсув на половину ширини елемента вліво */
+}
+
+.name{
+    margin-top: 10px;
+    color: #BEBEBE; !important
+    font-size: 24px;
+    font-family: Montserrat;
+}
+.info .price{
+    position: absolute;
+    bottom: 0;
+    left: 172px;
+    color: #131313;
+    font-size: 36px;
+    font-family: Montserrat;
+}
+.btn_close{
+    clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%);
+    width: 22px;
+    height: 22px;
+    background-color: #8B9098;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 0;
+}
+
+.amount{
+    margin-top: auto;
+    display:flex;
+    justify-content: flex-end;
+    align-items:center;
+    width: auto;
+}
+.plus, .minus, .amount_num{
+    margin: 10px;
+}
+.amount_num{
+    width: 52px;
+    height: 52px;
+    border: #7C8C9C 6px solid;
+    color: rgba(19,19,19,71%);
+    font-size: 32px;
+    font-family: Montserrat;
+    text-align: center;
+    padding: 0;
+}
+a.plus{
+    background-image: url(../img/plus.svg);
+    height: 42px;
+    width: 42px;
+}
+a.plus:hover{
+    text-decoration: none;
+    background-color: #D1D3D8;
+}
+a.minus{
+    /* Rectangle 4062 */
+
+width: 42px;
+height: 8px;
+
+background: rgba(68, 76, 89, 0.5);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+}
