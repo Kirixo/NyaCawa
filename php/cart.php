@@ -1,7 +1,5 @@
 <?php
 session_start();
-include('header.php');
-include('db.php');
 
 // Переконайтеся, що користувач автентифікований
 if (!isset($_SESSION['user_id'])) {
@@ -29,7 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
         include('good/minus_quantity.php');
     }
     // Include other action handlers similarly
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }
+include('header.php');
+include('db.php');
 
 // Clean up session cart if items are removed from the database
 if (!empty($_SESSION['cart'])) {
@@ -44,11 +46,13 @@ if (!empty($_SESSION['cart'])) {
 }
 
 ?>
-
-<div class="container">
-    <h1>Ваш кошик</h1>
+<main class="car_m">
     <div class="row">
-        <div class="col-md-8" id="cart">
+        <h1 class="h1_text">Ваш кошик</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8" id="cart">
             <?php
             if (!empty($_SESSION['cart'])) {
                 foreach ($_SESSION['cart'] as $item_id => $item) {
@@ -129,6 +133,6 @@ if (!empty($_SESSION['cart'])) {
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <?php include('footer.php'); ?>

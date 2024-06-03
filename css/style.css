@@ -6,7 +6,9 @@
 }
 
 
-
+a, a:focus, a:hover{
+    text-decoration: none !important;
+}
 
 header{
     width: 100%;
@@ -22,10 +24,9 @@ border: 3px solid #787FBA;
 
 }
 nav{
-  font-size: 16px;
-    padding-left: auto;
-    padding-right: auto;
     background-color: #1B1A1F;
+    padding-left: 64px !important;
+    padding-right: 64px !important;
 }
 a.nav-link{
     color: #BEBEBE;
@@ -73,7 +74,7 @@ a:hover{
 }
 .navbar{
     margin: 0;
-    padding: 0 !important;
+
 }
 .head_img{
     width: 100%;
@@ -92,8 +93,8 @@ ul{
 }
 main{
     height: 100%;
-    background-color: #D1D1D1;
-} 
+    background-color: #F4F0F6;
+}
 footer{
     text-align: right;
     background-color: #1B181D;
@@ -117,8 +118,11 @@ footer{
     height: 100%;
     object-fit: cover; /* Масштабування зображення, щоб покрити весь контейнер */
     object-position: center; /* Центрування зображення */
+/*    aspect-ratio: 600/800;*/
 }
-
+/*.img_good:hover{
+transform : scale(1.05);
+}*/
 .good {
     max-width: 400px;
     border: 1px solid #ddd;
@@ -173,7 +177,7 @@ footer{
     background-color: #D1D1D1;
 }
 .ad{
-    
+
 }
 .montserrat{
     font-family: Montserrat;
@@ -182,10 +186,12 @@ footer{
     font-size: 36px;
     color: #0A1828;
     padding-left: 50px;
+    font-family: Montserrat;
 }
 
 html, body, .main{
     height: 100%;
+    background-color: #F4F0F6;
 }
 .profile_btn{
     cursor: pointer;
@@ -291,7 +297,7 @@ input[type="checkbox"]{
     border: #7C8C9C 2px solid;
 }
 input[type="checkbox"]::before{
-    clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%); 
+    clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%);
     content: "";
     width: 28px;
     transform: scale(0);
@@ -363,7 +369,7 @@ input[type="checkbox"]:checked::before{
 
 .name{
     margin-top: 10px;
-    color: #BEBEBE; !important
+    color: #131313;
     font-size: 24px;
     font-family: Montserrat;
 }
@@ -429,3 +435,135 @@ order: 0;
 flex-grow: 0;
 
 }
+.car_m{
+    padding-left: 64px;
+    padding-right: 64px;
+}
+
+
+/* product.html */
+.container-fluid{
+    padding: 0 !important;
+}
+
+.product{
+    height: 70%;
+}
+.product_name{
+    font-size: 48px;
+    font-family: Montserrat;
+    color: #131313;
+}
+.product_img{
+    height: 90%;
+    width: auto;
+}
+.old_price{
+    color: #969696;
+    text-decoration: line-through;
+    font-size: 16px;
+    font-family: Montserrat;
+}
+.new_price{
+    color: #131313;
+    font-size: 24px;
+    font-family: Montserrat;
+}
+hr{
+    border: #969696 2px solid !important;
+    width: 90%;
+}
+.share{
+    display: flex;
+    justify-content: space-between;
+}
+.on_storage{
+    color: #535C91;
+    font-family: Montserrat;
+    font-weight:500;
+}
+.in_cart{
+    background-color: #535C91;
+    border-radius: 16px;
+    border: none;
+    width: 100%;
+    height: 60px;
+    font-size: 24px;
+    color: #fff;
+    font-family: Montserrat;
+}
+.in_cart img{
+    margin-right: 10px;
+}
+.in_fav{
+    background-color: #444C59;
+    border-radius: 16px;
+    border: none;
+    width: 100%;
+    height: 60px;
+    font-size: 24px;
+    color: #fff;
+    font-family: Montserrat;
+}
+.in_fav img{
+    margin-right: 10px;
+}
+
+/*catalog.html*/
+aside{
+    background-color: #D1D3D8;
+    height: 100%;
+    width: auto;
+    border-radius: 21px;
+}
+.cat_pr:hover{
+    background-color: #F4F0F6;
+}
+.cat_name{
+    font-size: 16px;
+    color: #131313;
+    font-family: Montserrat;
+}
+.cat_on_storage{
+    color: rgba(96, 137, 100, 0.73);
+    font-size: 14px;
+    font-family: Montserrat;
+}
+.cat_img{
+    width: 90%;
+}
+.cat_m{
+    padding-left: 64px;
+    padding-right: 64px;
+    padding-top: 25px;
+}
+
+
+/*wishlist.html*/
+.wish_m{
+    padding-left: 64px;
+    padding-right: 64px;
+    padding-top: 20px;
+}
+#wish{
+    background-color: #D1D3D8;
+    border-radius: 21px;
+    padding: 20px;
+}
+.wish_btn{
+    background-color: #444C59;
+    border-radius: 16px;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 8px;
+    font-family: Montserrat;
+}
+
+
+/*насрав*/
+/*насрав*/
+/*насрав*/
+/*насрав*/
+/*насрав*/

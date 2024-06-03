@@ -33,5 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
         }
         $conn->query($sql);
     }
+   /* header("Location: " . $_SERVER['PHP_SELF']);
+    exit;*/
 }
+
 ?>

@@ -4,12 +4,14 @@ include 'db.php'; ?>
 <html lang="ua">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
     <title>NyaCawa</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css?v=<?php echo time();?>">
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
+
     <style>
         /* Додаткові стилі для покращення вигляду форми */
         .modal-header {
@@ -57,7 +59,7 @@ include 'db.php'; ?>
 <div id="fon"></div>
 
 <nav class="navbar navbar-expand-lg">
-    <div class="container">
+
         <a class="navbar-brand" href="index.php">NyaCawa</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,7 +67,7 @@ include 'db.php'; ?>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Каталог</a>
+                    <a class="nav-link" aria-current="page" href="catalog.php">Каталог</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="ourapp.php">Про нас</a>
@@ -94,7 +96,7 @@ include 'db.php'; ?>
                 <img src="../img/profile.svg" alt="" class="d-flex img_profile">
             </a>
         </div>
-    </div>
+
 </nav>
 
 <!-- Модальне вікно -->

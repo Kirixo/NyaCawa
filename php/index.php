@@ -6,6 +6,7 @@ include 'db.php'; // Підключення до бази даних
 $sql = "SELECT product_id, name, description, prise, image FROM products";
 $result = $conn->query($sql);
 ?>
+
 <div class="container-fluid">
     <main>
         <a href="ourapp.php" id="ad"><img src="../img/item 1.svg" alt="" class="ad"></a>
@@ -15,7 +16,7 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     ?>
-                    <div class="col">
+                    <div class="col" >
                         <div class="good">
                             <div class="img-container">
                                 <img class="img_good" src="<?= $row['image'] ?>" alt="">
