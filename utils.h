@@ -1,6 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
-
+#include "types.h"
 #include <QtCore/QFile>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonObject>
@@ -38,14 +38,7 @@ static std::optional<QJsonObject> byteArrayToJsonObject(const QByteArray &arr)
 }
 
 template<typename T>
-struct FromJsonFactory
-{
-    virtual std::optional<T> fromJson(const QJsonObject &json) const = 0;
-    virtual ~FromJsonFactory() = default;
-};
-
-template<typename T>
-static QMap<qint64, T> tryLoadFromFile(const FromJsonFactory<T> &itemFactory, const QString &path)
+static IdMap<T> tryLoadFromFile(const FromJsonFactory<T> &itemFactory, const QString &path)
 {
     const auto maybeBytes = readFileToByteArray(path);
     if (maybeBytes) {
