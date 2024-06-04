@@ -2,8 +2,14 @@
 include 'header.php'; // Підключення заголовка
 include 'db.php'; // Підключення до бази даних
 
-// Запит до бази даних для отримання товарів
-$sql = "SELECT product_id, name, description, price, image FROM products";
+// Отримати поточного користувача
+session_start();
+$user_id = $_SESSION['user_id'];
+
+// Запит до бази даних для отримання товарів з перевіркою наявності в обраному
+$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image, 
+        (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist 
+        FROM products p";
 $result = $conn->query($sql);
 ?>
 
@@ -21,28 +27,40 @@ $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             // Обчислення старої ціни
-                            $old_price = $row['price'] * 1.25;
+                            $old_price = $row['prise'] * 1.25;
+                            $in_wishlist = $row['in_wishlist'] > 0;
                             ?>
-                            <div class="col">
-                                <div class="cat">
-                                    <a href="product.php?product_id=<?= $row['product_id'] ?>" class="cat_pr">
-                                        <img src="<?= $row['image'] ?>" alt="" class="cat_img">
-                                        <span class="cat_name"><?= $row['name'] ?></span>
-                                        <br>
-                                        <span class="cat_on_storage">В наявності</span>
+
+                            <div class="good" style="width: 300px; height: 450px;">
+                                <a href="product.php?product_id=<?= $row['product_id'] ?>" class="cat_pr">
+                                    <div class="img-container" style="height: 250px; overflow: hidden;">
+                                        <img class="img_good" src="<?= $row['image'] ?>" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </div>
+                                    <p class="figure_name" title="<?= $row['name'] ?>"><?= $row['name'] ?></p>
+                                    <p><?= $row['description'] ?></p>
+                                    <div class="cat_on_storage">
+                                        <span>В наявності</span>
                                         <br>
                                         <span class="old_price"><?= number_format($old_price, 2) ?>₴</span>
-                                        <br>
-                                        <span class="new_price"><?= number_format($row['price'], 2) ?>₴</span>
-                                        <form method="post" action="cart.php" style="display: inline;">
-                                            <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
-                                            <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
-                                                <img src="../img/ShoppingCart.svg" alt="Add to cart">
+
+                                    </div>
+                                    <div class="price">
+                                        <p class="price" style="display: inline;"><?= $row['prise'] ?> ₴</p>
+                                        <div>
+                                            <button class="wishlist-btn" data-product-id="<?= $row['product_id'] ?>" style="background: none; border: none; padding: 0;">
+                                                <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
                                             </button>
-                                        </form>
-                                        <img src="../img/love.svg" alt="">
-                                    </a>
-                                </div>
+                                            <form method="post" action="cart.php" style="display: inline;">
+                                                <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
+                                                <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
+                                                <input type="hidden" name="prise" value="<?= $row['prise'] ?>"> <!-- Ціна товару -->
+                                                <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
+                                                    <img class="cart-icon" src="../img/ShoppingCart.svg" alt="Add to cart">
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                             <?php
                         }
@@ -57,4 +75,34 @@ $result = $conn->query($sql);
 </div>
 
 <?php include 'footer.php'; ?>
-<script src="../js/cart.js"></script>
+
+<script>
+    document.querySelectorAll('.wishlist-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Запобігає переходу по посиланню
+            const productId = this.dataset.productId;
+            const action = this.querySelector('img').src.includes('fav_love.svg') ? 'remove_from_wishlist' : 'add_to_wishlist';
+
+            fetch('ajax.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `action=${action}&product_id=${productId}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (action === 'add_to_wishlist') {
+                            this.querySelector('img').src = '../img/fav_love.svg';
+                        } else {
+                            this.querySelector('img').src = '../img/love.svg';
+                        }
+                    } else {
+                        console.error('Помилка:', data.message);
+                    }
+                })
+                .catch(error => console.error('Помилка:', error));
+        });
+    });
+</script>

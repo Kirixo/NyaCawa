@@ -79,17 +79,17 @@ include 'db.php'; ?>
                 </form>
             </ul>
 
-            <a href="cart.php" class="d-flex" style="margin-right: 5px;">
+            <a href="cart.php" class="d-flex" style="margin-right: 10px;">
                 <img src="../img/ShoppingCart.svg" alt="" class="d-flex">
             </a>
-            <a href="#" class="d-flex" style="margin-right: 5px;">
+            <a href="wishlist.php" class="d-flex" style="margin-right: 10px;">
                 <img src="../img/love.svg" alt="" class="d-flex">
             </a>
             <?php
 
             if(isset($_SESSION['username'])) {
                 $username = $_SESSION['username'];
-                echo '<span class="name">' . $username . '</span>';
+                echo '<span class="name" style="margin-right: 10px;">' . $username . '</span>';
             }
             ?>
             <a class="d-flex" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#authModal">

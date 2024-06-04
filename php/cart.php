@@ -44,7 +44,6 @@ if (!empty($_SESSION['cart'])) {
         }
     }
 }
-
 ?>
 <main class="car_m">
     <div class="row">
@@ -53,45 +52,51 @@ if (!empty($_SESSION['cart'])) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-8" id="cart">
-            <?php
-            if (!empty($_SESSION['cart'])) {
-                foreach ($_SESSION['cart'] as $item_id => $item) {
-                    $sql = "SELECT name, prise FROM products WHERE product_id = $item_id";
-                    $result = $conn->query($sql);
+                <?php
+                if (!empty($_SESSION['cart'])) {
+                    foreach ($_SESSION['cart'] as $item_id => $item) {
+                        $sql = "SELECT name, prise FROM products WHERE product_id = $item_id";
+                        $result = $conn->query($sql);
 
-                    if ($result->num_rows > 0) {
-                        $product = $result->fetch_assoc();
-                        ?>
-                        <div class="good_cart">
-                            <img src="<?= $item['image'] ?>" alt="">
-                            <div class="info">
-                                <span class="figure_name"><?= $product['name'] ?></span>
-                                <span class="price"><?= $product['prise'] ?> ₴</span>
+                        if ($result->num_rows > 0) {
+                            $product = $result->fetch_assoc();
+                            ?>
+                            <div class="good_cart">
+                                <a href="product.php?product_id=<?= $item_id ?>" class="cat_pr">
+                                    <img src="<?= $item['image'] ?>" alt="">
+                                    <div class="info">
+                                        <span class="figure_name"><?= $product['name'] ?></span>
+                                        <span class="price"><?= $product['prise'] ?> ₴</span>
+                                    </div>
+                                </a>
+                                <form method="post" action="">
+                                    <input type="hidden" name="item_id" value="<?= $item_id ?>">
+                                    <div class="amount">
+                                        <button type="submit" name="action" value="decrease" class="minus"></button>
+                                        <div class="amount_num">
+                                        <span>
+                                            <?= $item['quantity'] ?>
+                                        </span>
+                                        </div>
+                                        <button type="submit" name="action" value="increase" class="plus"></button>
+                                    </div>
+                                    <button type="submit" name="action" value="remove" class="btn_close"></button>
+                                </form>
                             </div>
-                            <form method="post" action="">
-                                <input type="hidden" name="item_id" value="<?= $item_id ?>">
-                                <div class="amount">
-                                    <button type="submit" name="action" value="decrease" class="minus">-</button>
-                                    <div class="amount_num"><?= $item['quantity'] ?></div>
-                                    <button type="submit" name="action" value="increase" class="plus">+</button>
-                                </div>
-                                <button type="submit" name="action" value="remove" class="btn_close"></button>
-                            </form>
-                        </div>
-                        <?php
+                            <?php
+                        }
                     }
+                } else {
+                    echo "<p>Ваш кошик порожній</p>";
                 }
-            } else {
-                echo "<p>Ваш кошик порожній</p>";
-            }
-            ?>
-        </div>
-        <div class="col-md-4">
-            <div id="summary">
-                <h1 class="h1_text" style="margin-left: 50px;">Суммарно</h1>
-                <div class="cash_style">
-                    Замовлення
-                    <span id="cash">
+                ?>
+            </div>
+            <div class="col-md-4">
+                <div id="summary">
+                    <h1 class="h1_text" style="margin-left: 50px;">Суммарно</h1>
+                    <div class="cash_style">
+                        Замовлення
+                        <span id="cash">
                     <?php
                     $total = 0;
                     $sql = "SELECT cart.*, products.prise 
@@ -107,32 +112,32 @@ if (!empty($_SESSION['cart'])) {
                     echo $total;
                     ?>
                 </span>
+                    </div>
+                    <div class="cash_style">
+                        <label>Знижка бонусами
+                            <input type="checkbox" id="checkbox1" class=""></label>
+                        <span id="sale">0%</span>
+                    </div>
+                    <div class="summ">
+                        Разом
+                        <span><?php echo $total; ?></span>
+                    </div>
+                    <button class="summ_btn1" style="margin-bottom: 20px;">Купити</button>
+                    <form method="post" action="">
+                        <button type="submit" name="action" value="clear" class="summ_btn2">Очистити</button>
+                    </form>
                 </div>
-                <div class="cash_style">
-                    <label>Знижка бонусами
-                        <input type="checkbox" id="checkbox1" class=""></label>
-                    <span id="sale">0%</span>
-                </div>
-                <div class="summ">
-                    Разом
-                    <span><?php echo $total; ?></span>
-                </div>
-                <button class="summ_btn1" style="margin-bottom: 20px;">Купити</button>
-                <form method="post" action="">
-                    <button type="submit" name="action" value="clear" class="summ_btn2">Очистити</button>
-                </form>
-            </div>
-            <div id="payment" style="margin-top: 10px;">
-                <div class="credit">
-                    <img src="/img/credit-card.svg" alt="">Почка1
-                    <br>
-                    <img src="/img/credit-card.svg" alt="">Почка2
-                    <br>
-                    <img src="/img/credit-card.svg" alt="">Почка3
+                <div id="payment" style="margin-top: 10px;">
+                    <div class="credit">
+                        <img src="/img/credit-card.svg" alt="">Почка1
+                        <br>
+                        <img src="/img/credit-card.svg" alt="">Почка2
+                        <br>
+                        <img src="/img/credit-card.svg" alt="">Почка3
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </main>
 
 <?php include('footer.php'); ?>
