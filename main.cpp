@@ -2,6 +2,11 @@
 #include "qjsonobject.h"
 #include <QtCore/QCoreApplication>
 #include <QtHttpServer/QHttpServer>
+#include <QtSql>
+#include <QSqlDatabase>
+#include <QNetworkRequest>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 #define SCHEME "http"
 #define HOST "127.0.0.1"
@@ -9,6 +14,18 @@
 
 int main(int argc, char *argv[])
 {
+    QSqlDatabase db;
+    db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("127.0.0.1");
+    db.setUserName("admin");
+    db.setPassword("1111");
+    db.setDatabaseName("nyacawa_db");
+    if(db.open()){
+        qDebug() << "!!!!NyaCawa bd opened from main.cpp";
+    } else {
+        qDebug() << "db error";
+    }
+
     QCoreApplication a(argc, argv);
 
     QCoreApplication app(argc, argv);
@@ -17,6 +34,7 @@ int main(int argc, char *argv[])
 
     server.route("/api/data", [] (const QHttpServerRequest &request) {
         QJsonObject response;
+
         response["message"] = "Responce from Qt! 1234";
         return QHttpServerResponse(QJsonDocument(response).toJson());
     });
