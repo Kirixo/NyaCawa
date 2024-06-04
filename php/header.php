@@ -15,23 +15,33 @@ include 'db.php'; ?>
     <style>
         /* Додаткові стилі для покращення вигляду форми */
         .modal-header {
-            background-color: #007bff;
-            color: white;
+            background-color: #1B1A1F;
+            color: #BEBEBE;
         }
         .modal-footer {
+            background-color: #F4F0F6;
             display: flex;
             justify-content: space-between;
         }
         .toggle-link {
             cursor: pointer;
-            color: #007bff;
+            color: #1B1A1F;
         }
         .toggle-link:hover {
             text-decoration: underline;
         }
+
+        .btn-primary{
+
+            background-color: #535C91;
+        }
+        .btn-primary: hover{
+            background-color: #666e9f;
+        }
+
         .google-btn {
-            background-color: #dd4b39;
-            color: white;
+            background-color: #ffffff;
+            color: #000000;
             border: none;
             padding: 10px 15px;
             font-size: 16px;
@@ -39,6 +49,9 @@ include 'db.php'; ?>
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .google-btn:hover{
+            background-color: #dddddd;
         }
         .google-btn img {
             margin-right: 10px;
@@ -105,9 +118,9 @@ include 'db.php'; ?>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="authModalLabel">Аутентифікація клієнта</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" style="background-color: #BEBEBE" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="background-color: #F4F0F6">
                 <div id="error-message" class="alert alert-danger" style="display: none;"></div>
                 <form id="login-form" action="authorization.php" method="POST">
                     <div class="mb-3">
@@ -118,9 +131,9 @@ include 'db.php'; ?>
                         <label for="password" class="form-label">Пароль:</label>
                         <input type="password" id="password" name="password" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Вхід</button>
+                    <button type="submit" class="btn btn-primary w-100 mb-2">Вхід</button>
                     <a href="google-oauth.php" class="google-btn w-100">
-                        <img src="https://w7.pngwing.com/pngs/326/85/png-transparent-google-logo-google-text-trademark-logo-thumbnail.png" alt="Google logo" width="20">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="Google logo" width="20">
                         Увійти з Google
                     </a>
                 </form>

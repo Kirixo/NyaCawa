@@ -98,14 +98,9 @@ if ($result->num_rows > 0) {
                                 <div class="price">
                                     <p class="price" style="display: inline;"><?= number_format($row['prise'], 2) ?> ₴</p>
                                     <div>
-                                        <form method="post" action="wishlist.php" class="wishlist-form" style="display: inline;">
-                                            <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
-                                            <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
-                                            <input type="hidden" name="prise" value="<?= $row['prise'] ?>"> <!-- Ціна товару -->
-                                            <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
-                                                <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
-                                            </button>
-                                        </form>
+                                        <button class="wishlist-btn" data-product-id="<?= $row['product_id'] ?>" style="background: none; border: none; padding: 0;">
+                                            <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
+                                        </button>
                                         <form method="post" action="cart.php" style="display: inline;">
                                             <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
                                             <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
@@ -170,4 +165,36 @@ if ($result->num_rows > 0) {
                 .catch(error => console.error('Помилка:', error));
         });
     });
+
+    // Додатковий обробник подій для кнопок у рекомендаціях
+    document.querySelectorAll('.wishlist-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Запобігає переходу по посиланню
+            const productId = this.dataset.productId;
+            const action = this.querySelector('img').src.includes('fav_love.svg') ? 'remove_from_wishlist' : 'add_to_wishlist';
+
+            fetch('ajax.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `action=${action}&product_id=${productId}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (action === 'add_to_wishlist') {
+                            this.querySelector('img').src = '../img/fav_love.svg';
+                        } else {
+                            this.querySelector('img').src = '../img/love.svg';
+                        }
+                    } else {
+                        console.error('Помилка:', data.message);
+                    }
+                })
+                .catch(error => console.error('Помилка:', error));
+        });
+    });
 </script>
+
+

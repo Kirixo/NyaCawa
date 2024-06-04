@@ -122,9 +122,14 @@ if (!empty($_SESSION['cart'])) {
                         Разом
                         <span><?php echo $total; ?></span>
                     </div>
-                    <button class="summ_btn1" style="margin-bottom: 20px;">Купити</button>
-                    <form method="post" action="">
-                        <button type="submit" name="action" value="clear" class="summ_btn2">Очистити</button>
+                    <div class="summ_btn_container" style="margin-bottom: 20px;">
+                        <button id="buy-button" class="summ_btn1">Купити</button>
+                    </div>
+
+                    <!--<div id="container" style="width: 529px; height: 46px; margin-bottom: 10px;"></div>-->
+
+                    <form method="post" action="" >
+                        <button type="submit" name="action" value="clear" class="summ_btn2" >Очистити</button>
                     </form>
                 </div>
                 <div id="payment" style="margin-top: 10px;">
@@ -140,4 +145,41 @@ if (!empty($_SESSION['cart'])) {
         </div>
 </main>
 
+
+<script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>
+<script src="../js/google_pay.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        console.log("DOM content loaded");
+        document.getElementById('buy-button').addEventListener('click', () => {
+            console.log("Buy button clicked");
+            onGooglePaymentButtonClicked();
+        });
+    });
+
+    function onGooglePaymentButtonClicked() {
+        console.log("Google Payment Button Clicked");
+        const paymentDataRequest = getGooglePaymentDataRequest();
+        paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
+
+        const paymentsClient = getGooglePaymentsClient();
+        paymentsClient.loadPaymentData(paymentDataRequest)
+            .then(function(paymentData) {
+                console.log("Payment Data:", paymentData);
+                // handle the response
+                processPayment(paymentData);
+            })
+            .catch(function(err) {
+                // show error in developer console for debugging
+                console.error(err);
+            });
+    }
+
+    // Ваш попередній код для Google Pay API
+
+
+</script>
+
 <?php include('footer.php'); ?>
+

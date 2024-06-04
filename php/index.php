@@ -27,6 +27,7 @@ $result = $conn->query($sql);
                     ?>
                     <div class="col">
                         <div class="good">
+                            <a href="product.php?product_id=<?= $row['product_id'] ?>" class="cat_pr">
                             <div class="img-container">
                                 <img class="img_good" src="<?= $row['image'] ?>" alt="">
                             </div>
@@ -40,6 +41,7 @@ $result = $conn->query($sql);
                             </div>
                             <div class="price">
                                 <p class="price" style="display: inline;"><?= $row['prise'] ?> ₴</p>
+                            </a>
                                 <div>
                                     <button class="wishlist-btn" data-product-id="<?= $row['product_id'] ?>" style="background: none; border: none; padding: 0;">
                                         <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
