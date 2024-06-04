@@ -14,6 +14,10 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication a(argc, argv);
+
+    QCoreApplication app(argc, argv);
+
     QSqlDatabase db;
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("127.0.0.1");
@@ -25,17 +29,30 @@ int main(int argc, char *argv[])
     } else {
         qDebug() << "db error";
     }
-
-    QCoreApplication a(argc, argv);
-
-    QCoreApplication app(argc, argv);
-
     QHttpServer server;
 
     server.route("/api/data", [] (const QHttpServerRequest &request) {
-        QJsonObject response;
+        QJsonArray response;
+        QString queryString = "SELECT *, UNIX_TIMESTAMP(aired_start), UNIX_TIMESTAMP(aired_end) FROM titles";
+        QSqlQuery query;
+        query.prepare(queryString);
+        if(query.exec()){
+            qDebug() << query.size();
+            for (int i = 0; query.next(); ++i) {
+                QJsonObject row;
+                row["id"] = query.value(0).toInt();
+                row["name"] = query.value(1).toString();
+                row["description"] = query.value(2).toString();
+                row["aired_start"] = query.value(8).toInt();
+                row["aired_end"] = query.value(9).toInt();
+                row["general_score"] = query.value(6).toDouble();
+                row["total_episodes"] = query.value(7).toInt();
+                response.append(row);
+            }
 
-        response["message"] = "Responce from Qt! 1234";
+        } else {
+            qDebug() << "Error executing query:" << query.lastError().text();
+        }
         return QHttpServerResponse(QJsonDocument(response).toJson());
     });
 
