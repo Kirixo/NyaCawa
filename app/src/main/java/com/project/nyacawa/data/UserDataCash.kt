@@ -2,6 +2,7 @@ package com.project.nyacawa.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 data class UserCache(
     val userId: Int,
@@ -34,6 +35,8 @@ class UserDataCache(context: Context) {
     fun getUserCache(): UserCache {
         val userId = sharedPreferences.getInt(KEY_USER_ID, -1)
         val lastAnimeId = sharedPreferences.getInt(KEY_LAST_ANIME_ID, -1)
+
+        Log.d("[USER DATA]", "Load from cash ${userId} ")
         return UserCache(userId, lastAnimeId)
     }
 

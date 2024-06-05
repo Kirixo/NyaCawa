@@ -31,7 +31,7 @@ import com.project.nyacawa.domain.logic.SearchViewModel
 import com.project.nyacawa.domain.logic.ToolBarTypes
 import com.project.nyacawa.domain.logic.UserViewModel
 import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
-
+import androidx.fragment.app.activityViewModels
 
 fun AppCompatActivity.hideKeyboard() {
     val view: View? = this.currentFocus
@@ -48,14 +48,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private var toolBarTypes: ToolBarTypes = ToolBarTypes.MAIN_MENU
     private lateinit var toolBarTemp: ToolBarTypes
-    private var tempBottomBarId : Int = 0
+    private var tempBottomBarId: Int = 0
     private var lastAnimeView: AnimeData? = null
 
     private val searchViewModel: SearchViewModel by viewModels()
-    private val userViewModel: UserViewModel  by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
-    private var user: User? = null
-
+    companion object {
+        val USER_DATA: String = "USER_DATA"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,14 +74,12 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
-
-
-        navController.addOnDestinationChangedListener{_,destination, args ->
+        navController.addOnDestinationChangedListener { _, destination, args ->
             Log.d("Navigation", "Destination changed: ${destination.label}")
 
             toolBarTemp = toolBarTypes
-            toolBarTypes = when(destination.id){
-                R.id.registration  -> ToolBarTypes.NONE
+            toolBarTypes = when (destination.id) {
+                R.id.registration -> ToolBarTypes.NONE
                 R.id.authorization -> ToolBarTypes.NONE
                 R.id.mainMenu -> ToolBarTypes.MAIN_MENU
                 R.id.profile -> ToolBarTypes.BACK
@@ -91,10 +90,12 @@ class MainActivity : AppCompatActivity() {
                 else -> ToolBarTypes.BACK
             }
 
-            when(destination.id){
-                R.id.registration  -> binding.includedLayout.bottomBar.visibility = View.GONE
+            when (destination.id) {
+                R.id.registration -> binding.includedLayout.bottomBar.visibility = View.GONE
                 R.id.authorization -> binding.includedLayout.bottomBar.visibility = View.GONE
-                R.id.animePlayerFragment -> lastAnimeView = args?.getParcelable(AnimePlayerFragment.ARG_ITEM_1)
+                R.id.animePlayerFragment -> lastAnimeView =
+                    args?.getParcelable(AnimePlayerFragment.ARG_ITEM_1)
+
                 else -> binding.includedLayout.bottomBar.visibility = View.VISIBLE
             }
 
@@ -105,30 +106,38 @@ class MainActivity : AppCompatActivity() {
         // Bottom bar init
         binding.includedLayout.bottomBar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-            R.id.home_button -> {
-                navController.navigate(R.id.goToMainMenu)
-                true
-            }
-            R.id.search_button -> {
-                navController.navigate(R.id.goToCatalog)
-                true
-            }
-            R.id.player_button -> {
-                if(lastAnimeView == null){
-                    Toast.makeText(this,
-                        getString(R.string.you_haven_t_seen_anything), Toast.LENGTH_SHORT).show()
-                    return@setOnItemSelectedListener false
-                }else{
-                    val bundle = Bundle()
-                    bundle.putParcelable(AnimePlayerFragment.ARG_ITEM_1, lastAnimeView)
-                    navController.navigate(R.id.goToAnimePlayer, bundle)
+                R.id.home_button -> {
+                    navController.navigate(R.id.goToMainMenu)
+                    true
                 }
-                true
-            }
-            R.id.more_button -> {
-                navController.navigate(R.id.goToProfile)
-                true
-            }
+
+                R.id.search_button -> {
+                    navController.navigate(R.id.goToCatalog)
+                    true
+                }
+
+                R.id.player_button -> {
+                    if (lastAnimeView == null) {
+                        Toast.makeText(
+                            this,
+                            getString(R.string.you_haven_t_seen_anything), Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnItemSelectedListener false
+                    } else {
+                        val bundle = Bundle()
+                        bundle.putParcelable(AnimePlayerFragment.ARG_ITEM_1, lastAnimeView)
+                        navController.navigate(R.id.goToAnimePlayer, bundle)
+                    }
+                    true
+                }
+
+                R.id.more_button -> {
+                    val bundle = Bundle()
+                    bundle.putParcelable(USER_DATA, userViewModel.user.value)
+                    navController.navigate(R.id.goToProfile, bundle)
+                    true
+                }
+
                 else -> false
             }
         }
@@ -148,35 +157,38 @@ class MainActivity : AppCompatActivity() {
         setUserData()
     }
 
-    private fun updateToolBar(toolbar: Toolbar?, name: String){
-        if (toolBarTemp != toolBarTypes){
+    private fun updateToolBar(toolbar: Toolbar?, name: String) {
+        if (toolBarTemp != toolBarTypes) {
             toolBarStateSet(toolBarTypes, toolbar, name)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(toolBarTypes == ToolBarTypes.SEARCH || toolBarTypes ==ToolBarTypes.BACK){
+        if (toolBarTypes == ToolBarTypes.SEARCH || toolBarTypes == ToolBarTypes.BACK) {
             menuInflater.inflate(R.menu.menu_main, menu)
         }
         return true
     }
 
-    private fun setUserData(){
+    private fun setUserData() {
         val userCache = UserDataCache(this)
         val userData = userCache.getUserCache()
-        if(!userData.isUserCashed()){
-            userViewModel.getUserById(userData.userId){
-                user = it
+        Log.d("[MAIN]", "Load from cash ${userData.userId} ")
+        if (userData.isUserCashed()) {
+            userViewModel.getUserById(userData.userId) {
+                if(it!=null){
+                    userViewModel.setUser(it)
+                }
             }
-        }else{
+        } else {
             navController.navigate(R.id.action_mainMenu_to_authorization)
             toolBarTypes = ToolBarTypes.NONE
             updateToolBar(binding.includedLayout.toolBar, getString(R.string.authorisation))
         }
     }
 
-    private fun toolBarStateSet(state: ToolBarTypes, toolbar: Toolbar?, titleText: String?){
-        when (state){
+    private fun toolBarStateSet(state: ToolBarTypes, toolbar: Toolbar?, titleText: String?) {
+        when (state) {
             ToolBarTypes.SEARCH -> setSearch(toolbar)
             ToolBarTypes.MAIN_MENU -> setMainMenu(toolbar)
             ToolBarTypes.BACK -> setBack(toolbar, titleText)
@@ -185,12 +197,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setSearch(toolbar: Toolbar?){
-        if(toolbar != null){
+    private fun setSearch(toolbar: Toolbar?) {
+        if (toolbar != null) {
             resetToolbar(toolbar)
             toolbar.setLogo(R.drawable.search_no_active_ico)
 
-            val myView : View  = layoutInflater.inflate(R.layout.view_search, null)
+            val myView: View = layoutInflater.inflate(R.layout.view_search, null)
             val container = FrameLayout(this)
             val containerParams = Toolbar.LayoutParams(
                 Toolbar.LayoutParams.MATCH_PARENT,
@@ -215,7 +227,8 @@ class MainActivity : AppCompatActivity() {
                     if (view != null) {
                         // creating a variable
                         // for input manager and initializing it.
-                        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                        val inputMethodManager =
+                            getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                         //hiding keyboard.
                         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
                     }
@@ -227,7 +240,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Handlers for a text actions
-            editText.addTextChangedListener(object : TextWatcher{
+            editText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -236,7 +249,7 @@ class MainActivity : AppCompatActivity() {
                 ) = Unit
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val text = s?.toString()?: String()
+                    val text = s?.toString() ?: String()
                     searchViewModel.searchText.value = text
                 }
 
@@ -246,7 +259,7 @@ class MainActivity : AppCompatActivity() {
 
             container.layoutParams = containerParams
             val padding = resources.getDimensionPixelSize(R.dimen.neutral_margin)
-            container.setPadding(padding, 0, 0,0)
+            container.setPadding(padding, 0, 0, 0)
             container.addView(myView)
             toolbar.addView(container)
         }
@@ -257,8 +270,20 @@ class MainActivity : AppCompatActivity() {
         return super.navigateUpTo(upIntent)
     }
 
-    private fun setMainMenu(toolbar: Toolbar?){
-        if(toolbar != null){
+    override fun onBackPressed() {
+        val currentDestinationId = navController.currentDestination?.id
+        val exitFragmentId = R.id.authorization
+
+        if (currentDestinationId == exitFragmentId) {
+            finishAffinity()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+
+    private fun setMainMenu(toolbar: Toolbar?) {
+        if (toolbar != null) {
             resetToolbar(toolbar)
             toolbar.setLogo(R.drawable.bell_ico)
             supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -266,8 +291,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setBack(toolbar: Toolbar?, titleText: String?){
-        if(toolbar != null) {
+    private fun setBack(toolbar: Toolbar?, titleText: String?) {
+        if (toolbar != null) {
             resetToolbar(toolbar)
             toolbar.title = titleText
             supportActionBar?.setDisplayShowTitleEnabled(true)
@@ -281,16 +306,16 @@ class MainActivity : AppCompatActivity() {
             tempBottomBarId = temp
         }
 
-    }   
+    }
 
-    private fun setBackAccount(toolbar: Toolbar?, titleText: String?){
-        if(toolbar!=null){
+    private fun setBackAccount(toolbar: Toolbar?, titleText: String?) {
+        if (toolbar != null) {
             setBack(toolbar, titleText)
         }
     }
 
     private fun resetToolbar(toolbar: Toolbar?) {
-        if(toolbar != null){
+        if (toolbar != null) {
             toolbar.title = ""
             toolbar.subtitle = ""
 
@@ -318,7 +343,6 @@ class MainActivity : AppCompatActivity() {
         if (hadContentDescription) toolbar.setLogoDescription(null)
         return logoIcon
     }
-
 
 
 }

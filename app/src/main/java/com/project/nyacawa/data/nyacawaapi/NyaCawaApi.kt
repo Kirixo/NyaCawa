@@ -22,12 +22,16 @@ class NyaCawaApi {
     }
 
     fun fetchUserInfo(userId: Int, callback: (String?) -> Unit) {
-        val url = "$baseUrl/user/$userId"
+        val url = "$baseUrl/api/profileinfo?id=$userId"
         makeRequest(url, null, callback)
     }
 
     fun fetchAnimeInfo(animeId: String, callback: (String?) -> Unit) {
         val url = "$baseUrl/anime/$animeId"
+        makeRequest(url, null, callback)
+    }
+    fun fetchRegistrationInfo(userData: User, callback: (String?) -> Unit) {
+        val url = "$baseUrl/anime/"
         makeRequest(url, null, callback)
     }
 

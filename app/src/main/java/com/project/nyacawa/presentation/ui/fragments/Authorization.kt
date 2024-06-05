@@ -1,11 +1,13 @@
 package com.project.nyacawa.presentation.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -21,7 +23,7 @@ import java.security.MessageDigest
 class Authorization : Fragment() {
 
     private lateinit var binding: FragmentAuthorizationBinding
-    private val userViewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,27 +38,16 @@ class Authorization : Fragment() {
         }
 
         binding.authButton.setOnClickListener{
-            userViewModel.validData(md5(binding.password.getText()), binding.loginInput.getText())
-            userViewModel.user.removeObserver{
-                val userCache: UserCache = UserCache(it.id, -1)
+            userViewModel.validData(binding.password.getText(), binding.loginInput.getText())
+
+            userViewModel.user.observe(requireActivity()){
+                val userCache = UserCache(it.id, -1)
+                Log.d("[AUTH]", "User id auth: ${it.id}")
                 cache.saveUserCache(userCache)
+                findNavController().navigate(R.id.goToMainMenu)
             }
         }
 
-
         return binding.root
     }
-
-    fun md5(input: String): String {
-        val md = MessageDigest.getInstance("MD5")
-        val messageDigest = md.digest(input.toByteArray())
-        val no = BigInteger(1, messageDigest)
-        var hashText = no.toString(16)
-        while (hashText.length < 32) {
-            hashText = "0$hashText"
-        }
-        return hashText
-    }
-
-
 }

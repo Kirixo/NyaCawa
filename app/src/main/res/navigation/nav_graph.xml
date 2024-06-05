@@ -39,6 +39,8 @@
             app:popUpToInclusive="true"
             app:destination="@id/authorization" />
 
+
+
     </fragment>
 
 
@@ -74,13 +76,23 @@
             >
         </action>
 
+        <action
+            android:id="@id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            app:popUpTo="@id/authorization"
+            app:popUpToInclusive="true"
+            >
+        </action>
+
     </fragment>
 
     <fragment
         android:id="@+id/profile"
         android:name="com.project.nyacawa.presentation.ui.fragments.Profile"
         android:label="@string/more"
-        tools:layout="@layout/fragment_profile">
+        tools:layout="@layout/fragment_profile"
+        app:argType="com.project.nyacawa.data.User"
+        >
 
         <action
             android:id="@+id/goToProfile"
@@ -97,8 +109,9 @@
         <action
             android:id="@+id/profile_goToAuthorization"
             app:destination="@id/authorization"
-            >
-        </action>
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="true"
+            />
 
         <action
             android:id="@+id/profile_goToRegistration"

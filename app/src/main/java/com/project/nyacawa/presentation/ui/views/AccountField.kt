@@ -69,6 +69,16 @@ class AccountField(
         }
     }
 
+    fun setUser(user: User){
+        this.user = UserComment(null, user.status, user.name)
+        setState(ProfileButtonStates.EXIT)
+        binding.userName.text = user.name
+        binding.userStatus.text = user.status
+        if(this.user.icon != null){
+            binding.userPhoto.setImageBitmap(this.user.icon)
+        }
+    }
+
     fun setState(state: ProfileButtonStates){
         this.state = state
         when (state){
