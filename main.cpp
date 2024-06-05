@@ -435,11 +435,77 @@ int main(int argc, char *argv[])
         return QHttpServerResponse(QJsonDocument(response).toJson());
     });
 
+    server.route("/api/todayanimelist", [] (const QHttpServerRequest &request) {
+        Q_UNUSED(request);
+        QJsonArray rows;
+        QString queryString = "SELECT *, UNIX_TIMESTAMP(aired_start), UNIX_TIMESTAMP(aired_end) "
+                              "FROM titles "
+                              "ORDER BY aired_start DESC "
+                              "LIMIT 5";
+        QSqlQuery query;
+        query.prepare(queryString);
+        if(query.exec()){
+            for (; query.next();) {
+                QJsonObject row;
+                row["id"] = query.value(0).toInt();
+                row["name"] = query.value(1).toString();
+                row["description"] = query.value(2).toString();
+                row["image"] = query.value(3).toString();
+                row["aired_start"] = query.value(8).toInt();
+                row["aired_end"] = query.value(9).toInt();
+                row["general_score"] = query.value(6).toDouble();
+                row["total_episodes"] = query.value(7).toInt();
+                rows.append(row);
+            }
+        } else {
+            qDebug() << "Error executing query:" << query.lastError().text();
+        }
+        QJsonObject response;
+        response["listOfAnime"] = rows;
+        return QHttpServerResponse(QJsonDocument(response).toJson());
+    });
 
 
+    server.route("/api/seasonanimelist", [] (const QHttpServerRequest &request) {
+        Q_UNUSED(request);
+        QJsonArray rows;
+        QDate currentDate = QDate::currentDate();
+        int seasonMonthStart = (int((currentDate.month()/3.0) - 0.0005) * 3) + 1;
+        int seasonMonthEnd = (seasonMonthStart + 3)  % 12;
+        int endYear = currentDate.year();
+        if(seasonMonthEnd < seasonMonthStart) {
+            ++endYear;
+        }
+        QString queryString = QString("SELECT *, UNIX_TIMESTAMP(aired_start), UNIX_TIMESTAMP(aired_end) "
+                                      "FROM titles "
+                                      "WHERE aired_start >= '%1' AND aired_start < '%2' "
+                                      "ORDER BY aired_start DESC")
+                                  .arg(QDate(currentDate.year(), seasonMonthStart, 1).toString("yyyy-MM-dd"))
+                                  .arg(QDate(endYear, seasonMonthEnd, 1).toString("yyyy-MM-dd"));
+        QSqlQuery query;
+        query.prepare(queryString);
+        if(query.exec()){
+            for (; query.next();) {
+                QJsonObject row;
+                row["id"] = query.value(0).toInt();
+                row["name"] = query.value(1).toString();
+                row["description"] = query.value(2).toString();
+                row["image"] = query.value(3).toString();
+                row["aired_start"] = query.value(8).toInt();
+                row["aired_end"] = query.value(9).toInt();
+                row["general_score"] = query.value(6).toDouble();
+                row["total_episodes"] = query.value(7).toInt();
+                rows.append(row);
+            }
+            qDebug() << "Executing query:" << query.executedQuery();
+        } else {
+            qDebug() << "Error executing query:" << query.lastError().text();
+        }
 
-
-
+        QJsonObject response;
+        response["listOfAnime"] = rows;
+        return QHttpServerResponse(QJsonDocument(response).toJson());
+    });
 
 
 
