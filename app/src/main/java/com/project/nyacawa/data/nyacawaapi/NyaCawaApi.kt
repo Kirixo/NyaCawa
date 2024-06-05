@@ -30,9 +30,11 @@ class NyaCawaApi {
         val url = "$baseUrl/anime/$animeId"
         makeRequest(url, null, callback)
     }
-    fun fetchRegistrationInfo(userData: User, callback: (String?) -> Unit) {
-        val url = "$baseUrl/anime/"
-        makeRequest(url, null, callback)
+    fun sendRegisterData(json: String?, callback: (String?) -> Unit) {
+        val url = "$baseUrl/api/reqister"
+        val body = json?.let { RequestBody.create(MediaType.parse("application/json; charset=utf-8"), it) }
+        makeRequest(url, body, callback)
+
     }
 
     fun sendUserData(json: String?, callback: (String?) -> Unit) {

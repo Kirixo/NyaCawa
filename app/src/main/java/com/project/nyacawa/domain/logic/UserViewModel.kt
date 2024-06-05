@@ -1,14 +1,17 @@
 package com.project.nyacawa.domain.logic
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname
+import android.provider.Settings.Global.getString
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.project.nyacawa.data.AnimeData
+import com.project.nyacawa.R
 import com.project.nyacawa.data.User
 import com.project.nyacawa.data.nyacawaapi.NyaCawaApi
+import kotlin.coroutines.coroutineContext
 
 
 data class ResponseData(
@@ -50,10 +53,36 @@ class UserViewModel: ViewModel() {
     }
 
 
-    fun validData(md5Password: String, login: String) {
+    fun registerUser(password: String, login: String, nickname: String){
+        val jsonObject = JsonObject().apply {
+            addProperty("name", nickname)
+            addProperty("email", login)
+            addProperty("password", password)
+        }
+        val gson = Gson()
+        val body = gson.toJson(jsonObject)
+        api.sendRegisterData(body){
+            Log.d("[REGISTER USER DATA]", "REGISTERED: $body")
+            if(it!=null){
+                try {
+                    Log.d("[REGISTER USER DATA]", "Reg received msg: $it")
+                    val data = gson.fromJson(it, JsonObject::class.java)
+                    val msg = data.get("message").asInt
+                    if(msg == 0){
+                        authUserData(password, login)
+                    }
+                } catch (e: Exception) {
+                    Log.e("[VALID USER DATA]", "Error parsing response data", e)
+                }
+            }
+        }
+
+    }
+
+    fun authUserData(password: String, login: String) {
         val jsonObject = JsonObject().apply {
             addProperty("email", login)
-            addProperty("password", md5Password)
+            addProperty("password", password)
         }
         val gson = Gson()
         val body = gson.toJson(jsonObject)

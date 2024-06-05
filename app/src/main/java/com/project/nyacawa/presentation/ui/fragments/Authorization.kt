@@ -5,19 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.project.nyacawa.R
 import com.project.nyacawa.data.UserCache
 import com.project.nyacawa.data.UserDataCache
 import com.project.nyacawa.databinding.FragmentAuthorizationBinding
 import com.project.nyacawa.domain.logic.UserViewModel
-import java.math.BigInteger
-import java.security.MessageDigest
 
 
 class Authorization : Fragment() {
@@ -38,7 +33,7 @@ class Authorization : Fragment() {
         }
 
         binding.authButton.setOnClickListener{
-            userViewModel.validData(binding.password.getText(), binding.loginInput.getText())
+            userViewModel.authUserData(binding.password.getText(), binding.loginInput.getText())
 
             userViewModel.user.observe(requireActivity()){
                 val userCache = UserCache(it.id, -1)

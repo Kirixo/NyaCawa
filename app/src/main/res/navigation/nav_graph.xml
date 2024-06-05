@@ -58,6 +58,12 @@
             app:popUpToInclusive="true"
             >
         </action>
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            app:popUpTo="@id/registration"
+            app:popUpToInclusive="true"
+            />
 
     </fragment>
 

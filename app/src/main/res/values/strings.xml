@@ -50,7 +50,7 @@
     <string name="nickname">Nickname</string>
     <string name="repeat_password">Repeat password</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="login">E-mail</string>
     <string name="already_have_account">Already have account?</string>
     <string name="null_string" />
     <string name="account">Account</string>
@@ -89,4 +89,6 @@
     <string name="comment">Comment</string>
     <string name="deletion_request">Are you sure you want to remove the product?</string>
     <string name="yes">Yes</string>
+    <string name="pasword_not_same">Passwords are not the same.</string>
+    <string name="nickname_or_login_already_exist">Nickname or login already exist</string>
 </resources>
