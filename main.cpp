@@ -7,6 +7,7 @@
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QCryptographicHash>
 #include "types.h"
 #include "utils.h"
 
@@ -142,9 +143,13 @@ int main(int argc, char *argv[])
 
     QSqlDatabase db;
     db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("nyacawa.mysql.database.azure.com");
-    db.setUserName("kirixo");
-    db.setPassword("ClowShenRa3000NyaOniKo");
+    // db.setHostName("nyacawa.mysql.database.azure.com");
+    // db.setUserName("kirixo");
+    // db.setPassword("ClowShenRa3000NyaOniKo");
+    db.setHostName("127.0.0.1");
+    db.setPort(3307);
+    db.setUserName("admin");
+    db.setPassword("1111");
     db.setDatabaseName("nyacawa_db");
     if(db.open()){
         qDebug() << "!!!!NyaCawa bd opened from main.cpp";
@@ -248,11 +253,6 @@ int main(int argc, char *argv[])
     });
 
 
-    auto sessionEntryFactory = std::make_unique<SessionEntryFactory>();
-    auto sessions = tryLoadFromFile<SessionEntry>(*sessionEntryFactory, ":/assets/sessions.json");
-    SessionApi sessionApi(std::move(sessions), std::move(sessionEntryFactory));
-
-
     server.route(
         "/api/login", QHttpServerRequest::Method::Post,
         [](const QHttpServerRequest &request) {
@@ -261,25 +261,30 @@ int main(int argc, char *argv[])
 
             const auto json = byteArrayToJsonObject(request.body());
 
-            if (!json || !json->contains("login") || !json->contains("password"))
+            if (!json || !json->contains("email") || !json->contains("password"))
                 return QHttpServerResponse(QHttpServerResponder::StatusCode::BadRequest);
 
-            QString login = json->value("login").toString();
+            QString email = json->value("email").toString();
             QString password = json->value("password").toString();
 
-            QString queryString = "SELECT id, token FROM users WHERE login = :login AND password = :password";
+            QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Md5);
+
+            QString hashedPasswordHex = QString(hashedPassword.toHex());
+
+            QString queryString = "SELECT user_id, token FROM users WHERE email = :email AND password = :password";
             QSqlQuery query;
             query.prepare(queryString);
 
-            query.bindValue(":login", login);
-            query.bindValue(":password", password);
+            query.bindValue(":email", email);
+            query.bindValue(":password", hashedPasswordHex);
+
 
             QJsonObject response;
             if(query.exec()){
                 for (; query.next();) {
                     QJsonObject row;
                     row["id"] = query.value(0).toInt();
-                    row["token"] = query.value(1).toString();
+                    row["token"] = query.value(6).toString();
                     response["loginData"] = row;
                 }
             } else {
@@ -291,11 +296,60 @@ int main(int argc, char *argv[])
             return QHttpServerResponse(QJsonDocument(response).toJson());
         });
 
-    server.route("/api/register", QHttpServerRequest::Method::Post,
-                     [&sessionApi](const QHttpServerRequest &request) {
-                         qDebug() << "request";
-                         return sessionApi.registerSession(request);
-                     });
+    server.route(
+        "/api/reqister", QHttpServerRequest::Method::Post,
+        [](const QHttpServerRequest &request) {
+
+            qDebug() << "Register request";
+
+            const auto json = byteArrayToJsonObject(request.body());
+
+            if (!json || !json->contains("email") || !json->contains("name") || !json->contains("password"))
+                return QHttpServerResponse(QHttpServerResponder::StatusCode::BadRequest);
+
+            QString email = json->value("email").toString();
+            QString name = json->value("anme").toString();
+            QString password = json->value("password").toString();
+            QUuid token = QUuid::createUuid();
+
+            QByteArray hashedPassword = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Md5);
+
+            // Converting the hashed password to a hexadecimal representation
+            QString hashedPasswordHex = QString(hashedPassword.toHex());
+
+            QJsonObject response;
+
+            QSqlQuery userExists(QString("SELECT user_id FROM users WHERE email = %1 OR name = %2").arg(email).arg(name));
+            //userExists.exec()
+            if(!userExists.next()) {
+                response["message"] = 1; // email or nickname already exists
+                return QHttpServerResponse(response);
+            }
+
+            QString queryString = "ISERT INTO users (user_id, name, email, password, status, token)  VALUES "
+                                  "(NULL, :name, :email, :password, :status, :token)";
+            QSqlQuery query;
+
+            query.prepare(queryString);
+            query.bindValue(":name", name);
+            query.bindValue(":password", hashedPassword);
+            query.bindValue(":email", email);
+            query.bindValue(":status", "Кадет");
+            query.bindValue(":token", token.toString(QUuid::StringFormat::WithoutBraces));
+            query.prepare(queryString);
+
+            if(query.exec()) {
+                if(query.next()) {
+                    response["message"] = 0; // OK
+                }
+            } else {
+                qDebug() << "Error executing query:" << query.lastError().text();
+            }
+
+            qDebug() << query.lastQuery();
+
+            return QHttpServerResponse(QJsonDocument(response).toJson());
+        });
 
     const QHostAddress host = QHostAddress::Any;
     const quint16 port = PORT;
