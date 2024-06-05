@@ -143,13 +143,13 @@ int main(int argc, char *argv[])
 
     QSqlDatabase db;
     db = QSqlDatabase::addDatabase("QMYSQL");
-    // db.setHostName("nyacawa.mysql.database.azure.com");
-    // db.setUserName("kirixo");
-    // db.setPassword("ClowShenRa3000NyaOniKo");
-    db.setHostName("127.0.0.1");
-    db.setPort(3307);
-    db.setUserName("admin");
-    db.setPassword("1111");
+    db.setHostName("nyacawa.mysql.database.azure.com");
+    db.setUserName("kirixo");
+    db.setPassword("ClowShenRa3000NyaOniKo");
+    // db.setHostName("127.0.0.1");
+    // db.setPort(3307);
+    // db.setUserName("admin");
+    // db.setPassword("1111");
     db.setDatabaseName("nyacawa_db");
     if(db.open()){
         qDebug() << "!!!!NyaCawa bd opened from main.cpp";
@@ -404,6 +404,44 @@ int main(int argc, char *argv[])
         qDebug() << rows.count() << " favorite goods have been returned.";
         return QHttpServerResponse(QJsonDocument(response).toJson());
     });
+
+    server.route("/api/topanimelist", [] (const QHttpServerRequest &request) {
+        Q_UNUSED(request);
+        QJsonArray rows;
+        QString queryString = "SELECT *, UNIX_TIMESTAMP(aired_start), UNIX_TIMESTAMP(aired_end) "
+                              "FROM titles "
+                              "ORDER BY general_score DESC "
+                              "LIMIT 5";
+        QSqlQuery query;
+        query.prepare(queryString);
+        if(query.exec()){
+            for (; query.next();) {
+                QJsonObject row;
+                row["id"] = query.value(0).toInt();
+                row["name"] = query.value(1).toString();
+                row["description"] = query.value(2).toString();
+                row["image"] = query.value(3).toString();
+                row["aired_start"] = query.value(8).toInt();
+                row["aired_end"] = query.value(9).toInt();
+                row["general_score"] = query.value(6).toDouble();
+                row["total_episodes"] = query.value(7).toInt();
+                rows.append(row);
+            }
+        } else {
+            qDebug() << "Error executing query:" << query.lastError().text();
+        }
+        QJsonObject response;
+        response["listOfAnime"] = rows;
+        return QHttpServerResponse(QJsonDocument(response).toJson());
+    });
+
+
+
+
+
+
+
+
 
 
     const QHostAddress host = QHostAddress::Any;
