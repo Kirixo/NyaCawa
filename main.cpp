@@ -185,35 +185,8 @@ int main(int argc, char *argv[])
         return QHttpServerResponse(QJsonDocument(response).toJson());
     });
 
-    server.route("/api/animelist", [] (const QHttpServerRequest &request) {
-        Q_UNUSED(request);
-        QJsonArray rows;
-        QString queryString = "SELECT *, UNIX_TIMESTAMP(aired_start), UNIX_TIMESTAMP(aired_end) FROM titles";
-        QSqlQuery query;
-        query.prepare(queryString);
-        if(query.exec()){
-            for (; query.next();) {
-                QJsonObject row;
-                row["id"] = query.value(0).toInt();
-                row["name"] = query.value(1).toString();
-                row["description"] = query.value(2).toString();
-                row["image"] = query.value(3).toString();
-                row["aired_start"] = query.value(8).toInt();
-                row["aired_end"] = query.value(9).toInt();
-                row["general_score"] = query.value(6).toDouble();
-                row["total_episodes"] = query.value(7).toInt();
-                rows.append(row);
-            }
-        } else {
-            qDebug() << "Error executing query:" << query.lastError().text();
-        }
-        QJsonObject response;
-        response["listOfAnime"] = rows;
-        return QHttpServerResponse(QJsonDocument(response).toJson());
-    });
 
-
-// TODO: needs for for fixes
+// TODO: something was fixed, but header still needs for for fixes
     server.route("/api/animeinfo", [] (const QHttpServerRequest &request) {
         QJsonObject response;
 
@@ -249,12 +222,12 @@ int main(int argc, char *argv[])
         } else {
             qDebug() << "Missing 'id' parameter in request";
         }
-        return QHttpServerResponse(QJsonDocument(response).toJson(), "application/json");
+        return QHttpServerResponse(QJsonDocument(response).toJson());
     });
 
 
     server.route(
-        "/api/login", QHttpServerRequest::Method::Post,
+        "/api/login",
         [](const QHttpServerRequest &request) {
 
             qDebug() << "Login request";
@@ -284,8 +257,9 @@ int main(int argc, char *argv[])
                 for (; query.next();) {
                     QJsonObject row;
                     row["id"] = query.value(0).toInt();
-                    row["token"] = query.value(6).toString();
+                    row["token"] = query.value(1).toString();
                     response["loginData"] = row;
+
                 }
             } else {
                 qDebug() << "Error executing query:" << query.lastError().text();
@@ -297,7 +271,7 @@ int main(int argc, char *argv[])
         });
 
     server.route(
-        "/api/reqister", QHttpServerRequest::Method::Post,
+        "/api/reqister",
         [](const QHttpServerRequest &request) {
 
             qDebug() << "Register request";
@@ -354,6 +328,43 @@ int main(int argc, char *argv[])
 
             return QHttpServerResponse(QJsonDocument(response).toJson());
         });
+
+
+    server.route("/api/profileinfo", [] (const QHttpServerRequest &request) {
+        QJsonObject response;
+
+        // Parse the query parameters
+        QUrlQuery queryParams(request.url().query());
+
+        // Check if 'id' parameter is present
+        if (queryParams.hasQueryItem("id")) {
+            QString id = queryParams.queryItemValue("id");
+            QString queryString = "SELECT name, status, bonus_points FROM users WHERE user_id = :id";
+            QSqlQuery query;
+            query.prepare(queryString);
+            query.bindValue(":id", id);
+
+            if (query.exec()) {
+                if (query.next()) {
+                    QJsonObject row;
+                    row["name"] = query.value(0).toString();
+                    row["status"] = query.value(1).toString();
+                    row["bonus_points"] = query.value(2).toString();
+                    response["info"] = row;
+                } else {
+                    qDebug() << "No record found with id:" << id;
+                }
+            } else {
+                qDebug() << "Error executing query:" << query.lastError().text();
+            }
+        } else {
+            qDebug() << "Missing 'id' parameter in request";
+        }
+        return QHttpServerResponse(QJsonDocument(response).toJson());
+    });
+
+
+
 
     const QHostAddress host = QHostAddress::Any;
     const quint16 port = PORT;
