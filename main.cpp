@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     QHttpServer server;
 
     server.route("/api/animelist", [] (const QHttpServerRequest &request) {
+        qDebug() << "Request have been got";
         QJsonArray rows;
         QString queryString = "SELECT *, UNIX_TIMESTAMP(aired_start), UNIX_TIMESTAMP(aired_end) FROM titles";
         QSqlQuery query;
