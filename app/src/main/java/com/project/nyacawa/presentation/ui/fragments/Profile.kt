@@ -28,8 +28,6 @@ class Profile : Fragment(){
     private lateinit var userCash: UserDataCache
     private val userViewModel: UserViewModel by activityViewModels()
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

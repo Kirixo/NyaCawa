@@ -10,7 +10,7 @@ import com.project.nyacawa.databinding.AnimeBlankSmallBinding
 import com.squareup.picasso.Picasso
 
 class AnimeScrollBarAdapter (
-    val list: MutableList<AnimeData>,
+    val list: List<AnimeData>,
     val animeClick: onAnimeClick
 ): RecyclerView.Adapter<AnimeScrollBarAdapter.AnimeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {

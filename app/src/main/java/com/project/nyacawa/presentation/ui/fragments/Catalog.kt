@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
-import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.FragmentCatalogBinding
 import com.project.nyacawa.domain.adapters.catalog.CatalogAdapter
 import com.project.nyacawa.domain.adapters.catalog.onAnimeClick
@@ -28,8 +27,10 @@ class Catalog : Fragment() {
     private val yearIndex = -1
     private val seasonIndex = -1
 
-    private val catalogList: CatalogAnimeListViewModel by viewModels()
     private lateinit var adapter_: CatalogAdapter
+    private val catalogList: CatalogAnimeListViewModel by viewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,7 @@ class Catalog : Fragment() {
             adapter_ = CatalogAdapter(emptyList(), click)
             adapter = adapter_
 
-            catalogList.animeList.observe(viewLifecycleOwner, Observer { animeList ->
+            catalogList.catalogAnimeList.observe(viewLifecycleOwner, Observer { animeList ->
                 if (animeList != null) {
                     adapter_.updateItems(animeList)
                 }
@@ -73,6 +74,7 @@ class Catalog : Fragment() {
             val dialog = FilterDialog()
             dialog.show(parentFragmentManager, "catalog filter")
         }
+
 
         return binding.root
     }

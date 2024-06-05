@@ -58,17 +58,16 @@
             <TextView
                 android:id="@+id/anime_name"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                style="@style/Text.T2"
+                android:layout_height="wrap_content"
+                style="@style/Text.T3"
                 app:layout_constraintStart_toEndOf="@id/_anime_poster"
                 app:layout_constraintTop_toTopOf="@id/_anime_poster"
-                app:layout_constraintBottom_toTopOf="@id/_rating_image"
-
+                android:maxLines="4"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="4dp"
 
                 android:layout_marginStart="18dp"
-                android:ellipsize="marquee"
+                android:ellipsize="end"
 
                 android:text="@string/none"
                 >
@@ -78,12 +77,13 @@
                 android:id="@+id/_rating_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/anime_name"
-                app:layout_constraintTop_toBottomOf="@id/anime_name"
                 android:src="@drawable/star_ico"
+                app:layout_constraintBottom_toTopOf="@+id/_anime_type_image"
 
-                android:layout_marginTop="14dp"
+                app:layout_constraintStart_toStartOf="@id/anime_name"
+                android:layout_marginBottom="4dp"
                 >
+
             </ImageView>
 
             <TextView
@@ -96,7 +96,7 @@
 
                 android:layout_marginStart="8dp"
 
-                style="@style/Text.T2"
+                style="@style/Text.T3"
                 android:text="@string/none"
 
                 >
@@ -107,8 +107,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/_rating_image"
-                app:layout_constraintTop_toBottomOf="@id/_rating_image"
-
+                app:layout_constraintBottom_toTopOf="@id/_number_episodes_image"
+                android:layout_marginBottom="4dp"
                 android:layout_marginTop="14dp"
                 android:src="@drawable/tv_ico"
                 >
@@ -123,7 +123,34 @@
                 app:layout_constraintBottom_toBottomOf="@id/_anime_type_image"
 
 
-                style="@style/Text.T2"
+                style="@style/Text.T3"
+                android:text="@string/none"
+
+                >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/_anime_season"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/_rating_image"
+                app:layout_constraintBottom_toBottomOf="@id/_anime_poster"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/tv_ico"
+                >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/anime_season"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/rating"
+                app:layout_constraintTop_toTopOf="@id/_anime_season"
+                app:layout_constraintBottom_toBottomOf="@id/_anime_season"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:maxLines="2"
+                style="@style/Text.T3"
                 android:text="@string/none"
 
                 >
@@ -135,10 +162,11 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 app:layout_constraintStart_toStartOf="@id/_rating_image"
-                app:layout_constraintTop_toBottomOf="@id/_anime_type_image"
-                app:layout_constraintBottom_toBottomOf="@id/_anime_poster"
+                app:layout_constraintBottom_toTopOf="@id/anime_season"
                 android:layout_marginTop="14dp"
                 android:src="@drawable/timer_ico"
+
+                android:layout_marginBottom="4dp"
                 >
             </ImageView>
 
@@ -150,20 +178,18 @@
                 app:layout_constraintTop_toTopOf="@id/_number_episodes_image"
                 app:layout_constraintBottom_toBottomOf="@id/_number_episodes_image"
 
-
-                style="@style/Text.T2"
+                style="@style/Text.T3"
                 android:text="@string/none"
 
                 >
             </TextView>
-
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/_anime_poster"
-                style="@style/Text.T2"
+                style="@style/Text.T3"
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginStart="4dp"

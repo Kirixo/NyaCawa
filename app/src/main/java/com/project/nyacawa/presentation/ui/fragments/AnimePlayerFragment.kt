@@ -28,6 +28,10 @@ import com.project.nyacawa.domain.adapters.comment.onLikeCommentClick
 import com.project.nyacawa.domain.adapters.comment.onShareCommentClick
 import com.project.nyacawa.domain.placeholder.CommentsDataPlaceholder
 import com.squareup.picasso.Picasso
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class AnimePlayerFragment : Fragment() {
@@ -57,6 +61,8 @@ class AnimePlayerFragment : Fragment() {
         binding.episodeNumber.text = param1?.total_episodes.toString()
         binding.description.text = param1?.description
         binding.rating.text = param1?.general_score.toString()
+
+        binding.animeSeason.text = "Start of ${convertUnixToDateString(param1?.aired_start)}, end of ${convertUnixToDateString(param1?.aired_end)}"
 
         val onShareClick: onShareCommentClick = {onShareClick(it)}
         val onDislikeClick: onDislikeCommentClick = {onDislikeClick(it)}
@@ -120,6 +126,16 @@ class AnimePlayerFragment : Fragment() {
 
         player.setMediaItem(mediaItem)
         return binding.root
+    }
+
+    private fun convertUnixToDateString(unixTime: Int?): String {
+        return if (unixTime != null) {
+            val date = Date(unixTime.toLong() * 1000)
+            val sdf = SimpleDateFormat("d.M.y", Locale.getDefault())
+            sdf.format(date)
+        } else {
+            "N/A"
+        }
     }
 
     override fun onStop() {

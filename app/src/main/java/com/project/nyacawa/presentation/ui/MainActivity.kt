@@ -33,6 +33,7 @@ import com.project.nyacawa.domain.logic.UserViewModel
 import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
 import androidx.fragment.app.activityViewModels
 import com.project.nyacawa.data.UserCache
+import com.project.nyacawa.domain.logic.CatalogAnimeListViewModel
 import com.project.nyacawa.domain.logic.Errors
 
 fun AppCompatActivity.hideKeyboard() {
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
+    private val catalogList: CatalogAnimeListViewModel by viewModels()
 
     companion object {
         val USER_DATA: String = "USER_DATA"
@@ -151,6 +153,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("[AUTH]", "User id auth: ${user.id}")
             cache.saveUserCache(userCache)
             navController.navigate(R.id.goToMainMenu)
+            binding.includedLayout.bottomBar.selectedItemId = R.id.home_button
         }
 
         userViewModel.error.observe(this){
@@ -160,7 +163,10 @@ class MainActivity : AppCompatActivity() {
                 else -> Unit
             }
         }
-
+        catalogList.getTopList()
+        catalogList.getTodayList()
+        catalogList.getSeasonList()
+        catalogList.getCatalogAnimeList()
     }
 
     private fun updateToolBar(toolbar: Toolbar?, name: String) {
