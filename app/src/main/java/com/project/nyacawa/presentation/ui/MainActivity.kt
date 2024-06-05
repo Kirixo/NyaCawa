@@ -32,6 +32,8 @@ import com.project.nyacawa.domain.logic.ToolBarTypes
 import com.project.nyacawa.domain.logic.UserViewModel
 import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
 import androidx.fragment.app.activityViewModels
+import com.project.nyacawa.data.UserCache
+import com.project.nyacawa.domain.logic.Errors
 
 fun AppCompatActivity.hideKeyboard() {
     val view: View? = this.currentFocus
@@ -141,20 +143,24 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        //
-
-        // Tool bar account button realisation
-//        binding.includedLayout.toolBar.setOnMenuItemClickListener { menuItem ->
-//            when (menuItem.itemId){
-//                R.id.account_button -> {
-//                    navController.navigate(R.id.goToProfile)
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
 
         setUserData()
+        val cache = UserDataCache(this)
+        userViewModel.user.observe(this) { user ->
+            val userCache = UserCache(user.id, -1)
+            Log.d("[AUTH]", "User id auth: ${user.id}")
+            cache.saveUserCache(userCache)
+            navController.navigate(R.id.goToMainMenu)
+        }
+
+        userViewModel.error.observe(this){
+            when(it) {
+                Errors.LOGIN_EXIST -> Toast.makeText(this, getText(R.string.nickname_or_login_already_exist), Toast.LENGTH_SHORT).show()
+                Errors.PARSING_DATA -> Toast.makeText(this, getText(R.string.nickname_or_login_already_exist), Toast.LENGTH_SHORT).show()
+                else -> Unit
+            }
+        }
+
     }
 
     private fun updateToolBar(toolbar: Toolbar?, name: String) {
@@ -263,6 +269,9 @@ class MainActivity : AppCompatActivity() {
             container.addView(myView)
             toolbar.addView(container)
         }
+
+
+
     }
 
     override fun navigateUpTo(upIntent: Intent?): Boolean {

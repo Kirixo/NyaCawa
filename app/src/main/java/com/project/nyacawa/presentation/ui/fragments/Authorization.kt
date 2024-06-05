@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -25,24 +26,21 @@ class Authorization : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAuthorizationBinding.inflate(inflater, container, false)
-        val navController = findNavController()
-        val cache: UserDataCache = UserDataCache(requireContext())
+        return binding.root
+    }
 
-        binding.dontHaveAccount.setOnClickListener{
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val navController = findNavController()
+
+        binding.dontHaveAccount.setOnClickListener {
             navController.navigate(R.id.authorization_goToRegistration)
         }
 
-        binding.authButton.setOnClickListener{
+        binding.authButton.setOnClickListener {
             userViewModel.authUserData(binding.password.getText(), binding.loginInput.getText())
-
-            userViewModel.user.observe(requireActivity()){
-                val userCache = UserCache(it.id, -1)
-                Log.d("[AUTH]", "User id auth: ${it.id}")
-                cache.saveUserCache(userCache)
-                findNavController().navigate(R.id.goToMainMenu)
-            }
         }
 
-        return binding.root
     }
 }

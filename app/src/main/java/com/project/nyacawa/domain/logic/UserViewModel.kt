@@ -13,6 +13,13 @@ import com.project.nyacawa.data.User
 import com.project.nyacawa.data.nyacawaapi.NyaCawaApi
 import kotlin.coroutines.coroutineContext
 
+typealias onError = (Errors) -> Unit
+
+enum class Errors{
+    LOGIN_EXIST,
+    NONE,
+    PARSING_DATA
+}
 
 data class ResponseData(
     val id: Int,
@@ -28,6 +35,10 @@ class UserViewModel: ViewModel() {
     private val api: NyaCawaApi = NyaCawaApi()
     private val _user: MutableLiveData<User> = MutableLiveData<User>()
     val user: MutableLiveData<User> get() = _user
+
+    private val _error: MutableLiveData<Errors> = MutableLiveData<Errors>()
+    val error: MutableLiveData<Errors> get() = _error
+
 
     fun setUser(user: User){
         Log.d("[USER DATA]", "setUser: with name ${user.name}")
@@ -70,10 +81,15 @@ class UserViewModel: ViewModel() {
                     val msg = data.get("message").asInt
                     if(msg == 0){
                         authUserData(password, login)
+                    }else{
+                        _error.postValue(Errors.LOGIN_EXIST)
                     }
                 } catch (e: Exception) {
                     Log.e("[VALID USER DATA]", "Error parsing response data", e)
+                    _error.postValue(Errors.PARSING_DATA)
                 }
+            }else{
+                _error.postValue(Errors.PARSING_DATA)
             }
         }
 

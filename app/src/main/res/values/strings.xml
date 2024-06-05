@@ -91,4 +91,5 @@
     <string name="yes">Yes</string>
     <string name="pasword_not_same">Passwords are not the same.</string>
     <string name="nickname_or_login_already_exist">Nickname or login already exist</string>
+    <string name="parser_error">Internal error</string>
 </resources>

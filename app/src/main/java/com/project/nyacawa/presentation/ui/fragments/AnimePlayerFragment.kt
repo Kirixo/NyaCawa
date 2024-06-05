@@ -95,7 +95,8 @@ class AnimePlayerFragment : Fragment() {
         player = ExoPlayer.Builder(this.requireContext()).build()
         binding.player.player = player
 
-        val uri: Uri = Uri.parse("https://www.secvideo1.online/get_file/10/6507e18d290f71f1ee72b5c63d73490f8b45a5bcd5/783000/783677/783677.mp4")
+//        val uri: Uri = Uri.parse("https://www.secvideo1.online/get_file/10/6507e18d290f71f1ee72b5c63d73490f8b45a5bcd5/783000/783677/783677.mp4")
+        val uri: Uri = Uri.parse("")
 
         val mediaItem = MediaItem.fromUri(uri)
 
@@ -119,6 +120,11 @@ class AnimePlayerFragment : Fragment() {
 
         player.setMediaItem(mediaItem)
         return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        player.release()
     }
 
     override fun onDestroy() {
