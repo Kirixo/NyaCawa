@@ -349,7 +349,7 @@ int main(int argc, char *argv[])
                     QJsonObject row;
                     row["name"] = query.value(0).toString();
                     row["status"] = query.value(1).toString();
-                    row["bonus_points"] = query.value(2).toString();
+                    row["bonus_points"] = query.value(2).toInt();
                     response["info"] = row;
                 } else {
                     qDebug() << "No record found with id:" << id;
@@ -363,7 +363,47 @@ int main(int argc, char *argv[])
         return QHttpServerResponse(QJsonDocument(response).toJson());
     });
 
+    server.route("/api/favorites", [] (const QHttpServerRequest &request) {
+        QJsonObject response;
 
+        QUrlQuery queryParams(request.url().query());
+
+        if (!queryParams.hasQueryItem("id")) {
+            qDebug() << "Missing 'id' parameter in request";
+            return QHttpServerResponse(QHttpServerResponder::StatusCode::BadRequest);
+        }
+
+        QString id = queryParams.queryItemValue("id");
+
+        QString queryString = "SELECT products.product_id, products.name, products.description, products.price, products.image "
+                              "FROM products "
+                              "JOIN wishlist ON products.product_id = wishlist.product_id "
+                              "WHERE wishlist.user_id = :id";
+        QSqlQuery query;
+        query.prepare(queryString);
+        query.bindValue(":id", id);
+
+        if(!query.exec()) {
+            qDebug() << "Error executing query:" << query.lastError().text();
+            return QHttpServerResponse(QHttpServerResponder::StatusCode::InternalServerError);
+        }
+
+        QJsonArray rows;
+        for (; query.next();) {
+            QJsonObject row;
+            row["id"] = query.value(0).toInt();
+            row["name"] = query.value(1).toString();
+            row["description"] = query.value(2).toString();
+            row["price"] = query.value(3).toDouble();
+            row["image"] = query.value(4).toString();
+            //row["category_id"] = query.value(5).toInt();
+            rows.append(row);
+        }
+        response["listOfFavorites"] = rows;
+
+        qDebug() << rows.count() << " favorite goods have been returned.";
+        return QHttpServerResponse(QJsonDocument(response).toJson());
+    });
 
 
     const QHostAddress host = QHostAddress::Any;
