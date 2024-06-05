@@ -41,8 +41,6 @@ switch ($action) {
         }
         break;
 
-    // Інші операції...
-
     default:
         echo json_encode(['success' => false, 'message' => 'Невідома операція.']);
 }

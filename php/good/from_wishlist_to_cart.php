@@ -1,9 +1,13 @@
 <?php
+session_start();
+include('../db.php');
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'add_all') {
     $user_id = $_SESSION['user_id'];
 
     if (!empty($_SESSION['wishlist'])) {
         foreach ($_SESSION['wishlist'] as $item_id => $item) {
+            $item_id = intval($item_id);
             $sql = "SELECT * FROM cart WHERE user_id = $user_id AND product_id = $item_id";
             $result = $conn->query($sql);
 

@@ -1,12 +1,15 @@
 <?php
 session_start();
 
+include 'db.php';
+
 // Ensure the user is authenticated
 if (!isset($_SESSION['user_id'])) {
     die("Користувач не автентифікований. Будь ласка, увійдіть.");
 }
-// Оновлення кошика перед відображенням
-include('good/update_cart.php');
+
+// Update wishlist before displaying
+include('good/update_wishlist.php');
 $user_id = $_SESSION['user_id'];
 
 // Handle actions from the wishlist
@@ -25,9 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
-
 include 'header.php';
-include 'db.php';
 
 // Fetch wishlist items from the database
 $sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image,
@@ -38,8 +39,7 @@ $sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image,
 $result = $conn->query($sql);
 ?>
 <main class="wish_m">
-<div class="container-fluid">
-
+    <div class="container-fluid">
         <h1 class="wish_h1">Ваше обране</h1>
         <div class="row">
             <div class="col-8">
@@ -57,7 +57,7 @@ $result = $conn->query($sql);
                                         <img class="img_good" src="<?= $row['image'] ?>" alt="" style="width: 100%; height: 100%; object-fit: contain;">
                                     </div>
                                     <p class="figure_name" title="<?= $row['name'] ?>"><?= $row['name'] ?></p>
-                                    <p><?= $row['description'] ?></p>
+                                    <p class="description"><?= $row['description'] ?></p>
                                     <div class="cat_on_storage">
                                         <span>В наявності</span>
                                         <br>
@@ -69,7 +69,6 @@ $result = $conn->query($sql);
                                             <form method="post" action="wishlist.php" style="display: inline;">
                                                 <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
                                                 <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
-                                                <input type="hidden" name="prise" value="<?= $row['prise'] ?>"> <!-- Ціна товару -->
                                                 <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
                                                     <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
                                                 </button>
@@ -86,7 +85,6 @@ $result = $conn->query($sql);
                                     </div>
                                 </a>
                             </div>
-
                             <?php
                         }
                     } else {
@@ -109,16 +107,16 @@ $result = $conn->query($sql);
                     <div class="cash_style">
                         Загальна
                         <span id="cash">
-                            <?php
-                            $total = 0;
-                            if (!empty($_SESSION['wishlist'])) {
-                                foreach ($_SESSION['wishlist'] as $item_id => $item) {
-                                    $total += $item['prise'];
-                                }
+                        <?php
+                        $total = 0;
+                        if (!empty($_SESSION['wishlist'])) {
+                            foreach ($_SESSION['wishlist'] as $item_id => $item) {
+                                $total += $item['prise'];
                             }
-                            echo $total;
-                            ?>
-                        </span>
+                        }
+                        echo number_format($total, 2) . "₴";
+                        ?>
+                    </span>
                     </div>
                     <div class="cash_style">
                         <label>Знижка
@@ -127,15 +125,16 @@ $result = $conn->query($sql);
                     </div>
                     <div class="summ">
                         Разом
-                        <span><?php echo $total; ?></span>
+                        <span><?php echo number_format($total, 2) . "₴"; ?></span>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-</div>
+    </div>
+</main>
 
 <?php include 'footer.php'; ?>
+
 <script>
     document.querySelectorAll('.wishlist-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -165,4 +164,3 @@ $result = $conn->query($sql);
         });
     });
 </script>
-

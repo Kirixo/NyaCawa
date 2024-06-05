@@ -3,16 +3,19 @@ include 'header.php'; // Підключення заголовка
 include 'db.php'; // Підключення до бази даних
 
 session_start();
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 // Отримання product_id з URL
 $product_id = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
 
 // Запит до бази даних для отримання інформації про товар
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image,
-        (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist
-        FROM products p
-        WHERE p.product_id = $product_id";
+$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+if ($user_id !== null) {
+    $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
+} else {
+    $sql .= ", 0 AS in_wishlist"; // Встановлюємо 0 для незареєстрованих користувачів
+}
+$sql .= " FROM products p WHERE p.product_id = $product_id";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -71,11 +74,15 @@ if ($result->num_rows > 0) {
             <div class="row" style="margin-right: 0px">
                 <?php
                 // Запит до бази даних для отримання рекомендованих товарів, виключаючи поточний товар
-                $sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image,
-                        (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist
-                        FROM products p
-                        WHERE p.product_id != $product_id";
+                $sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+                if ($user_id !== null) {
+                    $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
+                } else {
+                    $sql .= ", 0 AS in_wishlist"; // Встановлюємо 0 для незареєстрованих користувачів
+                }
+                $sql .= " FROM products p WHERE p.product_id != $product_id";
                 $result = $conn->query($sql);
+
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {

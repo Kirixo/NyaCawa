@@ -113,7 +113,7 @@ include 'db.php'; ?>
 </nav>
 
 <!-- Модальне вікно -->
-<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true" style="z-index: 10000000">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

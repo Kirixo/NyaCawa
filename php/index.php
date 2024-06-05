@@ -3,15 +3,21 @@ include 'header.php';
 include 'db.php'; // Підключення до бази даних
 
 session_start();
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 // Запит до бази даних для отримання товарів
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image,
-        (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist
-        FROM products p";
+$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+if ($user_id !== null) {
+    $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
+} else {
+    $sql .= ", 0 AS in_wishlist"; // Встановлюємо 0 для незареєстрованих користувачів
+}
+$sql .= " FROM products p";
 $result = $conn->query($sql);
 
 ?>
+
+<!-- Решта коду залишається без змін -->
 
 <div class="container-fluid">
     <main>
@@ -32,7 +38,7 @@ $result = $conn->query($sql);
                                 <img class="img_good" src="<?= $row['image'] ?>" alt="">
                             </div>
                             <p class="figure_name" title="<?= $row['name'] ?>"><?= $row['name'] ?></p>
-                            <p><?= $row['description'] ?></p>
+                                <p class="description"><?= $row['description'] ?></p>
                             <div class="in_stock">
                                 <span>В наявності</span>
                                 <br>
@@ -58,6 +64,7 @@ $result = $conn->query($sql);
                             </div>
                         </div>
                     </div>
+
                     <?php
                 }
             } else {

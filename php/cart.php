@@ -5,7 +5,7 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     die("Користувач не автентифікований. Будь ласка, увійдіть.");
 }
-
+include('db.php');
 $user_id = $_SESSION['user_id'];
 
 // Оновлення кошика перед відображенням
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
     exit;
 }
 include('header.php');
-include('db.php');
+
 
 // Clean up session cart if items are removed from the database
 if (!empty($_SESSION['cart'])) {
@@ -62,13 +62,16 @@ if (!empty($_SESSION['cart'])) {
                             $product = $result->fetch_assoc();
                             ?>
                             <div class="good_cart">
-                                <a href="product.php?product_id=<?= $item_id ?>" class="cat_pr">
-                                    <img src="<?= $item['image'] ?>" alt="">
-                                    <div class="info">
-                                        <span class="figure_name"><?= $product['name'] ?></span>
-                                        <span class="price"><?= $product['prise'] ?> ₴</span>
-                                    </div>
-                                </a>
+                                <div class="cat_pr">
+                                    <a href="product.php?product_id=<?= $item_id ?>" class="cat_pr">
+                                        <img src="<?= $item['image'] ?>" alt="">
+                                        <div class="info">
+                                            <span class="figure_name"><?= $product['name'] ?></span>
+                                            <span class="price"><?= $product['prise'] ?> ₴</span>
+                                        </div>
+                                    </a>
+                                </div>
+
                                 <form method="post" action="">
                                     <input type="hidden" name="item_id" value="<?= $item_id ?>">
                                     <div class="amount">
@@ -80,7 +83,7 @@ if (!empty($_SESSION['cart'])) {
                                         </div>
                                         <button type="submit" name="action" value="increase" class="plus"></button>
                                     </div>
-                                    <button type="submit" name="action" value="remove" class="btn_close"></button>
+                                    <button type="submit" name="action" value="remove" class="btn_close"><div class="close"></div></button>
                                 </form>
                             </div>
                             <?php
