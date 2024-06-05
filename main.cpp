@@ -308,7 +308,7 @@ int main(int argc, char *argv[])
                 return QHttpServerResponse(QHttpServerResponder::StatusCode::BadRequest);
 
             QString email = json->value("email").toString();
-            QString name = json->value("anme").toString();
+            QString name = json->value("name").toString();
             QString password = json->value("password").toString();
             QUuid token = QUuid::createUuid();
 
@@ -319,29 +319,33 @@ int main(int argc, char *argv[])
 
             QJsonObject response;
 
-            QSqlQuery userExists(QString("SELECT user_id FROM users WHERE email = %1 OR name = %2").arg(email).arg(name));
-            //userExists.exec()
-            if(!userExists.next()) {
-                response["message"] = 1; // email or nickname already exists
-                return QHttpServerResponse(response);
+            QSqlQuery userExists;
+            userExists.prepare("SELECT user_id FROM users WHERE email = :email OR name = :name");
+            userExists.bindValue(":name", name);
+            userExists.bindValue(":email", email);
+
+            if(userExists.exec()) {
+                if(userExists.next()) {
+                    response["message"] = 1; // email or nickname already exists
+                    return QHttpServerResponse(response);
+                }
+            } else {
+                return QHttpServerResponse(QHttpServerResponder::StatusCode::InternalServerError);
             }
 
-            QString queryString = "ISERT INTO users (user_id, name, email, password, status, token)  VALUES "
+            QString queryString = "INSERT INTO users (user_id, name, email, password, status, token)  VALUES "
                                   "(NULL, :name, :email, :password, :status, :token)";
             QSqlQuery query;
 
             query.prepare(queryString);
             query.bindValue(":name", name);
-            query.bindValue(":password", hashedPassword);
             query.bindValue(":email", email);
+            query.bindValue(":password", hashedPasswordHex);
             query.bindValue(":status", "Кадет");
             query.bindValue(":token", token.toString(QUuid::StringFormat::WithoutBraces));
-            query.prepare(queryString);
 
             if(query.exec()) {
-                if(query.next()) {
-                    response["message"] = 0; // OK
-                }
+                response["message"] = 0; // OK
             } else {
                 qDebug() << "Error executing query:" << query.lastError().text();
             }
