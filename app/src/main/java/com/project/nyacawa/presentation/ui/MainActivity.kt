@@ -20,12 +20,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
+import com.project.nyacawa.data.User
+import com.project.nyacawa.data.UserDataCache
 import com.project.nyacawa.databinding.ActivityMainBinding
 import com.project.nyacawa.domain.logic.SearchViewModel
 import com.project.nyacawa.domain.logic.ToolBarTypes
+import com.project.nyacawa.domain.logic.UserViewModel
 import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
 
 
@@ -48,6 +52,10 @@ class MainActivity : AppCompatActivity() {
     private var lastAnimeView: AnimeData? = null
 
     private val searchViewModel: SearchViewModel by viewModels()
+    private val userViewModel: UserViewModel  by viewModels()
+
+    private var user: User? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,13 +73,15 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
+
+
         navController.addOnDestinationChangedListener{_,destination, args ->
             Log.d("Navigation", "Destination changed: ${destination.label}")
 
             toolBarTemp = toolBarTypes
             toolBarTypes = when(destination.id){
-                R.id.registration  -> ToolBarTypes.BACK
-                R.id.authorization -> ToolBarTypes.BACK
+                R.id.registration  -> ToolBarTypes.NONE
+                R.id.authorization -> ToolBarTypes.NONE
                 R.id.mainMenu -> ToolBarTypes.MAIN_MENU
                 R.id.profile -> ToolBarTypes.BACK
                 R.id.animeSearchList -> ToolBarTypes.SEARCH
@@ -125,22 +135,23 @@ class MainActivity : AppCompatActivity() {
         //
 
         // Tool bar account button realisation
-        binding.includedLayout.toolBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId){
-                R.id.account_button -> {
-                    navController.navigate(R.id.goToProfile)
-                    true
-                }
-                else -> false
-            }
-        }
-        //
+//        binding.includedLayout.toolBar.setOnMenuItemClickListener { menuItem ->
+//            when (menuItem.itemId){
+//                R.id.account_button -> {
+//                    navController.navigate(R.id.goToProfile)
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+
+        setUserData()
     }
 
     private fun updateToolBar(toolbar: Toolbar?, name: String){
         if (toolBarTemp != toolBarTypes){
+            toolBarStateSet(toolBarTypes, toolbar, name)
         }
-        toolBarStateSet(toolBarTypes, toolbar,name)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -150,12 +161,27 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun setUserData(){
+        val userCache = UserDataCache(this)
+        val userData = userCache.getUserCache()
+        if(!userData.isUserCashed()){
+            userViewModel.getUserById(userData.userId){
+                user = it
+            }
+        }else{
+            navController.navigate(R.id.action_mainMenu_to_authorization)
+            toolBarTypes = ToolBarTypes.NONE
+            updateToolBar(binding.includedLayout.toolBar, getString(R.string.authorisation))
+        }
+    }
+
     private fun toolBarStateSet(state: ToolBarTypes, toolbar: Toolbar?, titleText: String?){
         when (state){
             ToolBarTypes.SEARCH -> setSearch(toolbar)
             ToolBarTypes.MAIN_MENU -> setMainMenu(toolbar)
             ToolBarTypes.BACK -> setBack(toolbar, titleText)
             ToolBarTypes.BACK_WITH_ACCOUNT -> setBackAccount(toolbar, titleText)
+            ToolBarTypes.NONE -> resetToolbar(toolbar)
         }
     }
 
@@ -263,12 +289,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetToolbar(toolbar: Toolbar) {
-        toolbar.title = ""
-        toolbar.subtitle = ""
+    private fun resetToolbar(toolbar: Toolbar?) {
+        if(toolbar != null){
+            toolbar.title = ""
+            toolbar.subtitle = ""
 
-        toolbar.navigationIcon = null
-        toolbar.removeAllViews()
+            toolbar.navigationIcon = null
+            toolbar.removeAllViews()
+        }
     }
 
 

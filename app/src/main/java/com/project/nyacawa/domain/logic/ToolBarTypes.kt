@@ -5,5 +5,6 @@ enum class ToolBarTypes {
     SEARCH,
     MAIN_MENU,
     BACK,
-    BACK_WITH_ACCOUNT
+    BACK_WITH_ACCOUNT,
+    NONE
 }

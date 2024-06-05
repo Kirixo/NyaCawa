@@ -15,27 +15,35 @@ class NyaCawaApi {
 
     private val client = OkHttpClient()
     private val baseUrl = "https://nyacawa.yooud.org"
-//    private val baseUrl = "https://172.161.138.138"
 
     fun fetchAnimeList(callback: (String?) -> Unit) {
         val url = "$baseUrl/api/animelist"
-        makeRequest(url, callback)
+        makeRequest(url, null, callback)
     }
 
     fun fetchUserInfo(userId: Int, callback: (String?) -> Unit) {
         val url = "$baseUrl/user/$userId"
-        makeRequest(url, callback)
+        makeRequest(url, null, callback)
     }
 
     fun fetchAnimeInfo(animeId: String, callback: (String?) -> Unit) {
         val url = "$baseUrl/anime/$animeId"
-        makeRequest(url, callback)
+        makeRequest(url, null, callback)
     }
 
-    private fun makeRequest(url: String, callback: (String?) -> Unit) {
-        val request = Request.Builder()
+    fun sendUserData(json: String?, callback: (String?) -> Unit) {
+        val url = "$baseUrl/api/login"
+        val body = json?.let { RequestBody.create(MediaType.parse("application/json; charset=utf-8"), it) }
+        makeRequest(url, body, callback)
+    }
+
+    private fun makeRequest(url: String, body: RequestBody?, callback: (String?) -> Unit) {
+        val requestBuilder = Request.Builder()
             .url(url)
-            .build()
+        if (body != null) {
+            requestBuilder.post(body)
+        }
+        val request = requestBuilder.build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

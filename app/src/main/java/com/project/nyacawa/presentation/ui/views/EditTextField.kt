@@ -48,6 +48,10 @@ class EditTextField(
         typedArray.recycle();
     }
 
+    fun getText(): String{
+        return  binding.inputText.text.toString()
+    }
+
     private fun setLabel(text: CharSequence?) {
         binding.label.text = text
     }

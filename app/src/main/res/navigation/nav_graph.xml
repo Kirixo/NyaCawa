@@ -33,6 +33,12 @@
             android:id="@+id/goToAnimePlayer"
             app:destination="@id/animePlayerFragment" />
 
+        <action
+            android:id="@+id/action_mainMenu_to_authorization"
+            app:popUpTo="@id/mainMenu"
+            app:popUpToInclusive="true"
+            app:destination="@id/authorization" />
+
     </fragment>
 
 
