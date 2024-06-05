@@ -1,4 +1,4 @@
-package com.project.nyacawa.domain.adapters
+package com.project.nyacawa.domain.adapters.filter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

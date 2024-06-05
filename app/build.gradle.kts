@@ -43,7 +43,9 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation("com.google.code.gson:gson:2.7")
+    implementation("com.squareup.okhttp3:okhttp:3.2.0")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
     implementation("androidx.media3:media3-ui:1.3.1")

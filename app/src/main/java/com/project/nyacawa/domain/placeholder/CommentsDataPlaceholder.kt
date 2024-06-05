@@ -1,7 +1,8 @@
 package com.project.nyacawa.domain.placeholder
 
 import com.project.nyacawa.data.Comment
-import com.project.nyacawa.data.Profile
+import com.project.nyacawa.data.User
+import com.project.nyacawa.data.UserComment
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -33,7 +34,7 @@ object CommentsDataPlaceholder {
     private fun createPlaceholderItem(): Comment {
         return Comment(
             id = ITEMS.size,
-            profile = Profile(1),
+            user = UserComment(null, "Aboba",  "aboab"),
             text = "Comment #" + ITEMS.size,
             likes = ITEMS.size,
             dislikes = COUNT/2

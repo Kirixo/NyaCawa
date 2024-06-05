@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.FragmentMainMenuBinding
-import com.project.nyacawa.domain.adapters.AnimeScrollBarAdapter
-import com.project.nyacawa.domain.adapters.onAnimeClick
+import com.project.nyacawa.domain.adapters.catalog.AnimeScrollBarAdapter
+import com.project.nyacawa.domain.adapters.catalog.onAnimeClick
 import com.project.nyacawa.domain.placeholder.AnimeDataPlaceholder
 import androidx.navigation.fragment.findNavController
 

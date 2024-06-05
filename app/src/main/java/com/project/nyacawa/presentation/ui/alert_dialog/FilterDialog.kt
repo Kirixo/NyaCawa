@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.DialogFilterBinding
-import com.project.nyacawa.domain.adapters.YearsScrollAdapter
+import com.project.nyacawa.domain.adapters.filter.YearsScrollAdapter
 
 class FilterDialog(
 ): DialogFragment(

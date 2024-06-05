@@ -33,7 +33,7 @@ object AnimeDataPlaceholder {
     }
 
     private fun createPlaceholderItem(id: Long, name: String, descriptor: String, poster: Drawable? = null, rating: Float, episodeCount: Int ): AnimeData {
-        return AnimeData(id = id, name = name, description = descriptor, poster = poster?.toBitmap(), rating = rating, episodeCount =  episodeCount)
+        return AnimeData(0, 0, descriptor, rating, id, null, name, episodeCount)
     }
 
     private fun makeDetails(position: Int): String {

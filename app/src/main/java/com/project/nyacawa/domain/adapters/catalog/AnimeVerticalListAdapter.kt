@@ -1,15 +1,12 @@
-package com.project.nyacawa.domain.adapters
+package com.project.nyacawa.domain.adapters.catalog
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.databinding.AnimeBlankLongBinding
-import com.project.nyacawa.databinding.FragmentAnimeListBinding
 
 //Data adapter for vertical lists using long anime blank
 class AnimeVerticalListAdapter(

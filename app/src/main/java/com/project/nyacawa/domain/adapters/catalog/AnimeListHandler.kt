@@ -1,4 +1,4 @@
-package com.project.nyacawa.domain.adapters
+package com.project.nyacawa.domain.adapters.catalog
 
 import com.project.nyacawa.data.AnimeData
 

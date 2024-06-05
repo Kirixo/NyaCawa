@@ -1,14 +1,13 @@
-package com.project.nyacawa.domain.adapters
+package com.project.nyacawa.domain.adapters.catalog
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
+import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
-import com.project.nyacawa.databinding.AnimeBlankLongBinding
 import com.project.nyacawa.databinding.AnimeBlankSmallBinding
+import com.squareup.picasso.Picasso
 
 class AnimeScrollBarAdapter (
     val list: MutableList<AnimeData>,
@@ -35,7 +34,11 @@ class AnimeScrollBarAdapter (
 
     class AnimeViewHolder(val binding: AnimeBlankSmallBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(animeData: AnimeData, itemClick: (AnimeData) -> Unit) {
-            binding.animePoster.setImageBitmap(animeData.poster)
+            Picasso.get()
+                .load(animeData.image)
+                .placeholder(R.drawable.example)
+                .into(binding.animePoster)
+
             binding.animeName.text = animeData.name
             binding.root.setOnClickListener {
                 itemClick(animeData)

@@ -3,7 +3,10 @@ package com.project.nyacawa.domain.logic
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import com.project.nyacawa.data.AnimeData
+import com.project.nyacawa.data.nyacawaapi.NyaCawaApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,8 +39,16 @@ class SearchViewModel: ViewModel() {
 
     // Method to get anime data by search
     private fun getSearchedAnimeList() : List<AnimeData> {
-        //TODO: НУЖНО СДЕЛАТЬ КАК АНИМЕ ДОСТАВАТЬ С БД
-        return emptyList()
+
+        val api = NyaCawaApi()
+        var animeList: List<AnimeData> = emptyList()
+        api.fetchAnimeList {
+            val gson = Gson()
+            val typeToken = object : TypeToken<List<AnimeData>>() {}.type
+            animeList = gson.fromJson(it, typeToken)
+        }
+
+        return animeList
     }
 
 }

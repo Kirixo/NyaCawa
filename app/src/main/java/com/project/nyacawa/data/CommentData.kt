@@ -6,14 +6,14 @@ import android.os.Parcelable
 
 data class Comment(
     val id: Int,
-    val profile: Profile?,
+    val user: UserComment?,
     val text: String,
     val likes: Int,
     val dislikes: Int
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readParcelable(Profile::class.java.classLoader),
+        parcel.readParcelable(UserComment::class.java.classLoader),
         parcel.readString().orEmpty(),
         parcel.readInt(),
         parcel.readInt()
@@ -22,7 +22,7 @@ data class Comment(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
-        parcel.writeParcelable(profile?.let { null }, flags)
+        parcel.writeParcelable(user?.let { null }, flags)
         parcel.writeString(text)
         parcel.writeInt(likes)
         parcel.writeInt(dislikes)

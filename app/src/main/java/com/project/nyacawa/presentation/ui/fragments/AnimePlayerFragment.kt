@@ -13,28 +13,21 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.annotation.OptIn
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.common.util.Log
-import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.DefaultDataSource
-import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.MediaSource
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.data.Comment
 import com.project.nyacawa.databinding.FragmentAnimePlayerBinding
-import com.project.nyacawa.domain.adapters.CommentsAdapter
-import com.project.nyacawa.domain.adapters.onDislikeCommentClick
-import com.project.nyacawa.domain.adapters.onLikeCommentClick
-import com.project.nyacawa.domain.adapters.onShareCommentClick
+import com.project.nyacawa.domain.adapters.comment.CommentsAdapter
+import com.project.nyacawa.domain.adapters.comment.onDislikeCommentClick
+import com.project.nyacawa.domain.adapters.comment.onLikeCommentClick
+import com.project.nyacawa.domain.adapters.comment.onShareCommentClick
 import com.project.nyacawa.domain.placeholder.CommentsDataPlaceholder
+import com.squareup.picasso.Picasso
 
 
 class AnimePlayerFragment : Fragment() {
@@ -55,11 +48,15 @@ class AnimePlayerFragment : Fragment() {
     ): View {
         binding = FragmentAnimePlayerBinding.inflate(inflater, container, false)
 
+        Picasso.get()
+            .load(param1?.image)
+            .placeholder(R.drawable.example)
+            .into(binding.animePoster)
+
         binding.animeName.text = param1?.name
-        binding.animePoster.setImageBitmap(param1?.poster)
-        binding.episodeNumber.text = param1?.episodeCount.toString()
+        binding.episodeNumber.text = param1?.total_episodes.toString()
         binding.description.text = param1?.description
-        binding.rating.text = param1?.rating.toString()
+        binding.rating.text = param1?.general_score.toString()
 
         val onShareClick: onShareCommentClick = {onShareClick(it)}
         val onDislikeClick: onDislikeCommentClick = {onDislikeClick(it)}

@@ -1,13 +1,11 @@
-package com.project.nyacawa.domain.adapters
+package com.project.nyacawa.domain.adapters.favorite
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import com.project.nyacawa.data.FavoriteItem
 
-import com.project.nyacawa.domain.placeholder.FavoriteListPlaceholder.PlaceholderItem
 import com.project.nyacawa.databinding.FragmentFavorite2Binding
 
 

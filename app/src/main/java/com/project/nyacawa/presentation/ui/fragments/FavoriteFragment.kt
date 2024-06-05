@@ -10,8 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.project.nyacawa.R
-import com.project.nyacawa.domain.adapters.FavoriteItemAdapter
-import com.project.nyacawa.domain.adapters.onHeartClick
+import com.project.nyacawa.domain.adapters.favorite.FavoriteItemAdapter
+import com.project.nyacawa.domain.adapters.favorite.onHeartClick
 import com.project.nyacawa.domain.placeholder.FavoriteListPlaceholder
 
 /**

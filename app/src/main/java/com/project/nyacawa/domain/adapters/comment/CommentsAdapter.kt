@@ -1,4 +1,4 @@
-package com.project.nyacawa.domain.adapters
+package com.project.nyacawa.domain.adapters.comment
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,8 +32,8 @@ class CommentsAdapter(
     override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
         val item = commentList[position]
         Log.d("[COMMENTS ADAPTER]", "onBindViewHolder: bind")
-        if(item.profile!=null){
-            holder.accountView.setProfile(item.profile, ProfileButtonStates.SHARE)
+        if(item.user!=null){
+            holder.accountView.setProfile(item.user, ProfileButtonStates.SHARE)
             holder.accountView.setShareButton(onShareCommentClick, item)
 
             holder.like.setOnClickListener {

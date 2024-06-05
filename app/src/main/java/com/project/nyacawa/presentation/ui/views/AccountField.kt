@@ -5,13 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import com.project.nyacawa.R
 import com.project.nyacawa.data.Comment
-import com.project.nyacawa.data.Profile
+import com.project.nyacawa.data.User
+import com.project.nyacawa.data.UserComment
 import com.project.nyacawa.databinding.ViewAccountBinding
-import com.project.nyacawa.domain.adapters.onShareCommentClick
+import com.project.nyacawa.domain.adapters.comment.onShareCommentClick
 import com.project.nyacawa.domain.logic.ProfileButtonStates
 
 
@@ -27,7 +26,7 @@ class AccountField(
     private lateinit var accountExit: AccountExit
 
     private var state: ProfileButtonStates = ProfileButtonStates.REGISTER
-    private lateinit var profile: Profile
+    private lateinit var user: UserComment
     private val binding : ViewAccountBinding
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
@@ -93,8 +92,8 @@ class AccountField(
         }
         setState(ProfileButtonStates.SHARE)
     }
-    fun setProfile(profile: Profile, state: ProfileButtonStates){
-        this.profile = profile
+    fun setProfile(user: UserComment, state: ProfileButtonStates){
+        this.user = user
         setState(state)
     }
 }
