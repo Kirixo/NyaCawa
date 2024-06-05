@@ -3,12 +3,12 @@ include 'db.php';
 session_start();
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
-$sort = $_POST['sort'] ?? 'prise_asc';
+$sort = $_POST['sort'] ?? 'price_asc';
 $categories = $_POST['categories'] ?? '';
 $price_min = $_POST['price_min'] ?? 0;
 $price_max = $_POST['price_max'] ?? PHP_INT_MAX;
 
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+$sql = "SELECT p.product_id, p.name, p.description, p.price, p.image";
 if ($user_id !== null) {
     $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
 } else {
@@ -31,7 +31,7 @@ if (!empty($categories)) {
 }
 
 if ($price_min || $price_max != PHP_INT_MAX) {
-    $whereClauses[] = "p.prise BETWEEN ? AND ?";
+    $whereClauses[] = "p.price BETWEEN ? AND ?";
     $bind_params[] = $price_min;
     $bind_params[] = $price_max;
 }
@@ -42,11 +42,11 @@ if (!empty($whereClauses)) {
 
 // Sorting
 switch ($sort) {
-    case 'prise_asc':
-        $sql .= " ORDER BY p.prise ASC";
+    case 'price_asc':
+        $sql .= " ORDER BY p.price ASC";
         break;
-    case 'prise_desc':
-        $sql .= " ORDER BY p.prise DESC";
+    case 'price_desc':
+        $sql .= " ORDER BY p.price DESC";
         break;
     case 'name_asc':
         $sql .= " ORDER BY p.name ASC";
@@ -58,7 +58,7 @@ switch ($sort) {
         $sql .= " ORDER BY p.product_id DESC";
         break;
     default:
-        $sql .= " ORDER BY p.prise ASC";
+        $sql .= " ORDER BY p.price ASC";
 }
 
 $stmt = $conn->prepare($sql);
@@ -76,16 +76,16 @@ $products = [];
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $old_prise = $row['prise'] * 1.25;
+        $old_price = $row['price'] * 1.25;
         $in_wishlist = $row['in_wishlist'] > 0;
 
         $product = [
             'product_id' => $row['product_id'],
             'name' => $row['name'],
             'description' => $row['description'],
-            'prise' => $row['prise'],
+            'price' => $row['price'],
             'image' => $row['image'],
-            'old_prise' => $old_prise,
+            'old_price' => $old_price,
             'in_wishlist' => $in_wishlist
         ];
 
@@ -106,11 +106,11 @@ foreach ($products as $product) {
             <div class="cat_on_storage">
                 <span>В наявності</span>
                 <br>
-                <span class="old_price"><?= number_format($product['old_prise'], 2) ?>₴</span>
+                <span class="old_price"><?= number_format($product['old_price'], 2) ?>₴</span>
             </div>
         </a>
         <div class="price">
-            <p class="price" style="display: inline;"><?= $product['prise'] ?> ₴</p>
+            <p class="price" style="display: inline;"><?= $product['price'] ?> ₴</p>
             <div>
                 <button class="wishlist-btn" data-product-id="<?= $product['product_id'] ?>" style="background: none; border: none; padding: 0;">
                     <img class="love" src="../img/<?= $product['in_wishlist'] ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
@@ -118,7 +118,7 @@ foreach ($products as $product) {
                 <form method="post" action="cart.php" style="display: inline;">
                     <input type="hidden" name="item_id" value="<?= $product['product_id'] ?>">
                     <input type="hidden" name="image" value="<?= $product['image'] ?>">
-                    <input type="hidden" name="prise" value="<?= $product['prise'] ?>">
+                    <input type="hidden" name="price" value="<?= $product['price'] ?>">
                     <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
                         <img class="cart-icon" src="../img/ShoppingCart.svg" alt="Add to cart">
                     </button>

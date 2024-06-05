@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     // Add item to wishlist
     if (!isset($_SESSION['wishlist'][$item_id])) {
         // Get product price from database
-        $sql = "SELECT prise FROM products WHERE product_id = $item_id";
+        $sql = "SELECT price FROM products WHERE product_id = $item_id";
         $result = $conn->query($sql);
         if ($result && $row = $result->fetch_assoc()) {
-            $price = $row['prise'];
+            $price = $row['price'];
             $_SESSION['wishlist'][$item_id] = ['image' => $image, 'price' => $price];
         }
     }
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
 
     if ($conn->query($sql) === TRUE) {
         // Update the wishlist in session
-        $sql = "SELECT wishlist.product_id, products.name, products.prise, products.image 
+        $sql = "SELECT wishlist.product_id, products.name, products.price, products.image 
                 FROM wishlist 
                 JOIN products ON wishlist.product_id = products.product_id 
                 WHERE wishlist.user_id = $user_id";
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
             while ($row = $result->fetch_assoc()) {
                 $_SESSION['wishlist'][$row['product_id']] = [
                     'name' => $row['name'],
-                    'prise' => $row['prise'],
+                    'price' => $row['price'],
                     'image' => $row['image']
                 ];
             }

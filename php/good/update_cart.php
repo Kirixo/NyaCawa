@@ -4,7 +4,7 @@ include('db.php');
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT cart.product_id, cart.quantity, products.name, products.prise, products.image 
+$sql = "SELECT cart.product_id, cart.quantity, products.name, products.price, products.image 
         FROM cart 
         JOIN products ON cart.product_id = products.product_id 
         WHERE cart.user_id = $user_id";
@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
         $_SESSION['cart'][$row['product_id']] = [
             'quantity' => $row['quantity'],
             'name' => $row['name'],
-            'prise' => $row['prise'],
+            'price' => $row['price'],
             'image' => $row['image'] // Додано посилання на фото товару у сесію
         ];
     }

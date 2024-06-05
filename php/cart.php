@@ -55,7 +55,7 @@ if (!empty($_SESSION['cart'])) {
                 <?php
                 if (!empty($_SESSION['cart'])) {
                     foreach ($_SESSION['cart'] as $item_id => $item) {
-                        $sql = "SELECT name, prise FROM products WHERE product_id = $item_id";
+                        $sql = "SELECT name, price FROM products WHERE product_id = $item_id";
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
@@ -67,7 +67,7 @@ if (!empty($_SESSION['cart'])) {
                                         <img src="<?= $item['image'] ?>" alt="">
                                         <div class="info">
                                             <span class="figure_name"><?= $product['name'] ?></span>
-                                            <span class="price"><?= $product['prise'] ?> ₴</span>
+                                            <span class="price"><?= $product['price'] ?> ₴</span>
                                         </div>
                                     </a>
                                 </div>
@@ -102,14 +102,14 @@ if (!empty($_SESSION['cart'])) {
                         <span id="cash">
                     <?php
                     $total = 0;
-                    $sql = "SELECT cart.*, products.prise 
+                    $sql = "SELECT cart.*, products.price 
                             FROM cart 
                             JOIN products ON cart.product_id = products.product_id 
                             WHERE cart.user_id = $user_id";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            $total += $row['prise'] * $row['quantity'];
+                            $total += $row['price'] * $row['quantity'];
                         }
                     }
                     echo $total;

@@ -13,7 +13,7 @@ $min_price = $_POST['min_price'] ?? 0;
 $max_price = $_POST['max_price'] ?? PHP_INT_MAX;
 
 // Створення запиту SQL для вибору товарів з урахуванням сортування і фільтрації
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+$sql = "SELECT p.product_id, p.name, p.description, p.price, p.image";
 if ($user_id !== null) {
     $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
 } else {
@@ -37,15 +37,15 @@ if (!empty($categories)) {
 }
 
 // Додавання фільтра за ціною
-$sql .= " AND p.prise BETWEEN $min_price AND $max_price";
+$sql .= " AND p.price BETWEEN $min_price AND $max_price";
 
 // Додавання сортування
 switch ($sort) {
     case 'price_asc':
-        $sql .= " ORDER BY p.prise ASC";
+        $sql .= " ORDER BY p.price ASC";
         break;
     case 'price_desc':
-        $sql .= " ORDER BY p.prise DESC";
+        $sql .= " ORDER BY p.price DESC";
         break;
     case 'name_asc':
         $sql .= " ORDER BY p.name ASC";
@@ -54,14 +54,14 @@ switch ($sort) {
         $sql .= " ORDER BY p.name DESC";
         break;
     default:
-        $sql .= " ORDER BY p.prise ASC";
+        $sql .= " ORDER BY p.price ASC";
 }
 
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $old_price = $row['prise'] * 1.25;
+        $old_price = $row['price'] * 1.25;
         $in_wishlist = $row['in_wishlist'] > 0;
         ?>
         <div class="good" style="width: 300px; height: 450px;">
@@ -77,7 +77,7 @@ if ($result->num_rows > 0) {
                     <span class="old_price"><?= number_format($old_price, 2) ?>₴</span>
                 </div>
                 <div class="price">
-                    <p class="price" style="display: inline;"><?= $row['prise'] ?> ₴</p>
+                    <p class="price" style="display: inline;"><?= $row['price'] ?> ₴</p>
                     <div>
                         <button class="wishlist-btn" data-product-id="<?= $row['product_id'] ?>" style="background: none; border: none; padding: 0;">
                             <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
@@ -85,7 +85,7 @@ if ($result->num_rows > 0) {
                         <form method="post" action="cart.php" style="display: inline;">
                             <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>">
                             <input type="hidden" name="image" value="<?= $row['image'] ?>">
-                            <input type="hidden" name="prise" value="<?= $row['prise'] ?>">
+                            <input type="hidden" name="price" value="<?= $row['price'] ?>">
                             <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
                                 <img class="cart-icon" src="../img/ShoppingCart.svg" alt="Add to cart">
                             </button>

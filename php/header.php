@@ -169,7 +169,6 @@ include 'db.php'; ?>
 </div>
 
 <script>
-
     $(document).ready(function() {
         $('#toggle-auth').click(function() {
             if ($('#login-form').is(':visible')) {
@@ -185,7 +184,6 @@ include 'db.php'; ?>
             }
         });
 
-        // AJAX for login form
         $('#login-form').submit(function(event) {
             event.preventDefault();
             $.ajax({
@@ -195,16 +193,21 @@ include 'db.php'; ?>
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        window.location.href = 'index.php';
+                        if (response.redirect) {
+                            window.location.href = response.redirect; // Redirect to admin management page
+                        } else {
+                            window.location.href = 'index.php';
+                        }
                     } else {
                         $('#error-message').text(response.message).show();
                     }
                 },
-
+                error: function() {
+                    $('#error-message').text('Виникла помилка. Спробуйте ще раз.').show();
+                }
             });
         });
 
-        // AJAX for register form
         $('#register-form').submit(function(event) {
             event.preventDefault();
             $.ajax({
@@ -214,9 +217,7 @@ include 'db.php'; ?>
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        // Показати повідомлення про успішну реєстрацію
                         $('#success-message').show();
-                        // Закрити модальне вікно
                         $('#authModal').modal('hide');
                         setTimeout(function() {
                             $('#success-message').hide();
@@ -231,5 +232,4 @@ include 'db.php'; ?>
             });
         });
     });
-
 </script>

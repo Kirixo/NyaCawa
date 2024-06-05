@@ -1,17 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const productList = document.querySelector('#product-list');
     const sortSelect = document.getElementById('sort-select');
-    const categoryCheckboxes = document.querySelectorAll('#category-filter input[type="checkbox"]');
+    const categoryCheckboxes = document.querySelectorAll('.category-filter input[type="checkbox"]');
     const priceFilterBtn = document.getElementById('price-filter-btn');
     const priceMinInput = document.getElementById('price-min');
     const priceMaxInput = document.getElementById('price-max');
-
-    let debounceTimer;
-
-    function debounce(func, delay) {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(func, delay);
-    }
 
     function updateProductList() {
         const sortValue = sortSelect.value;
@@ -43,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addWishlistButtonListeners() {
         document.querySelectorAll('.wishlist-btn').forEach(button => {
             button.addEventListener('click', function(event) {
-                event.preventDefault();
+                event.preventDefault(); // Запобігає переходу по посиланню
                 const productId = this.dataset.productId;
                 const action = this.querySelector('img').src.includes('fav_love.svg') ? 'remove_from_wishlist' : 'add_to_wishlist';
 
@@ -71,21 +64,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    sortSelect.addEventListener('change', function() {
-        debounce(updateProductList);
-    });
-
+    sortSelect.addEventListener('change', updateProductList);
     categoryCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            debounce(updateProductList);
-        });
+        checkbox.addEventListener('change', updateProductList); // Додайте обробник подій для кожного чекбокса категорій
     });
+    priceFilterBtn.addEventListener('click', updateProductList);
 
-    priceMinInput.addEventListener('input', function() {
-        debounce(updateProductList);
-    });
-
-    priceMaxInput.addEventListener('input', function() {
-        debounce(updateProductList);
-    });
+    // Initial load
+    updateProductList();
 });

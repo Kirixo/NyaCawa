@@ -20,9 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email']) && isset($_PO
             $user_data = $result->fetch_assoc();
             $hashed_password = md5($password);
             if ($hashed_password === $user_data['password']) {
-                $_SESSION['username'] = $user_data['name']; // Зберігаємо ім'я користувача у сесії
+                $_SESSION['username'] = $user_data['name'];
                 $_SESSION['user_id'] = $user_data['user_id'];
-                echo json_encode(['success' => true, 'username' => $user_data['name']]); // Повертаємо ім'я користувача у відповіді
+                $_SESSION['is_admin'] = $user_data['is_admin']; // Store admin status in the session
+                if ($user_data['is_admin']) {
+                    echo json_encode(['success' => true, 'redirect' => 'management.php']); // Redirect to admin management page
+                } else {
+                    echo json_encode(['success' => true, 'username' => $user_data['name']]);
+                }
             } else {
                 echo json_encode(['success' => false, 'message' => "Неправильний пароль."]);
             }

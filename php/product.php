@@ -9,7 +9,7 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $product_id = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
 
 // Запит до бази даних для отримання інформації про товар
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+$sql = "SELECT p.product_id, p.name, p.description, p.price, p.image";
 if ($user_id !== null) {
     $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
 } else {
@@ -20,7 +20,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $product = $result->fetch_assoc();
-    $old_price = $product['prise'] * 1.25;
+    $old_price = $product['price'] * 1.25;
     $in_wishlist = $product['in_wishlist'] > 0;
 } else {
     echo "Товар не знайдено.";
@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
                         <br>
                         <span class="old_price"><?= number_format($old_price, 2) ?>₴</span>
                         <br>
-                        <span class="new_price"><?= number_format($product['prise'], 2) ?>₴</span>
+                        <span class="new_price"><?= number_format($product['price'], 2) ?>₴</span>
                         <br>
                         <div class="share">
                             <hr><img src="../img/shared.svg" alt="">
@@ -51,7 +51,7 @@ if ($result->num_rows > 0) {
                                 <form method="post" action="cart.php">
                                     <input type="hidden" name="item_id" value="<?= $product['product_id'] ?>"> <!-- Унікальний ID товару -->
                                     <input type="hidden" name="image" value="<?= $product['image'] ?>"> <!-- Шлях до зображення -->
-                                    <input type="hidden" name="prise" value="<?= $product['prise'] ?>"> <!-- Ціна товару -->
+                                    <input type="hidden" name="price" value="<?= $product['price'] ?>"> <!-- Ціна товару -->
                                     <button type="submit" name="action" value="add" class="in_cart">
                                         <img src="../img/ShoppingCart.svg" alt="">В кошик
                                     </button>
@@ -74,7 +74,7 @@ if ($result->num_rows > 0) {
             <div class="row" style="margin-right: 0px">
                 <?php
                 // Запит до бази даних для отримання рекомендованих товарів, виключаючи поточний товар
-                $sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+                $sql = "SELECT p.product_id, p.name, p.description, p.price, p.image";
                 if ($user_id !== null) {
                     $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
                 } else {
@@ -87,7 +87,7 @@ if ($result->num_rows > 0) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         // Обчислення старої ціни
-                        $old_price = $row['prise'] * 1.25;
+                        $old_price = $row['price'] * 1.25;
                         $in_wishlist = $row['in_wishlist'] > 0;
                         ?>
                         <div class="good" style="width: 300px; height: 450px;">
@@ -96,14 +96,14 @@ if ($result->num_rows > 0) {
                                     <img class="img_good" src="<?= $row['image'] ?>" alt="" style="width: 100%; height: 100%; object-fit: contain;">
                                 </div>
                                 <p class="figure_name" title="<?= $row['name'] ?>"><?= $row['name'] ?></p>
-                                <p><?= $row['description'] ?></p>
+                                <p class="description"><?= $row['description'] ?></p>
                                 <div class="cat_on_storage">
                                     <span>В наявності</span>
                                     <br>
                                     <span class="old_price"><?= number_format($old_price, 2) ?>₴</span>
                                 </div>
                                 <div class="price">
-                                    <p class="price" style="display: inline;"><?= number_format($row['prise'], 2) ?> ₴</p>
+                                    <p class="price" style="display: inline;"><?= number_format($row['price'], 2) ?> ₴</p>
                                     <div>
                                         <button class="wishlist-btn" data-product-id="<?= $row['product_id'] ?>" style="background: none; border: none; padding: 0;">
                                             <img class="love" src="../img/<?= $in_wishlist ? 'fav_love.svg' : 'love.svg' ?>" alt="Add to wishlist">
@@ -111,7 +111,7 @@ if ($result->num_rows > 0) {
                                         <form method="post" action="cart.php" style="display: inline;">
                                             <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
                                             <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
-                                            <input type="hidden" name="prise" value="<?= $row['prise'] ?>"> <!-- Ціна товару -->
+                                            <input type="hidden" name="price" value="<?= $row['price'] ?>"> <!-- Ціна товару -->
                                             <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
                                                 <img class="cart-icon" src="../img/ShoppingCart.svg" alt="Add to cart">
                                             </button>

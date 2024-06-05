@@ -6,7 +6,7 @@ session_start();
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 // Запит до бази даних для отримання товарів
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image";
+$sql = "SELECT p.product_id, p.name, p.description, p.price, p.image";
 if ($user_id !== null) {
     $sql .= ", (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist";
 } else {
@@ -28,7 +28,7 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     // Обчислення старої ціни
-                    $old_price = $row['prise'] * 1.25;
+                    $old_price = $row['price'] * 1.25;
                     $in_wishlist = $row['in_wishlist'] > 0;
                     ?>
                     <div class="col">
@@ -46,7 +46,7 @@ $result = $conn->query($sql);
                                 <br>
                             </div>
                             <div class="price">
-                                <p class="price" style="display: inline;"><?= $row['prise'] ?> ₴</p>
+                                <p class="price" style="display: inline;"><?= $row['price'] ?> ₴</p>
                             </a>
                                 <div>
                                     <button class="wishlist-btn" data-product-id="<?= $row['product_id'] ?>" style="background: none; border: none; padding: 0;">
@@ -55,7 +55,7 @@ $result = $conn->query($sql);
                                     <form method="post" action="cart.php" style="display: inline;">
                                         <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
                                         <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
-                                        <input type="hidden" name="prise" value="<?= $row['prise'] ?>"> <!-- Ціна товару -->
+                                        <input type="hidden" name="price" value="<?= $row['price'] ?>"> <!-- Ціна товару -->
                                         <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
                                             <img class="cart-icon" src="../img/ShoppingCart.svg" alt="Add to cart">
                                         </button>

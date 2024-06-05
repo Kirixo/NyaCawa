@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
 include 'header.php';
 
 // Fetch wishlist items from the database
-$sql = "SELECT p.product_id, p.name, p.description, p.prise, p.image,
+$sql = "SELECT p.product_id, p.name, p.description, p.price, p.image,
         (SELECT COUNT(*) FROM wishlist w WHERE w.product_id = p.product_id AND w.user_id = $user_id) AS in_wishlist
         FROM products p
         JOIN wishlist w ON p.product_id = w.product_id
@@ -48,7 +48,7 @@ $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             // Обчислення старої ціни
-                            $old_price = $row['prise'] * 1.25;
+                            $old_price = $row['price'] * 1.25;
                             $in_wishlist = $row['in_wishlist'] > 0;
                             ?>
                             <div class="good" style="width: 300px; height: 450px;">
@@ -64,7 +64,7 @@ $result = $conn->query($sql);
                                         <span class="old_price"><?= number_format($old_price, 2) ?>₴</span>
                                     </div>
                                     <div class="price">
-                                        <p class="price" style="display: inline;"><?= number_format($row['prise'], 2) ?> ₴</p>
+                                        <p class="price" style="display: inline;"><?= number_format($row['price'], 2) ?> ₴</p>
                                         <div>
                                             <form method="post" action="wishlist.php" style="display: inline;">
                                                 <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
@@ -76,7 +76,7 @@ $result = $conn->query($sql);
                                             <form method="post" action="cart.php" style="display: inline;">
                                                 <input type="hidden" name="item_id" value="<?= $row['product_id'] ?>"> <!-- Унікальний ID товару -->
                                                 <input type="hidden" name="image" value="<?= $row['image'] ?>"> <!-- Шлях до зображення -->
-                                                <input type="hidden" name="prise" value="<?= $row['prise'] ?>"> <!-- Ціна товару -->
+                                                <input type="hidden" name="price" value="<?= $row['price'] ?>"> <!-- Ціна товару -->
                                                 <button type="submit" name="action" value="add" style="background: none; border: none; padding: 0;">
                                                     <img class="cart-icon" src="../img/ShoppingCart.svg" alt="Add to cart">
                                                 </button>
@@ -111,7 +111,7 @@ $result = $conn->query($sql);
                         $total = 0;
                         if (!empty($_SESSION['wishlist'])) {
                             foreach ($_SESSION['wishlist'] as $item_id => $item) {
-                                $total += $item['prise'];
+                                $total += $item['price'];
                             }
                         }
                         echo number_format($total, 2) . "₴";

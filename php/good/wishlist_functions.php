@@ -1,10 +1,10 @@
 <?php
 function getProductPrice($conn, $item_id) {
-    $stmt = $conn->prepare("SELECT prise FROM products WHERE product_id = ?");
+    $stmt = $conn->prepare("SELECT price FROM products WHERE product_id = ?");
     $stmt->bind_param("i", $item_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    return $result->fetch_assoc()['prise'] ?? null;
+    return $result->fetch_assoc()['price'] ?? null;
 }
 
 function addToWishlist($conn, $user_id, $item_id) {
