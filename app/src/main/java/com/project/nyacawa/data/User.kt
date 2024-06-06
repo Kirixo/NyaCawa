@@ -10,7 +10,7 @@ data class User(
     val bonusValue: Int,
     val status: String?
 
-) : Parcelable{
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString(),
@@ -39,6 +39,4 @@ data class User(
             return arrayOfNulls(size)
         }
     }
-
-
 }

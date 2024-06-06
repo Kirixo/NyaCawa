@@ -35,6 +35,7 @@ class CatalogAdapter(
             .into(holder.poster)
 
         holder.poster.setOnClickListener { onAnimeClick.invoke(item) }
+        holder.score.text = String.format("%.2f", item.general_score)
     }
 
     override fun getItemCount(): Int = values.size
@@ -47,5 +48,6 @@ class CatalogAdapter(
     inner class ViewHolder(binding: AnimeBlankSmallBinding) : RecyclerView.ViewHolder(binding.root) {
         val name: TextView = binding.animeName
         val poster: ImageView = binding.animePoster
+        val score: TextView = binding.score
     }
 }

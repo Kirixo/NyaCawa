@@ -37,12 +37,13 @@
                     android:src="@drawable/example"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     >
                 </ImageView>
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="3"
@@ -58,7 +59,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/value"
+                android:id="@+id/price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 style="@style/Text.T4"

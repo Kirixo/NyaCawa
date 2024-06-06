@@ -43,6 +43,8 @@ class AnimeScrollBarAdapter (
             binding.root.setOnClickListener {
                 itemClick(animeData)
             }
+            binding.score.text = String.format("%.2f", animeData.general_score)
+
         }
     }
 }

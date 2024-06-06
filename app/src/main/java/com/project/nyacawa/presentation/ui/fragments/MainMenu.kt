@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.nyacawa.R
 import com.project.nyacawa.databinding.FragmentMainMenuBinding
 import com.project.nyacawa.domain.adapters.catalog.AnimeScrollBarAdapter
 import com.project.nyacawa.domain.adapters.catalog.onAnimeClick
-import com.project.nyacawa.domain.placeholder.AnimeDataPlaceholder
 import androidx.navigation.fragment.findNavController
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.domain.logic.CatalogAnimeListViewModel
@@ -74,7 +72,7 @@ class MainMenu : Fragment() {
     private fun animeListHorizontal(context: Context?, scrollView: RecyclerView, onAnimeClick: onAnimeClick) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         scrollView.layoutManager = layoutManager
-        val dataList = AnimeDataPlaceholder.ITEMS
+        val dataList = emptyList<AnimeData>()
         scrollView.adapter = AnimeScrollBarAdapter(dataList, onAnimeClick)
     }
 }

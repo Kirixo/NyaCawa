@@ -35,6 +35,7 @@ import androidx.fragment.app.activityViewModels
 import com.project.nyacawa.data.UserCache
 import com.project.nyacawa.domain.logic.CatalogAnimeListViewModel
 import com.project.nyacawa.domain.logic.Errors
+import com.project.nyacawa.domain.logic.FavoriteViewModel
 
 fun AppCompatActivity.hideKeyboard() {
     val view: View? = this.currentFocus
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     private val searchViewModel: SearchViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
     private val catalogList: CatalogAnimeListViewModel by viewModels()
+    private val favoriteList: FavoriteViewModel by viewModels()
 
     companion object {
         val USER_DATA: String = "USER_DATA"
@@ -264,10 +266,8 @@ class MainActivity : AppCompatActivity() {
                     val text = s?.toString() ?: String()
                     searchViewModel.searchText.value = text
                 }
-
                 override fun afterTextChanged(s: Editable?) = Unit
             })
-
 
             container.layoutParams = containerParams
             val padding = resources.getDimensionPixelSize(R.dimen.neutral_margin)
@@ -275,9 +275,6 @@ class MainActivity : AppCompatActivity() {
             container.addView(myView)
             toolbar.addView(container)
         }
-
-
-
     }
 
     override fun navigateUpTo(upIntent: Intent?): Boolean {

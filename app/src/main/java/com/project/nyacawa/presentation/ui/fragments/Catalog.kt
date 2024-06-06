@@ -17,7 +17,6 @@ import com.project.nyacawa.databinding.FragmentCatalogBinding
 import com.project.nyacawa.domain.adapters.catalog.CatalogAdapter
 import com.project.nyacawa.domain.adapters.catalog.onAnimeClick
 import com.project.nyacawa.domain.logic.CatalogAnimeListViewModel
-import com.project.nyacawa.domain.placeholder.AnimeDataPlaceholder
 import com.project.nyacawa.presentation.ui.alert_dialog.FilterDialog
 
 class Catalog : Fragment() {
@@ -52,7 +51,6 @@ class Catalog : Fragment() {
                 columnCount <= 1 -> LinearLayoutManager(context)
                 else -> GridLayoutManager(context, columnCount)
             }
-            AnimeDataPlaceholder.setExample(ContextCompat.getDrawable(context, R.drawable.example))
 
             val click: onAnimeClick = {
                 val bundle = Bundle()

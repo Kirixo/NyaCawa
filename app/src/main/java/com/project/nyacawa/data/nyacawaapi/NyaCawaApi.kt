@@ -26,11 +26,11 @@ class NyaCawaApi {
         makeRequest(url, null, callback)
     }
     fun fetchTodayAnimeList(callback: (String?) -> Unit) {
-        val url = "$baseUrl/api/topanimelist"
+        val url = "$baseUrl/api/todayanimelist"
         makeRequest(url, null, callback)
     }
     fun fetchSeasonAnimeList(callback: (String?) -> Unit) {
-        val url = "$baseUrl/api/topanimelist"
+        val url = "$baseUrl/api/seasonanimelist"
         makeRequest(url, null, callback)
     }
 
@@ -38,6 +38,13 @@ class NyaCawaApi {
         val url = "$baseUrl/api/profileinfo?id=$userId"
         makeRequest(url, null, callback)
     }
+
+    fun fetchFavoriteList(userId: Int, callback: (String?) -> Unit) {
+        val url = "$baseUrl/api/favorites?id=$userId"
+        makeRequest(url, null, callback)
+    }
+
+
 
     fun fetchAnimeInfo(animeId: String, callback: (String?) -> Unit) {
         val url = "$baseUrl/anime/$animeId"
