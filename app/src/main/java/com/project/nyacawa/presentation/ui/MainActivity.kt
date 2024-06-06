@@ -1,7 +1,5 @@
 package com.project.nyacawa.presentation.ui
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,18 +18,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
-import com.project.nyacawa.data.User
 import com.project.nyacawa.data.UserDataCache
 import com.project.nyacawa.databinding.ActivityMainBinding
 import com.project.nyacawa.domain.logic.SearchViewModel
 import com.project.nyacawa.domain.logic.ToolBarTypes
 import com.project.nyacawa.domain.logic.UserViewModel
 import com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment
-import androidx.fragment.app.activityViewModels
 import com.project.nyacawa.data.UserCache
 import com.project.nyacawa.domain.logic.CatalogAnimeListViewModel
 import com.project.nyacawa.domain.logic.Errors
@@ -59,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModels()
     private val catalogList: CatalogAnimeListViewModel by viewModels()
     private val favoriteList: FavoriteViewModel by viewModels()
+    private var setBottomBar: Boolean = false
 
     companion object {
         val USER_DATA: String = "USER_DATA"
@@ -92,58 +88,57 @@ class MainActivity : AppCompatActivity() {
                 R.id.animeSearchList -> ToolBarTypes.SEARCH
                 R.id.catalog -> ToolBarTypes.SEARCH
                 R.id.animePlayerFragment -> ToolBarTypes.BACK
-
                 else -> ToolBarTypes.BACK
             }
 
             when (destination.id) {
                 R.id.registration -> binding.includedLayout.bottomBar.visibility = View.GONE
                 R.id.authorization -> binding.includedLayout.bottomBar.visibility = View.GONE
-                R.id.animePlayerFragment -> lastAnimeView =
-                    args?.getParcelable(AnimePlayerFragment.ARG_ITEM_1)
-
+                R.id.animePlayerFragment -> {
+                    setBottomBar = false
+                    lastAnimeView = args?.getParcelable(AnimePlayerFragment.ARG_ITEM_1)
+                }
                 else -> binding.includedLayout.bottomBar.visibility = View.VISIBLE
             }
-
             updateToolBar(toolbar, destination.label.toString())
         }
-        //
 
-        // Bottom bar init
+// Bottom bar init
         binding.includedLayout.bottomBar.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.home_button -> {
                     navController.navigate(R.id.goToMainMenu)
                     true
                 }
-
                 R.id.search_button -> {
                     navController.navigate(R.id.goToCatalog)
                     true
                 }
-
                 R.id.player_button -> {
                     if (lastAnimeView == null) {
                         Toast.makeText(
                             this,
                             getString(R.string.you_haven_t_seen_anything), Toast.LENGTH_SHORT
                         ).show()
-                        return@setOnItemSelectedListener false
+                        false
                     } else {
-                        val bundle = Bundle()
-                        bundle.putParcelable(AnimePlayerFragment.ARG_ITEM_1, lastAnimeView)
-                        navController.navigate(R.id.goToAnimePlayer, bundle)
+                        val bundle = Bundle().apply {
+                            putParcelable(AnimePlayerFragment.ARG_ITEM_1, lastAnimeView)
+                        }
+                        if(!setBottomBar){
+                            navController.navigate(R.id.goToAnimePlayer, bundle)
+                            setBottomBar = true
+                        }
+                        true
                     }
-                    true
                 }
-
                 R.id.more_button -> {
-                    val bundle = Bundle()
-                    bundle.putParcelable(USER_DATA, userViewModel.user.value)
+                    val bundle = Bundle().apply {
+                        putParcelable(USER_DATA, userViewModel.user.value)
+                    }
                     navController.navigate(R.id.goToProfile, bundle)
                     true
                 }
-
                 else -> false
             }
         }
@@ -197,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             navController.navigate(R.id.action_mainMenu_to_authorization)
             toolBarTypes = ToolBarTypes.NONE
-            updateToolBar(binding.includedLayout.toolBar, getString(R.string.authorisation))
+            updateToolBar(binding.includedLayout.toolBar, getString(R.string.authorization))
         }
     }
 

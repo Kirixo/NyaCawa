@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/authorization"
         android:name="com.project.nyacawa.presentation.ui.fragments.Authorization"
-        android:label="@string/authorisation"
+        android:label="@string/authorization"
         tools:layout="@layout/fragment_authorization">
 
         <action

@@ -41,15 +41,15 @@ class MainMenu : Fragment() {
         }
 
         catalogList.topAnimeList.observe(viewLifecycleOwner) { data ->
-            setDataList(binding.topBar.animeList, data , click)
+            setDataList(binding.topBar.animeList, data, click)
         }
 
         catalogList.todayAnimeList.observe(viewLifecycleOwner) { data ->
-            setDataList(binding.todayBar.animeList, data , click)
+            setDataList(binding.todayBar.animeList, data, click)
         }
 
         catalogList.thisSeasonAnimeList.observe(viewLifecycleOwner) { data ->
-            setDataList(binding.thisSesonBar.animeList, data , click)
+            setDataList(binding.thisSesonBar.animeList, data, click)
         }
 
         animeListHorizontal(context, binding.thisSesonBar.animeList, click)
@@ -63,13 +63,21 @@ class MainMenu : Fragment() {
         return binding.root
     }
 
-    private fun setDataList(scrollView: RecyclerView, dataList: List<AnimeData>, onAnimeClick: onAnimeClick) {
+    private fun setDataList(
+        scrollView: RecyclerView,
+        dataList: List<AnimeData>,
+        onAnimeClick: onAnimeClick
+    ) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         scrollView.layoutManager = layoutManager
         scrollView.adapter = AnimeScrollBarAdapter(dataList, onAnimeClick)
     }
 
-    private fun animeListHorizontal(context: Context?, scrollView: RecyclerView, onAnimeClick: onAnimeClick) {
+    private fun animeListHorizontal(
+        context: Context?,
+        scrollView: RecyclerView,
+        onAnimeClick: onAnimeClick
+    ) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         scrollView.layoutManager = layoutManager
         val dataList = emptyList<AnimeData>()

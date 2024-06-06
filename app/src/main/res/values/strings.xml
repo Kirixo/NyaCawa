@@ -62,7 +62,7 @@
     <string name="player_description">A player to watch the latest anime</string>
     <string name="search_description">Search button</string>
     <string name="home_description">Main menu button</string>
-    <string name="authorisation">Authorisation</string>
+    <string name="authorization">Authorization</string>
     <string name="no_have_account">Dont have an account?</string>
     <string name="bonuses">Bonuses</string>
     <string name="wish_list">Wish list</string>
@@ -92,4 +92,5 @@
     <string name="pasword_not_same">Passwords are not the same.</string>
     <string name="nickname_or_login_already_exist">Nickname or login already exist</string>
     <string name="parser_error">Internal error</string>
+    <string name="tv_2">TV-2</string>
 </resources>

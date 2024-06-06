@@ -66,7 +66,7 @@
                 android:layout_width="@dimen/field_width"
                 android:layout_height="@dimen/top_bar_height"
                 android:background="#3D3D45"
-                android:text="@string/authorisation"
+                android:text="@string/authorization"
                 android:textAllCaps="false"
                 style="@style/Text.T1"
                 >
