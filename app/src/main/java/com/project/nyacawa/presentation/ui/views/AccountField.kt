@@ -104,6 +104,8 @@ class AccountField(
     }
     fun setProfile(user: UserComment, state: ProfileButtonStates){
         this.user = user
+        binding.userStatus.text = user.status
+        binding.userName.text = user.name
         setState(state)
     }
 }

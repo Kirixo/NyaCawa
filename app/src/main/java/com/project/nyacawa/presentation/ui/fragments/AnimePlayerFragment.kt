@@ -14,6 +14,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
@@ -21,14 +23,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.nyacawa.R
 import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.data.Comment
+import com.project.nyacawa.data.UserDataCache
 import com.project.nyacawa.databinding.FragmentAnimePlayerBinding
 import com.project.nyacawa.domain.adapters.comment.CommentsAdapter
 import com.project.nyacawa.domain.adapters.comment.onDislikeCommentClick
 import com.project.nyacawa.domain.adapters.comment.onLikeCommentClick
 import com.project.nyacawa.domain.adapters.comment.onShareCommentClick
-import com.project.nyacawa.domain.placeholder.CommentsDataPlaceholder
+import com.project.nyacawa.domain.logic.CommentsViewModel
+import com.project.nyacawa.domain.logic.UserViewModel
+import com.project.nyacawa.presentation.ui.views.AccountField
 import com.squareup.picasso.Picasso
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -38,7 +42,10 @@ class AnimePlayerFragment : Fragment() {
     private var param1: AnimeData? = null
     private lateinit var binding: FragmentAnimePlayerBinding
     private lateinit var player: ExoPlayer
+    private lateinit var fadapter: CommentsAdapter
 
+    private val commentsModel: CommentsViewModel by viewModels()
+    private val userModel: UserViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -68,18 +75,24 @@ class AnimePlayerFragment : Fragment() {
         val onDislikeClick: onDislikeCommentClick = {onDislikeClick(it)}
         val onLikeClick: onLikeCommentClick = {onLikeClick(it)}
 
+
+        fadapter = CommentsAdapter(
+            commentList = emptyList(),
+            dislikeAction = onDislikeClick,
+            likeCommentClick = onLikeClick,
+            onShareCommentClick = onShareClick
+        )
+
+
         with(binding.commentList){
             layoutManager = LinearLayoutManager(context)
-            adapter = CommentsAdapter(
-                commentList = CommentsDataPlaceholder.ITEMS,
-                dislikeAction = onDislikeClick,
-                likeCommentClick = onLikeClick,
-                onShareCommentClick = onShareClick
-            )
+            adapter = fadapter
         }
+
 
         val sendButton = binding.writeComment.getViewById(R.id.send_button) as AppCompatImageButton
         val commentText= binding.writeComment.getViewById(R.id.comment_text) as EditText
+        val user = binding.writeComment.getViewById(R.id.account) as AccountField
 
         binding.fabAddComment.setOnClickListener{
             binding.writeComment.visibility = VISIBLE
@@ -89,11 +102,20 @@ class AnimePlayerFragment : Fragment() {
         commentText.setOnClickListener {
         }
 
+        val cache = UserDataCache(requireContext())
         sendButton.setOnClickListener {
-            //TODO(SENDING COMMENT TO SEVER)
-            binding.writeComment.visibility = GONE
+            val userId = cache.getUserCache().userId
+            commentsModel.sendComment(commentText.text.toString(), userId,  param1!!.id.toInt())
 
+            user.setUser(userModel.user.value!!)
+
+            binding.writeComment.visibility = GONE
             binding.fabAddComment.visibility = VISIBLE
+        }
+
+        commentsModel.getComments(param1!!.id.toInt())
+        commentsModel.comments.observe(requireActivity()){
+            fadapter.updateItems(it)
         }
 
 

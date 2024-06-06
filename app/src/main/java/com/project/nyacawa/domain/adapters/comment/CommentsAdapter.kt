@@ -4,12 +4,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.project.nyacawa.data.AnimeData
 import com.project.nyacawa.data.Comment
+import com.project.nyacawa.data.User
+import com.project.nyacawa.data.UserComment
 import com.project.nyacawa.databinding.ViewCommentBlankBinding
 import com.project.nyacawa.domain.logic.ProfileButtonStates
 
 class CommentsAdapter(
-    private val commentList: List<Comment>,
+    private var commentList: List<Comment>,
     private val dislikeAction: onShareCommentClick,
     private val likeCommentClick: onLikeCommentClick,
     private val onShareCommentClick: onShareCommentClick
@@ -24,6 +27,10 @@ class CommentsAdapter(
             )
         )
     }
+    fun updateItems(newItems: List<Comment>) {
+        commentList = newItems
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         return commentList.size
@@ -32,23 +39,21 @@ class CommentsAdapter(
     override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
         val item = commentList[position]
         Log.d("[COMMENTS ADAPTER]", "onBindViewHolder: bind")
-        if(item.user!=null){
-            holder.accountView.setProfile(item.user, ProfileButtonStates.SHARE)
-            holder.accountView.setShareButton(onShareCommentClick, item)
 
-            holder.like.setOnClickListener {
-                likeCommentClick.invoke(item)
-            }
+        val user = UserComment(null, item.username, item.status)
+        holder.accountView.setProfile(user, ProfileButtonStates.SHARE)
+        holder.accountView.setShareButton(onShareCommentClick, item)
 
-            holder.dislike.setOnClickListener {
-                dislikeAction.invoke(item)
-            }
-
-            holder.text.text = item.text
-            holder.rating.text = item.getRating().toString()
-            holder.rating.setTextColor(item.getRatingColor())
-            //TODO(GET INFORMATION FROM BD THAT THIS COMMENT IS LIKED OR DISLIKED BY THIS USER)
+        holder.like.setOnClickListener {
+            likeCommentClick.invoke(item)
         }
+
+        holder.dislike.setOnClickListener {
+            dislikeAction.invoke(item)
+        }
+
+        holder.text.text = item.text
+        holder.rating.text = 0.toString()
     }
 
     inner class CommentsViewHolder(binding: ViewCommentBlankBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -44,6 +44,17 @@ class NyaCawaApi {
         makeRequest(url, null, callback)
     }
 
+    fun fetchCommentList(animeId: Int, callback: (String?) -> Unit) {
+        val url = "$baseUrl/api/commentslist?animeid=$animeId"
+        makeRequest(url, null, callback)
+    }
+
+    fun sendNewCommentList(json: String?, callback: (String?) -> Unit) {
+        val url = "$baseUrl/api/newcomment"
+        val body = json?.let { RequestBody.create(MediaType.parse("application/json; charset=utf-8"), it) }
+        makeRequest(url, body, callback)
+    }
+
 
 
     fun fetchAnimeInfo(animeId: String, callback: (String?) -> Unit) {
