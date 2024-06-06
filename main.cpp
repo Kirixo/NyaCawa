@@ -226,9 +226,7 @@ int main(int argc, char *argv[])
     });
 
 
-    server.route(
-        "/api/login",
-        [](const QHttpServerRequest &request) {
+    server.route("/api/login", [](const QHttpServerRequest &request) {
 
             qDebug() << "Login request";
 
@@ -270,9 +268,7 @@ int main(int argc, char *argv[])
             return QHttpServerResponse(QJsonDocument(response).toJson());
         });
 
-    server.route(
-        "/api/reqister",
-        [](const QHttpServerRequest &request) {
+    server.route("/api/reqister", [](const QHttpServerRequest &request) {
 
             qDebug() << "Register request";
 
@@ -508,6 +504,98 @@ int main(int argc, char *argv[])
     });
 
 
+    server.route("/api/newcomment", [](const QHttpServerRequest &request) {
+
+            qDebug() << "Register request";
+
+            const auto json = byteArrayToJsonObject(request.body());
+
+            if (!json || !json->contains("user_id") || !json->contains("anime_id") ||!json->contains("text"))
+                return QHttpServerResponse(QHttpServerResponder::StatusCode::BadRequest);
+
+            qint64 user_id = json->value("user_id").toInt();
+            qint64 anime_id = json->value("anime_id").toInt();
+            QString text = json->value("text").toString();
+
+            QJsonObject response;
+
+            QString queryString = "INSERT INTO comments_anime (id, user_id, text, anime_id)  VALUES "
+                                  "(NULL, :user_id, :text, :anime_id)";
+            QSqlQuery query;
+
+            query.prepare(queryString);
+            query.bindValue(":user_id", user_id);
+            query.bindValue(":text", text);
+            query.bindValue(":anime_id", anime_id);
+            if(query.exec()) {
+                response["message"] = 0; // OK
+            } else {
+                qDebug() << "Error executing query:" << query.lastError().text();
+                response["message"] = 1;
+            }
+
+            qDebug() << query.lastQuery();
+
+            return QHttpServerResponse(QJsonDocument(response).toJson());
+        });
+
+
+
+//////////////////////////////////////////////////////////
+///
+///
+///
+///
+///
+///
+///
+///
+///
+///
+///
+///
+/// ///////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////
+    server.route("/api/commentslist", [] (const QHttpServerRequest &request) {
+        Q_UNUSED(request);
+        QJsonArray rows;
+
+        QUrlQuery queryParams(request.url().query());
+        if (!queryParams.hasQueryItem("animeid")) {
+            qDebug() << "Missing 'animeid' parameter in request";
+            return QHttpServerResponse(QHttpServerResponder::StatusCode::BadRequest);
+        }
+
+        QString anime_id = queryParams.queryItemValue("animeid");
+
+        QString queryString = QString("SELECT comments_anime.id, users.name, users.status, comments_anime.text "
+                                      "FROM comments_anime "
+                                      "JOIN users ON users.user_id = comments_anime.user_id "
+                                      "WHERE anime_id = :anime_id ");
+        QSqlQuery query;
+        query.prepare(queryString);
+        query.bindValue(":anime_id", anime_id);
+
+        if(query.exec()){
+            for (; query.next();) {
+                QJsonObject row;
+                row["id"] = query.value(0).toInt();
+                row["username"] = query.value(1).toString();
+                row["status"] = query.value(2).toString();
+                row["text"] = query.value(3).toString();
+                rows.append(row);
+            }
+            qDebug() << "Executing query:" << query.executedQuery();
+        } else {
+            qDebug() << "Error executing query:" << query.lastError().text();
+        }
+
+        qDebug() << query.lastQuery();
+
+        QJsonObject response;
+        response["listOfComments"] = rows;
+        return QHttpServerResponse(QJsonDocument(response).toJson());
+    });
 
 
     const QHostAddress host = QHostAddress::Any;
