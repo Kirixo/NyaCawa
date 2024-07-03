@@ -1,0 +1,7 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'clear') {
+    $sql = "DELETE FROM cart WHERE user_id = $user_id";
+    $conn->query($sql);
+    unset($_SESSION['cart']);
+}
+?>
