@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="nonActive_text">#9096A5</color>
+    <color name="active_text">#B5B5B5</color>
+    <color name="hint_text">#80B5B5B5</color>
+
+    <color name="window_background">#1B1A1F</color>
+    <color name="trans">#00000000</color>
+
+    <color name="logo_color">#535C91</color>
+    <color name="neutral_color">#9096A5</color>
+    <color name="toolbar_color">#2B2531</color>
+
+    <color name="icon_color">#FF9097A6</color>
+    <color name="account_profile">#9096A5</color>
+
+    <color name="positive_color">#87AE7E</color>
+    <color name="non_positive_color">#B17070</color>
+</resources>
+

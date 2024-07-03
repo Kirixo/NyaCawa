@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/neutral_border"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    >
+    <com.project.nyacawa.presentation.ui.views.ExtendedEditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:fontFamily="@font/montserrat_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColorHint="@color/hint_text"
+        android:hint="@string/write_input"
+        android:textColor="@color/active_text"
+        android:visibility="visible"
+        android:background="@color/trans"
+        android:autofillHints=""
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:ellipsize="end"
+        >
+    </com.project.nyacawa.presentation.ui.views.ExtendedEditText>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="bottom|center_horizontal"
+    android:background="@drawable/filter_background"
+    >
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancel"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:background="@drawable/filter_button_bacground"
+        android:text="@string/cancel"
+        android:textAllCaps="false"
+        android:textAlignment="center"
+
+        android:textColor="#FFFFFF"
+
+        android:layout_marginTop="38dp"
+        android:layout_marginStart="54dp"
+
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/apply"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cancel"
+
+        android:background="@drawable/filter_button_bacground"
+        android:text="@string/apply"
+        android:textAllCaps="false"
+        android:textAlignment="center"
+
+        android:textColor="#FFFFFF"
+
+        android:layout_marginEnd="54dp"
+
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/winter_season"
+
+        android:textSize="18sp"
+
+        app:layout_constraintTop_toBottomOf="@id/cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/spring_season"
+
+        android:background="@drawable/years_button_background"
+
+        android:text="@string/winter"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/spring_season"
+
+        android:textSize="18sp"
+
+        app:layout_constraintTop_toTopOf="@id/winter_season"
+        app:layout_constraintStart_toEndOf="@id/winter_season"
+        app:layout_constraintEnd_toStartOf="@id/summer_season"
+
+        android:background="@drawable/years_button_background"
+
+        android:text="@string/spring"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+
+        android:layout_marginStart="10dp"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/summer_season"
+
+        android:textSize="18sp"
+
+        app:layout_constraintTop_toTopOf="@id/spring_season"
+        app:layout_constraintStart_toEndOf="@id/spring_season"
+        app:layout_constraintEnd_toStartOf="@id/autumn_season"
+
+        android:background="@drawable/years_button_background"
+
+        android:text="@string/summer"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+
+        android:layout_marginStart="10dp"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/autumn_season"
+
+        android:textSize="18sp"
+
+        app:layout_constraintTop_toTopOf="@id/summer_season"
+        app:layout_constraintStart_toEndOf="@id/summer_season"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:background="@drawable/years_button_background"
+
+        android:text="@string/autumn"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/season_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/winter_season"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            app:layout_constraintTop_toBottomOf="@id/autumn_season"
+            >
+        </Space>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>

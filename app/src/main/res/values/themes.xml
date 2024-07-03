@@ -1,0 +1,76 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NyaCawa" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground"> @color/window_background</item>
+
+        <item name="colorPrimary">@color/toolbar_color</item>
+        <item name="colorPrimaryDark">@color/window_background</item>
+        <item name="android:statusBarColor">@color/window_background</item>
+
+    </style>
+
+    <style name="Theme.NyaCawa" parent="Base.Theme.NyaCawa" >
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
+
+    <style name="Widget.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="shapeAppearance">
+            @style/ShapeAppearance.Material3.Corner.Medium
+        </item>
+        <item name="android:color">#343146</item>
+    </style>
+
+    <style name="TextAnime">
+        <item name="android:textColor">@color/nonActive_text</item>
+        <item name="fontFamily">@font/montaguslab_medium</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:textColor">@color/active_text</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+
+    <style name="Text.T1" parent="Text">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+        <style name="Text.T2" parent="Text">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.T2.Profile">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:textColor">@color/account_profile</item>
+    </style>
+
+        <style name="Text.T3" parent="Text">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+        <style name="Text.T4" parent="Text">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAnime.T1" parent="TextAnime">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+        <style name="TextAnime.T2" parent="TextAnime">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+        <style name="TextAnime.T3" parent="TextAnime">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+        <style name="TextAnime.T4" parent="TextAnime">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+</resources>

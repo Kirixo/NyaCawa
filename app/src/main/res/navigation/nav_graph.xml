@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainMenu">
+
+
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.project.nyacawa.presentation.ui.fragments.MainMenu"
+        android:label="@string/main_menu"
+        tools:layout="@layout/fragment_main_menu">
+
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile"
+            >
+        </action>
+
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            >
+        </action>
+        <action
+            android:id="@+id/goToAnimeSearchList"
+            app:destination="@id/animeSearchList" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+
+        <action
+            android:id="@+id/action_mainMenu_to_authorization"
+            app:popUpTo="@id/mainMenu"
+            app:popUpToInclusive="true"
+            app:destination="@id/authorization" />
+
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Registration"
+        android:label="@string/registration"
+        tools:layout="@layout/fragment_registration"
+        >
+
+        <action
+            android:id="@+id/registration_goToAuthorization"
+            app:destination="@id/authorization"
+            app:popUpTo="@id/registration"
+            app:popUpToInclusive="true"
+            >
+        </action>
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            app:popUpTo="@id/registration"
+            app:popUpToInclusive="true"
+            />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/authorization"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Authorization"
+        android:label="@string/authorization"
+        tools:layout="@layout/fragment_authorization">
+
+        <action
+            android:id="@+id/authorization_goToRegistration"
+            app:destination="@id/registration"
+            app:popUpTo="@id/authorization"
+            app:popUpToInclusive="true"
+            >
+        </action>
+
+        <action
+            android:id="@id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            app:popUpTo="@id/authorization"
+            app:popUpToInclusive="true"
+            >
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Profile"
+        android:label="@string/more"
+        tools:layout="@layout/fragment_profile"
+        app:argType="com.project.nyacawa.data.User"
+        >
+
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile"
+            >
+        </action>
+
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu"
+            >
+        </action>
+
+        <action
+            android:id="@+id/profile_goToAuthorization"
+            app:destination="@id/authorization"
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="true"
+            />
+
+        <action
+            android:id="@+id/profile_goToRegistration"
+            app:destination="@id/registration"
+            >
+        </action>
+        <action
+            android:id="@+id/goToAnimeSearchList"
+            app:destination="@id/animeSearchList" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+        <action
+            android:id="@+id/goToFavorite"
+            app:destination="@id/favoriteFragment" />
+
+    </fragment>
+
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.project.nyacawa.presentation.ui.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main">
+    </activity>
+    <fragment
+        android:id="@+id/animeSearchList"
+        android:name="com.project.nyacawa.presentation.ui.fragments.AnimeSearchList"
+        android:label="fragment_anime_list_list"
+        tools:layout="@layout/fragment_anime_list_list" >
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/catalog"
+        android:name="com.project.nyacawa.presentation.ui.fragments.Catalog"
+        android:label="fragment_catalog"
+        tools:layout="@layout/fragment_catalog" >
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+        <action
+            android:id="@+id/goToAnimeSearchList"
+            app:destination="@id/animeSearchList" />
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/animePlayerFragment"
+        android:name="com.project.nyacawa.presentation.ui.fragments.AnimePlayerFragment"
+        android:label="@string/anime_player"
+        tools:layout="@layout/fragment_anime_player" >
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.project.nyacawa.presentation.ui.fragments.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite_list">
+
+        <action
+            android:id="@+id/goToAnimePlayer"
+            app:destination="@id/animePlayerFragment" />
+        <action
+            android:id="@+id/goToCatalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/goToMainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
+
+
+</navigation>
